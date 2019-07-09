@@ -6,7 +6,7 @@
     <group android:checkableBehavior="single">
         <item
                 android:id="@+id/nav_history"
-                android:icon="@drawable/ic_menu_camera"
+                android:icon="@drawable/ic_history"
                 android:title="@string/history"/>
         <item
                 android:id="@+id/nav_download"
@@ -14,7 +14,7 @@
                 android:title="@string/download"/>
         <item
                 android:id="@+id/nav_setting"
-                android:icon="@drawable/ic_menu_slideshow"
+                android:icon="@drawable/ic_settings"
                 android:title="@string/setting"/>
     </group>
 
