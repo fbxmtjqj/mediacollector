@@ -13,11 +13,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import android.view.Menu
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.main)
+        setContentView(R.layout.download_main)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
@@ -51,13 +52,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         when (item.itemId) {
             R.id.nav_home -> {
                 // Handle the camera action
-                startActivity(Intent(this@MainActivity,MainActivity::class.java))
+                startActivity(Intent(this@DownloadActivity,MainActivity::class.java))
             }
             R.id.nav_history -> {
                 // Handle the camera action
             }
             R.id.nav_download -> {
-                startActivity(Intent(this@MainActivity,DownloadActivity::class.java))
+                startActivity(Intent(this@DownloadActivity,DownloadActivity::class.java))
             }
             R.id.nav_setting -> {
 

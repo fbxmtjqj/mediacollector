@@ -10,12 +10,17 @@
         tools:context=".MainActivity">
 
     <TextView
+            android:text="@string/media"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="헬로 봉주르  ss 니하오"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
-
+            android:id="@+id/textview_media"
+            app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="16dp" android:layout_marginLeft="16dp" android:layout_marginStart="16dp"/>
+    <TextView
+            android:text="@string/history"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textview_history" app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="16dp"
+            android:layout_marginTop="200dp" android:layout_marginStart="16dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
