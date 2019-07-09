@@ -12,6 +12,7 @@
     <string name="history">History</string>
     <string name="download">Download</string>
     <string name="setting">Setting</string>
+    <string name="hint">hint</string>
     <string name="title_activity_download">DownloadActivity</string>
 
 </resources>
