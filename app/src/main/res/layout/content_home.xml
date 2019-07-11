@@ -5,42 +5,96 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        android:background="#f0f0f0">
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:showIn="@layout/main"
-        tools:context=".MainActivity">
+        tools:context=".MainActivity"
 
-    <TextView
-            android:text="@string/download_activity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textview_downloadactivity" app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginTop="16dp"
-            android:layout_marginLeft="20dp" android:layout_marginStart="20dp"/>
-    <Switch
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/switch_downloadactivity" app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="16dp" android:layout_marginEnd="17dp" android:layout_marginRight="17dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textview_downloadactivity"
-            android:layout_marginLeft="8dp" android:layout_marginStart="8dp"
-            app:layout_constraintHorizontal_bias="1.0"/>
-    <TextView
-            android:text="@string/media"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textview_media"
-            app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="168dp" android:layout_marginLeft="20dp" android:layout_marginStart="20dp"/>
-    <TextView
-            android:text="@string/history"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textview_history" app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="16dp"
-            android:layout_marginTop="352dp" android:layout_marginStart="16dp"/>
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="410dp"
+            android:layout_height="150dp" android:background="#ffffff" android:id="@+id/constraintLayout2"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.0" app:layout_constraintVertical_bias="0.0"
+    >
 
+        <TextView
+                android:text="다운로드"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView1"
+                android:textSize="25sp"
+                app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="32dp" android:layout_marginLeft="28dp" android:layout_marginStart="28dp"
+                android:textColor="#595A5E"/>
+        <TextView
+                android:text="비활성화"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ActiveText"
+                android:textSize="35sp"
+                app:layout_constraintStart_toStartOf="@+id/textView1" android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/textView1" android:textColor="#CF839F"/>
+        <Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ActiveSwitch"
+                android:textSize="16sp"
+                app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="16dp"
+                android:layout_marginEnd="17dp" android:layout_marginRight="17dp"
+                app:layout_constraintEnd_toEndOf="parent" android:scrollbarSize="4dp"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="180dp" android:background="#ffffff"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.0" app:layout_constraintVertical_bias="0.339"
+            android:layout_marginTop="5dp" android:layout_marginBottom="5dp">
 
+        <TextView
+                android:text="media"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textview_media"
+                app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginLeft="16dp" android:layout_marginTop="16dp" android:layout_marginStart="16dp"
+                android:textSize="15sp"/>
+        <TextView
+                android:text="더보기"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/MediaView"
+                app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp" android:layout_marginRight="16dp"
+                app:layout_constraintEnd_toEndOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="190dp"
+            android:background="#ffffff"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.0" app:layout_constraintVertical_bias="0.764"
+            android:layout_marginTop="5sp" android:layout_marginBottom="5sp">
+
+        <TextView
+                android:text="더보기"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:id="@+id/HistoryView"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="16dp" android:layout_marginEnd="16dp" android:layout_marginRight="16dp"
+                app:layout_constraintEnd_toEndOf="parent"/>
+        <TextView
+                android:text="history"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textview_history"
+                app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp" app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="152dp"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"
             android:layout_width="wrap_content"
