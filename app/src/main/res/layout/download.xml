@@ -23,8 +23,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
-                android:hint="address"
-                android:tint="@android:color/holo_red_dark"/>
+                android:hint="@string/hint"/>
     </com.google.android.material.appbar.AppBarLayout>
 
     <include layout="@layout/content_download"/>
