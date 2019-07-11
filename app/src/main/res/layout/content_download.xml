@@ -7,9 +7,18 @@
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
         android:background="#f0f0f0">
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:showIn="@layout/download"
-        tools:context=".DownloadActivity">
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:showIn="@layout/download"
+    tools:context=".DownloadActivity">
+
+    <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:background="#f0f0f0"
+            android:hint="address" android:id="@+id/textInputEditText" app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"/>
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"
