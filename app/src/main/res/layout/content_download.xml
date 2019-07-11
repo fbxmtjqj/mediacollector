@@ -6,14 +6,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        android:background="#f0f0f0"><![CDATA[
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:showIn="@layout/download"
-    tools:context=".DownloadActivity">
+        android:background="#f0f0f0"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:showIn="@layout/download"
+        tools:context=".DownloadActivity">
 
-
-
-    ]]>
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="70dp" android:id="@+id/constraintLayout"
