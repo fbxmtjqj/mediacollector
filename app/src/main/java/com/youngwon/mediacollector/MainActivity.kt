@@ -12,6 +12,7 @@ import com.google.android.material.navigation.NavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import android.view.Menu
+import kotlinx.android.synthetic.main.content_home.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -35,6 +36,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         toggle.syncState()
 
         navView.setNavigationItemSelectedListener(this)
+
+        //media블록의 더보기 클릭시 media로 이동, media액티브추가시 수정요망
+        MediaView.setOnClickListener{
+            startActivity(Intent(this@MainActivity,DownloadActivity::class.java))
+        }
     }
 
     override fun onBackPressed() {
