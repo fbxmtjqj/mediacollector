@@ -41,6 +41,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         MediaView.setOnClickListener{
             startActivity(Intent(this@MainActivity,DownloadActivity::class.java))
         }
+        //스위치버튼 클릭시 활성화로 텍스트변경
+        ActiveSwitch.setOnCheckedChangeListener{ buttonView,isChecked ->
+            if (isChecked){ //만약 스위치를 On시킨다면
+                ActiveText.text = "활성화"
+                //비활성화버튼을 활성화로
+            }
+            else { //만약 스위치를 Off시킨다면
+                ActiveText.text = "비활성화"
+                //활성화를 비활성화로
+            }
+        }
     }
 
     override fun onBackPressed() {
