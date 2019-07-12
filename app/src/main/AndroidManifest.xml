@@ -9,6 +9,12 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
+        <service
+                android:name=".ScreenService"
+                android:enabled="true"
+                android:exported="true">
+        </service>
+
         <activity
                 android:name=".DownloadActivity"
                 android:label="@string/download"

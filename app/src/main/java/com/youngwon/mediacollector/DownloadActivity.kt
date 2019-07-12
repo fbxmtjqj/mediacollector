@@ -64,6 +64,7 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
             }
         }
+        
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
