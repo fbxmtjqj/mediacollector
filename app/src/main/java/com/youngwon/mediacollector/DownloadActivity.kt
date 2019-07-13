@@ -1,27 +1,24 @@
 package com.youngwon.mediacollector
 
-import android.app.ProgressDialog
 import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
-import android.view.MenuItem
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import androidx.core.view.GravityCompat
 import androidx.appcompat.app.ActionBarDrawerToggle
+import android.view.MenuItem
+import androidx.drawerlayout.widget.DrawerLayout
+import com.google.android.material.navigation.NavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.core.view.GravityCompat
-import androidx.drawerlayout.widget.DrawerLayout
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.content_download.*
+import org.jetbrains.anko.toast
 
 class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.download)
-
-        progressBar.visibility = android.widget.ProgressBar.INVISIBLE
-
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
@@ -46,7 +43,7 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START)
         } else {
-            startActivity(Intent(this@DownloadActivity, MainActivity::class.java))
+            startActivity(Intent(this@DownloadActivity,MainActivity::class.java))
         }
     }
 
@@ -78,6 +75,7 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         }
 
         override fun doInBackground(vararg url: String?): Int? {
+            //프로그레스바 테스트용, 나중에 제거요망
             for(i in 1..5) {
                 Thread.sleep(500)
             }
@@ -92,13 +90,12 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             super.onPostExecute(result)
             if(result == 0) {
                 progressBar.visibility = android.widget.ProgressBar.INVISIBLE
-                toastLong("잘못된 url 입력")
+                toast("잘못된 url")
             }
             if(result == 1) {
                 progressBar.visibility = android.widget.ProgressBar.INVISIBLE
-                toastLong("제대로 된 url")
+                toast("제대로 된 url")
             }
         }
     }
-
 }

@@ -35,4 +35,5 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation files('libs/jsoup-1.12.1.jar')
+    implementation "org.jetbrains.anko:anko:0.10.8"
 }
