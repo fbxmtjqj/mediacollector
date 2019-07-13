@@ -7,7 +7,7 @@ class MediaDownload() {
 
     fun MediaDownload(url: Array<out String?>): Int {
         try {
-            val url = Jsoup.connect(url[1]).get()
+            val url = Jsoup.connect(url[0]).get()
         } catch (e:Exception) {
             return  0
         }

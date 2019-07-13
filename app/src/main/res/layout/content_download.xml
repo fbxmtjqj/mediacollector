@@ -15,7 +15,7 @@
             android:layout_width="0dp"
             android:layout_height="70dp" android:id="@+id/constraintLayout"
             android:background="#ffffff"
-            android:layout_marginBottom="18dp" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginBottom="20dp" app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/constraintLayout4" app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
@@ -30,23 +30,32 @@
                 android:layout_marginTop="16dp" android:layout_marginStart="24dp"
                 android:padding="8dp" android:layout_marginLeft="10dp"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
+
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:id="@+id/constraintLayout4"
             android:background="#ffffff"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
-            android:layout_marginBottom="221dp" app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/fab" app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout" android:layout_marginBottom="294dp"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintBottom_toTopOf="@+id/fab"
+            app:layout_constraintStart_toStartOf="parent">
 
+        <ProgressBar
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/progressBar" app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent" app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" android:visibility="invisible"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             app:srcCompat="@android:drawable/ic_dialog_email"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintTop_toBottomOf="@+id/constraintLayout4"
             android:layout_marginEnd="16dp" android:layout_marginRight="16dp" android:layout_marginBottom="16dp"
             app:layout_constraintEnd_toEndOf="parent"/>
 

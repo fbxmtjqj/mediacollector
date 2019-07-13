@@ -1,16 +1,17 @@
 package com.youngwon.mediacollector
 
+import android.app.ProgressDialog
 import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import androidx.core.view.GravityCompat
-import androidx.appcompat.app.ActionBarDrawerToggle
 import android.view.MenuItem
-import androidx.drawerlayout.widget.DrawerLayout
-import com.google.android.material.navigation.NavigationView
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.content_download.*
 
 class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -18,6 +19,9 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.download)
+
+        progressBar.visibility = android.widget.ProgressBar.INVISIBLE
+
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
@@ -42,7 +46,7 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START)
         } else {
-            startActivity(Intent(this@DownloadActivity,MainActivity::class.java))
+            startActivity(Intent(this@DownloadActivity, MainActivity::class.java))
         }
     }
 
@@ -67,27 +71,16 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         return true
     }
 
-    class downloadasync() : AsyncTask<String, String, Int>() {
-        // val builder = AlertDialog.Builder(DownloadActivity())
-        //val dialogview = LayoutInflater.inflate(R.layout.progress_dialog,null)
-        //lateinit var progressDialog:ProgressDialog
-        // private val alertDialogBuilder = AlertDialog.Builder(applicationContext)
-        // private val dialogView = LayoutInflater.inflate(R.layout.progress_dialog,null)
-        // var progressDialog = ProgressDialog(applicationContext)
+    inner class downloadasync() : AsyncTask<String, String, Int>() {
         override fun onPreExecute() {
-            //progressDialog.setMessage("ProgressDialog running...");
-            //  progressDialog.setCancelable(true);
-            // progressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Horizontal);
-            //  progressDialog.show()
-            /// progressDialog.setMessage("분석중입니다.")
-            //  progressDialog.show()
             super.onPreExecute()
-            // progressBar2.visibility = android.widget.ProgressBar.VISIBLE
-            // alertDialogBuilder.setView(dialogView)
-            //alertDialogBuilder.show()
+            progressBar.visibility = android.widget.ProgressBar.VISIBLE
         }
 
         override fun doInBackground(vararg url: String?): Int? {
+            for(i in 1..5) {
+                Thread.sleep(500)
+            }
             return MediaDownload().MediaDownload(url)
         }
 
@@ -98,17 +91,14 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         override fun onPostExecute(result: Int?) {
             super.onPostExecute(result)
             if(result == 0) {
-                //    progressDialog.dismiss()
-                DownloadActivity().viewtoast()
+                progressBar.visibility = android.widget.ProgressBar.INVISIBLE
+                toastLong("잘못된 url 입력")
             }
             if(result == 1) {
-                //   progressDialog.dismiss()
+                progressBar.visibility = android.widget.ProgressBar.INVISIBLE
                 toastLong("제대로 된 url")
             }
         }
     }
 
-    fun viewtoast() {
-        toastLong("잘못된 url 입력")
-    }
 }
