@@ -13,6 +13,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.content_download.*
 
 class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -99,8 +100,11 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             }
             else{
                 saveToInnerStorage(result[0])
-                for(test in result.indices) {
-                }
+                val mAdapter = DownloadRvAdapter(this@DownloadActivity,result)
+                recycler.adapter = mAdapter
+                val lm = LinearLayoutManager(this@DownloadActivity)
+                recycler.layoutManager = lm
+                recycler.setHasFixedSize(true)
             }
         }
     }
