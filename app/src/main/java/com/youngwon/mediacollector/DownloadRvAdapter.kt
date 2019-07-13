@@ -11,7 +11,7 @@ class DownloadRvAdapter(val context: Context, val linklist: ArrayList<String>):
     RecyclerView.Adapter<DownloadRvAdapter.Holder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-        val view = LayoutInflater.from(context).inflate(R.layout.test, parent, false)
+        val view = LayoutInflater.from(context).inflate(R.layout.download_recycleview, parent, false)
         return Holder(view)
     }
 

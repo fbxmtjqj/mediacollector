@@ -9,18 +9,23 @@ import androidx.core.view.GravityCompat
 import androidx.appcompat.app.ActionBarDrawerToggle
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.content_download.*
+import android.app.ProgressDialog
+import android.view.LayoutInflater
+
 
 class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     val filename = "log.txt"
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.download)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
@@ -79,9 +84,15 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     }
 
     inner class downloadasync() : AsyncTask<String, String, ArrayList<String>?>() {
+
+        val dialogView = LayoutInflater.from(this@DownloadActivity).inflate(R.layout.progressbar, null)
+        val alert = AlertDialog.Builder(this@DownloadActivity).setView(dialogView).setCancelable(false)
+        val dialog = alert.create()
+
         override fun onPreExecute() {
             super.onPreExecute()
-            progressBar.visibility = android.widget.ProgressBar.VISIBLE
+            dialog.show()
+            //progressBar.visibility = android.widget.ProgressBar.VISIBLE
         }
 
         override fun doInBackground(vararg url: String?): ArrayList<String>? {
@@ -94,7 +105,8 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
         override fun onPostExecute(result: ArrayList<String>?) {
             super.onPostExecute(result)
-            progressBar.visibility = android.widget.ProgressBar.INVISIBLE
+            dialog.dismiss()
+            //progressBar.visibility = android.widget.ProgressBar.INVISIBLE
             if(result == null) {
                 Toast.makeText(this@DownloadActivity,"잘못된 url", Toast.LENGTH_LONG).show()
             }
