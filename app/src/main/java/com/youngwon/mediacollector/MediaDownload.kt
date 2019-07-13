@@ -1,16 +1,26 @@
 package com.youngwon.mediacollector
 
 import org.jsoup.Jsoup
-import java.lang.Exception
+import org.jsoup.nodes.Document
+import org.jsoup.select.Elements
 
 class MediaDownload() {
 
-    fun MediaDownload(url: Array<out String?>): Int {
+    fun MediaDownload(url: String?): ArrayList<String>? {
+        var url1:Document
         try {
-            val url = Jsoup.connect(url[0]).get()
+            url1 = Jsoup.connect(url).get()
+            val absoluteUrl = url1.absUrl("src")
         } catch (e:Exception) {
-            return  0
+            return  null
         }
-        return 1
+        val imgelements: Elements? =  url1.select("img")
+        var imgsrc = arrayListOf<String>()
+        if (imgelements != null) {
+            for(i in imgelements) {
+                imgsrc.add(i.attr("src"))
+            }
+        }
+        return imgsrc
     }
 }

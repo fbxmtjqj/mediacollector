@@ -68,33 +68,29 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         return true
     }
 
-    inner class downloadasync() : AsyncTask<String, String, Int>() {
+    inner class downloadasync() : AsyncTask<String, String, ArrayList<String>?>() {
         override fun onPreExecute() {
             super.onPreExecute()
             progressBar.visibility = android.widget.ProgressBar.VISIBLE
         }
 
-        override fun doInBackground(vararg url: String?): Int? {
-            //프로그레스바 테스트용, 나중에 제거요망
-            for(i in 1..5) {
-                Thread.sleep(500)
-            }
-            return MediaDownload().MediaDownload(url)
+        override fun doInBackground(vararg url: String?): ArrayList<String>? {
+            return MediaDownload().MediaDownload(url[0])
         }
 
         override fun onProgressUpdate(vararg values: String?) {
             super.onProgressUpdate(*values)
         }
 
-        override fun onPostExecute(result: Int?) {
+        override fun onPostExecute(result: ArrayList<String>?) {
             super.onPostExecute(result)
-            if(result == 0) {
-                progressBar.visibility = android.widget.ProgressBar.INVISIBLE
+            progressBar.visibility = android.widget.ProgressBar.INVISIBLE
+            if(result == null) {
                 Toast.makeText(this@DownloadActivity,"잘못된 url", Toast.LENGTH_LONG).show()
             }
-            if(result == 1) {
-                progressBar.visibility = android.widget.ProgressBar.INVISIBLE
-                Toast.makeText(this@DownloadActivity,"잘못된 url", Toast.LENGTH_LONG).show()
+            else{
+                for(test in result.indices) {
+                }
             }
         }
     }
