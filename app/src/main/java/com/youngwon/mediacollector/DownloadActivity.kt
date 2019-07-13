@@ -1,5 +1,6 @@
 package com.youngwon.mediacollector
 
+import android.content.Context
 import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
@@ -15,6 +16,8 @@ import androidx.appcompat.widget.Toolbar
 import kotlinx.android.synthetic.main.content_download.*
 
 class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+
+    val filename = "log.txt"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +48,12 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         } else {
             startActivity(Intent(this@DownloadActivity,MainActivity::class.java))
         }
+    }
+
+    fun saveToInnerStorage(text:String) {
+        val fileOutputStream = openFileOutput(filename, Context.MODE_PRIVATE)
+        fileOutputStream.write(text.toByteArray())
+        fileOutputStream.close()
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -89,6 +98,7 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 Toast.makeText(this@DownloadActivity,"잘못된 url", Toast.LENGTH_LONG).show()
             }
             else{
+                saveToInnerStorage(result[0])
                 for(test in result.indices) {
                 }
             }
