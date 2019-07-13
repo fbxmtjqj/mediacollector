@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.content_download.*
 import android.app.ProgressDialog
 import android.view.LayoutInflater
+import androidx.recyclerview.widget.RecyclerView
 
 
 class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -111,6 +112,7 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 val mAdapter = DownloadRvAdapter(this@DownloadActivity,result)
                 recycler.adapter = mAdapter
                 val lm = LinearLayoutManager(this@DownloadActivity)
+                lm.orientation = LinearLayoutManager.HORIZONTAL
                 recycler.layoutManager = lm
                 recycler.setHasFixedSize(true)
             }
