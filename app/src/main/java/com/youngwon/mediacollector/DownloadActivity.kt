@@ -92,15 +92,13 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         override fun onPreExecute() {
             super.onPreExecute()
             dialog.show()
-            //progressBar.visibility = android.widget.ProgressBar.VISIBLE
         }
 
         override fun doInBackground(vararg url: String?): ArrayList<String>? {
+            if(MediaDownload().MediaDownload(url[0]) != null) {
+                url[0]?.let { saveToInnerStorage(it) }
+            }
             return MediaDownload().MediaDownload(url[0])
-        }
-
-        override fun onProgressUpdate(vararg values: String?) {
-            super.onProgressUpdate(*values)
         }
 
         override fun onPostExecute(result: ArrayList<String>?) {
@@ -111,7 +109,6 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 Toast.makeText(this@DownloadActivity,"잘못된 url", Toast.LENGTH_LONG).show()
             }
             else{
-                saveToInnerStorage(result[0])
                 val mAdapter = DownloadRvAdapter(this@DownloadActivity,result)
                 recycler.adapter = mAdapter
                 val lm = LinearLayoutManager(this@DownloadActivity)

@@ -16,9 +16,6 @@ class MediaDownload() {
         }
         val imgelements: Elements? =  url1.select("img")
         var imgsrc = arrayListOf<String>()
-        if (url != null) {
-            imgsrc.add(url)
-        }
         if (imgelements != null) {
             for(i in imgelements) {
                 imgsrc.add(i.attr("src"))
