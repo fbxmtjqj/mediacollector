@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
@@ -53,12 +54,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onBackPressed() {
-        val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START)
-        } else {
-            super.onBackPressed()
+        val alert = AlertDialog.Builder(this@MainActivity)
+        alert.setMessage("정말로 종료하시겠습니까?");
+        alert.setPositiveButton("취소") {dialog, which ->
         }
+        alert.setNegativeButton("종료") {dialog, which ->
+            finish()
+        }
+        val dialog:AlertDialog = alert.create()
+        dialog.show()
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
