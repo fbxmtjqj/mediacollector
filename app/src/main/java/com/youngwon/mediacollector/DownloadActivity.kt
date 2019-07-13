@@ -7,12 +7,12 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import androidx.core.view.GravityCompat
 import androidx.appcompat.app.ActionBarDrawerToggle
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import kotlinx.android.synthetic.main.content_download.*
-import org.jetbrains.anko.toast
 
 class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -90,11 +90,11 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             super.onPostExecute(result)
             if(result == 0) {
                 progressBar.visibility = android.widget.ProgressBar.INVISIBLE
-                toast("잘못된 url")
+                Toast.makeText(this@DownloadActivity,"잘못된 url", Toast.LENGTH_LONG).show()
             }
             if(result == 1) {
                 progressBar.visibility = android.widget.ProgressBar.INVISIBLE
-                toast("제대로 된 url")
+                Toast.makeText(this@DownloadActivity,"잘못된 url", Toast.LENGTH_LONG).show()
             }
         }
     }
