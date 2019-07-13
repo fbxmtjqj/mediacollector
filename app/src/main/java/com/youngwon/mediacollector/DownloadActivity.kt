@@ -104,7 +104,6 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         override fun onPostExecute(result: ArrayList<String>?) {
             super.onPostExecute(result)
             dialog.dismiss()
-            //progressBar.visibility = android.widget.ProgressBar.INVISIBLE
             if(result == null) {
                 Toast.makeText(this@DownloadActivity,"잘못된 url", Toast.LENGTH_LONG).show()
             }
