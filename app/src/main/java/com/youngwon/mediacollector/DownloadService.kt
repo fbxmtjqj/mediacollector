@@ -1,14 +1,12 @@
 package com.youngwon.mediacollector
 
-import android.app.Activity
 import android.app.Service
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
-import android.os.Binder
-import android.os.IBinder
+import android.os.*
 import android.util.Log
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
+
 
 class DownloadService : ClipboardManager.OnPrimaryClipChangedListener,Service() {
 
@@ -19,6 +17,7 @@ class DownloadService : ClipboardManager.OnPrimaryClipChangedListener,Service() 
             if(i) {
                 val data = mManager?.getPrimaryClip()?.getItemAt(0)?.getText()
                 Log.e("te출력","$data")
+                sendMsgToActivity(data as String)
                 i = false
             } else {
                 i = true
@@ -29,11 +28,12 @@ class DownloadService : ClipboardManager.OnPrimaryClipChangedListener,Service() 
     private val mIBinder = MyBinder()
 
     internal inner class MyBinder : Binder() {
-        val service: DownloadService
-            get() = this@DownloadService
+        fun getService(): DownloadService {
+            return this@DownloadService
+        }
     }
     override fun onBind(intent: Intent): IBinder {
-        return mIBinder
+        return mMessenger.binder
     }
 
     override fun onCreate() {
@@ -55,10 +55,31 @@ class DownloadService : ClipboardManager.OnPrimaryClipChangedListener,Service() 
         return super.onUnbind(intent)
     }
 
-    fun onHandleIntent(intent: Intent) {
-        val intent:Intent = Intent("test code")
-        intent.putExtra("test",Activity.RESULT_OK)
-        intent.putExtra("testcode","값 전달 확인좀")
-        LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
+    private val mMessenger = Messenger(Handler(Handler.Callback { msg ->
+        Log.i("test", "act : what " + msg.what)
+        when (msg.what) {
+            DownloadService().MSG_REGISTER_CLIENT -> {
+                mClient = msg.replyTo
+            }
+        }
+        false
+    }))
+
+    val MSG_SEND_TO_ACTIVITY = 4
+    val MSG_REGISTER_CLIENT = 1
+    private var mClient: Messenger? = null
+    private fun sendMsgToActivity(sendValue: String) {
+        try {
+            val bundle = Bundle()
+            Log.e("service 메세지 함수","$sendValue")
+            bundle.putString("fromService", sendValue)
+            val msg = Message.obtain(null, MSG_SEND_TO_ACTIVITY)
+            msg.setData(bundle)
+            if (mClient != null) {
+                Log.e("service 메세지 전송직전","$sendValue")
+                mClient!!.send(msg)
+            }      // msg 보내기
+        } catch (e: RemoteException) {
+        }
     }
 }

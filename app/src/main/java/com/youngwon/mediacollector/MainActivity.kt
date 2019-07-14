@@ -1,8 +1,8 @@
 package com.youngwon.mediacollector
 
-import android.content.Intent
-import android.content.SharedPreferences
-import android.os.Bundle
+import android.content.*
+import android.os.*
+import android.util.Log
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -13,6 +13,7 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.content_home.*
+
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -58,7 +59,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 NotificationHelper(this@MainActivity).createNotification("자동다운로드","")
                 editor.putBoolean("switch", isChecked)
                 editor.commit()
-                startService(Intent(this@MainActivity, DownloadService::class.java)) // 서비스 시작
+                setStartService()
             }
             else { //만약 스위치를 Off시킨다면
                 ActiveText.text = "비활성화"
@@ -67,7 +68,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 NotificationHelper(this@MainActivity).deleteNotification()
                 editor.putBoolean("switch", isChecked)
                 editor.commit()
-                stopService(Intent(this@MainActivity, DownloadService::class.java)) // 서비스 종료
+                setStopService()
             }
         }
     }
@@ -105,6 +106,49 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
     }
+
+    private var isBind: Boolean = false
+    private var mServiceMessenger: Messenger? = null
+    private val mConnection = object : ServiceConnection {
+        //서비스가 실행될 때 호출
+        override fun onServiceConnected(name: ComponentName, service: IBinder) {
+            mServiceMessenger = Messenger(service)
+            val msg = Message.obtain(null, DownloadService().MSG_REGISTER_CLIENT)
+            msg.replyTo = mMessenger
+            mServiceMessenger?.send(msg)
+            Log.e("LOG", "onServiceConnected()")
+        }
+        //서비스가 종료될 때 호출
+        override fun onServiceDisconnected(name: ComponentName) {
+            isBind = false
+            Log.e("LOG", "onServiceDisconnected()")
+        }
+    }
+    fun setStartService() {
+        startService(Intent(this@MainActivity, DownloadService::class.java)) // 서비스 시작
+        bindService(Intent(this@MainActivity, DownloadService::class.java), mConnection, Context.BIND_AUTO_CREATE)
+        isBind = true
+    }
+    fun setStopService() {
+        if(isBind) {
+            unbindService(mConnection)
+            isBind = false
+        }
+        stopService(Intent(this@MainActivity, DownloadService::class.java)) // 서비스 종료
+    }
+    private val mMessenger = Messenger(Handler(Handler.Callback { msg ->
+        Log.i("test", "act : what " + msg.what)
+        when (msg.what) {
+            DownloadService().MSG_SEND_TO_ACTIVITY -> {
+                val value1 = msg.data.getString("fromService")
+                Toast.makeText(this@MainActivity,value1, Toast.LENGTH_LONG).show()
+                Log.i("test", "act : value1 $value1")
+            }
+        }
+        false
+    }))
+
+
 
     fun loadFromInnerStorage(): String {
         val fileInputStream = openFileInput(filename)
