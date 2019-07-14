@@ -6,7 +6,7 @@ import org.jsoup.select.Elements
 
 class MediaDownload {
 
-    fun MediaDownload(url: String?): ArrayList<String>? {
+    fun mediadownload(url: String?): ArrayList<String>? {
         val url1:Document
         try {
             url1 = Jsoup.connect(url).get()
