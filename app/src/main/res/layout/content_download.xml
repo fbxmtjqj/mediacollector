@@ -11,26 +11,6 @@
         tools:showIn="@layout/download"
         tools:context=".DownloadActivity">
 
-    <Button
-            android:text="전체 미디어 다운로드"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/totalbutton" android:visibility="invisible"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="40dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginRight="40dp"
-            android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintVertical_bias="0.0" app:layout_constraintTop_toBottomOf="@+id/constraintLayout4"/>
-    <Button
-            android:text="선택한 미디어 다운로드"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/selectbutton" android:visibility="invisible"
-            android:layout_marginStart="48dp" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginLeft="48dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintVertical_bias="0.0"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout4"/>
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="70dp" android:id="@+id/constraintLayout"
@@ -51,19 +31,20 @@
                 android:padding="8dp" android:layout_marginLeft="10dp"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
     <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="416dp"
-            android:layout_height="339dp"
+            android:layout_width="414dp"
+            android:layout_height="586dp"
             android:id="@+id/constraintLayout4"
             android:background="#ffffff"
-            android:layout_marginTop="88dp"
-            app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toEndOf="@+id/selectbutton"
-            app:layout_constraintEnd_toEndOf="@+id/selectbutton">
+            android:layout_marginTop="84dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintHorizontal_bias="0.666">
         <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="408dp"
-                android:layout_height="334dp" android:id="@+id/recycler" app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="412dp"
+                android:layout_height="519dp" android:id="@+id/recycler" app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-        />
+                android:layout_marginBottom="68dp" app:layout_constraintHorizontal_bias="0.0"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"
@@ -72,9 +53,10 @@
             android:layout_gravity="bottom|end"
             android:tint="#ffffff"
             android:src="@drawable/ic_download" app:backgroundTint="#FF8EA0"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginEnd="12dp" android:layout_marginRight="12dp" android:layout_marginBottom="48dp"
-            app:layout_constraintEnd_toEndOf="parent" android:layout_marginTop="8dp"
-            app:layout_constraintTop_toTopOf="parent" app:layout_constraintVertical_bias="1.0"/>
+            android:layout_marginEnd="16dp" android:layout_marginRight="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.978"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
