@@ -9,17 +9,17 @@ import android.os.*
 
 class DownloadService : ClipboardManager.OnPrimaryClipChangedListener,Service() {
 
-    var mManager: ClipboardManager? = null
-    var i = true
+    private var mManager: ClipboardManager? = null
+    private var i = true
     override fun onPrimaryClipChanged() {
-        if (mManager != null && mManager!!.getPrimaryClip() != null) {
-            val data = mManager?.getPrimaryClip()?.getItemAt(0)?.getText()
+        if (mManager != null && mManager!!.primaryClip != null) {
+            val data = mManager?.primaryClip?.getItemAt(0)?.text
             if(data!!.contains("http",true)) {
-                if (i) {
+                i = if (i) {
                     sendMsgToActivity(data as String)
-                    i = false
+                    false
                 } else {
-                    i = true
+                    true
                 }
             }
         }
@@ -48,7 +48,7 @@ class DownloadService : ClipboardManager.OnPrimaryClipChangedListener,Service() 
 
     override fun onDestroy() {
         super.onDestroy()
-        mManager?.removePrimaryClipChangedListener(this);
+        mManager?.removePrimaryClipChangedListener(this)
     }
 
     override fun onUnbind(intent: Intent): Boolean {
@@ -64,15 +64,15 @@ class DownloadService : ClipboardManager.OnPrimaryClipChangedListener,Service() 
         false
     }))
 
-    val MSG_SEND_TO_ACTIVITY = 4
+    val SEND_TO_ACTIVITY = 4
     val MSG_REGISTER_CLIENT = 1
     private var mClient: Messenger? = null
     private fun sendMsgToActivity(sendValue: String) {
         try {
             val bundle = Bundle()
             bundle.putString("fromService", sendValue)
-            val msg = Message.obtain(null, MSG_SEND_TO_ACTIVITY)
-            msg.setData(bundle)
+            val msg = Message.obtain(null, SEND_TO_ACTIVITY)
+            msg.data = bundle
             if (mClient != null) {
                 mClient!!.send(msg)
             }      // msg 보내기

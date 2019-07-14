@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.content_home.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    val filename = "log.txt"
+    private val filename = "log.txt"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,19 +43,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val editor: SharedPreferences.Editor = settings.edit()
         if(settings.getBoolean("switch", false)) {
             ActiveText.text = "활성화"
-            ActiveSwitch.setChecked(true)
+            ActiveSwitch.isChecked = true
         } else {
             ActiveText.text = "비활성화"
-            ActiveSwitch.setChecked(false)
+            ActiveSwitch.isChecked = false
         }
 
         //스위치버튼 클릭시 활성화로 텍스트변경
-        ActiveSwitch.setOnCheckedChangeListener{ buttonView,isChecked ->
+        ActiveSwitch.setOnCheckedChangeListener{ _, isChecked ->
             if (isChecked){ //만약 스위치를 On시킨다면
                 ActiveText.text = "활성화"
                 NotificationHelper(this@MainActivity).createNotification("자동다운로드",null,5)
                 editor.putBoolean("switch", isChecked)
-                editor.commit()
+                editor.apply()
                 setStartService()
             }
             else { //만약 스위치를 Off시킨다면
@@ -70,10 +70,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onBackPressed() {
         val alert = AlertDialog.Builder(this@MainActivity)
-        alert.setMessage("정말로 종료하시겠습니까?");
-        alert.setPositiveButton("취소") {dialog, which ->
+        alert.setMessage("정말로 종료하시겠습니까?")
+        alert.setPositiveButton("취소") { _, _ ->
         }
-        alert.setNegativeButton("종료") {dialog, which ->
+        alert.setNegativeButton("종료") { _, _ ->
             super.onBackPressed()
         }
         val dialog:AlertDialog = alert.create()
@@ -117,12 +117,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             isBind = false
         }
     }
-    fun setStartService() {
+    private fun setStartService() {
         startService(Intent(this@MainActivity, DownloadService::class.java)) // 서비스 시작
         bindService(Intent(this@MainActivity, DownloadService::class.java), mConnection, Context.BIND_AUTO_CREATE)
         isBind = true
     }
-    fun setStopService() {
+    private fun setStopService() {
         if(isBind) {
             unbindService(mConnection)
             isBind = false
@@ -131,7 +131,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
     private val mMessenger = Messenger(Handler(Handler.Callback { msg ->
         when (msg.what) {
-            DownloadService().MSG_SEND_TO_ACTIVITY -> {
+            DownloadService().SEND_TO_ACTIVITY -> {
                 val value1 = msg.data.getString("fromService")
                 Toast.makeText(this@MainActivity,value1, Toast.LENGTH_LONG).show()
                 startActivity(Intent(this@MainActivity,DownloadActivity::class.java).putExtra("url",value1))

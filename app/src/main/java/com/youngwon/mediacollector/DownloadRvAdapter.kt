@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
 
-class DownloadRvAdapter(val context: Context, val linklist: ArrayList<String>):
+class DownloadRvAdapter(val context: Context, private val urlList: ArrayList<String>):
     RecyclerView.Adapter<DownloadRvAdapter.Holder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
@@ -19,18 +19,18 @@ class DownloadRvAdapter(val context: Context, val linklist: ArrayList<String>):
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder?.bind(linklist[position],context)
+        holder.bind(urlList[position])
     }
 
     override fun getItemCount(): Int {
-        return linklist.size
+        return urlList.size
     }
 
 
     inner class Holder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
-        val text = itemView?.findViewById<TextView>(R.id.textView3)
-        val img = itemView?.findViewById<ImageView>(R.id.img)
-        fun bind (str:String,context:Context) {
+        private val text = itemView?.findViewById<TextView>(R.id.textView3)
+        private val img = itemView?.findViewById<ImageView>(R.id.img)
+        fun bind (str:String) {
             Glide.with(itemView.context).load(str)
                 .into(img)
             text?.text = str

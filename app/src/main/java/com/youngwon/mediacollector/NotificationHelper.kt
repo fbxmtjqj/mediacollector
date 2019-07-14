@@ -28,26 +28,26 @@ class NotificationHelper(private val mContext: Context) {
             PendingIntent.FLAG_UPDATE_CURRENT
         )
 
-        mBuilder = NotificationCompat.Builder(mContext)
+        mBuilder = NotificationCompat.Builder(mContext, mContext.toString())
         mBuilder!!.setSmallIcon(R.mipmap.sym_def_app_icon)
         mBuilder!!.setContentTitle(title)
             .setAutoCancel(false)
             .setContentIntent(resultPendingIntent)
-            .setOngoing(true);
+            .setOngoing(true)
         if(message != null) {
             mBuilder!!.setContentText(message)
         }
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            val importance = NotificationManager.IMPORTANCE_HIGH
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
             val notificationChannel = NotificationChannel(channelId.toString(), "NOTIFICATION_CHANNEL_NAME", importance)
             mBuilder!!.setChannelId(channelId.toString())
-            mNotificationManager!!.createNotificationChannel(notificationChannel)
+            mNotificationManager.createNotificationChannel(notificationChannel)
         }
-        mNotificationManager!!.notify(0 /* Request Code */, mBuilder!!.build())
+        mNotificationManager.notify(0 /* Request Code */, mBuilder!!.build())
     }
 
     fun deleteNotification(channelId:Int) {
-        mNotificationManager?.cancel(channelId)
+        mNotificationManager.cancel(channelId)
     }
 }

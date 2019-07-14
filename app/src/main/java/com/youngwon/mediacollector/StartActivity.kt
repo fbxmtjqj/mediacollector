@@ -12,7 +12,7 @@ import androidx.core.content.ContextCompat
 
 class StartActivity : AppCompatActivity() {
 
-    val REQUEST_WRITE_EXTERNAL_STORAGE = 1000
+    private val REQUEST_WRITE_EXTERNAL_STORAGE = 1000
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,12 +26,12 @@ class StartActivity : AppCompatActivity() {
                 val builder = AlertDialog.Builder(this@StartActivity)
                 builder.setTitle("저장소 접근권한 거부")
                 builder.setMessage("사진을 저장할려면 저장소에 접근 권한이 있어야합니다.")
-                builder.setPositiveButton("권한 요청") {dialog, which ->
+                builder.setPositiveButton("권한 요청") { _, _ ->
                     ActivityCompat.requestPermissions(
                         this@StartActivity, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), REQUEST_WRITE_EXTERNAL_STORAGE
                     )
                 }
-                builder.setNegativeButton("취소") {dialog, which ->
+                builder.setNegativeButton("취소") { _, _ ->
                     finish()
                 }
                 val dialog:AlertDialog = builder.create()
@@ -60,7 +60,7 @@ class StartActivity : AppCompatActivity() {
                     val builder = AlertDialog.Builder(this@StartActivity)
                     builder.setTitle("저장소 접근권한 거부")
                     builder.setMessage("사진을 저장할려면 저장소에 접근 권한이 있어야합니다.")
-                    builder.setPositiveButton("확인") {dialog, which ->
+                    builder.setPositiveButton("확인") { _, _ ->
                         finish()
                     }
                     val dialog:AlertDialog = builder.create()

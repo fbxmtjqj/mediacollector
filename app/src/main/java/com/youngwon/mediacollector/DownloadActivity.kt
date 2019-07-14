@@ -1,11 +1,13 @@
 package com.youngwon.mediacollector
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
@@ -20,7 +22,7 @@ import kotlinx.android.synthetic.main.content_download.*
 
 class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    val filename = "log.txt"
+    private val filename = "log.txt"
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -31,13 +33,13 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
         if (intent.hasExtra("url")) {
             textInputEditText.setText(intent.getStringExtra("url"))
-            downloadasync().execute(intent.getStringExtra("url"))
+            DownloadAsync().execute(intent.getStringExtra("url"))
         }
 
         val fab: FloatingActionButton = findViewById(R.id.fab)
         fab.setOnClickListener {
             val url = textInputEditText.text.toString()
-            downloadasync().execute(url)
+            DownloadAsync().execute(url)
         }
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
@@ -86,11 +88,13 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         return true
     }
 
-    inner class downloadasync() : AsyncTask<String, String, ArrayList<String>?>() {
+    @SuppressLint("StaticFieldLeak")
+    inner class DownloadAsync : AsyncTask<String, String, ArrayList<String>?>() {
 
-        val dialogView = LayoutInflater.from(this@DownloadActivity).inflate(R.layout.progressbar, null)
-        val alert = AlertDialog.Builder(this@DownloadActivity).setView(dialogView).setCancelable(false)
-        val dialog = alert.create()
+        @SuppressLint("InflateParams")
+        private val dialogView: View = LayoutInflater.from(this@DownloadActivity).inflate(R.layout.progressbar, null)
+        private val alert: AlertDialog.Builder = AlertDialog.Builder(this@DownloadActivity).setView(dialogView).setCancelable(false)
+        private val dialog: AlertDialog = alert.create()
 
         override fun onPreExecute() {
             super.onPreExecute()
