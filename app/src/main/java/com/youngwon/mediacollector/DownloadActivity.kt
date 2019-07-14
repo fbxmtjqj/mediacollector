@@ -1,10 +1,10 @@
 package com.youngwon.mediacollector
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -19,10 +19,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.content_download.*
+import java.io.BufferedWriter
+import java.io.FileWriter
 
 class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
-
-    private val filename = "log.txt"
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -62,9 +62,11 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     }
 
     fun saveToInnerStorage(text:String) {
-        val fileOutputStream = openFileOutput(filename, Context.MODE_PRIVATE)
-        fileOutputStream.write(text.toByteArray())
-        fileOutputStream.close()
+        val bw = BufferedWriter(FileWriter(filesDir.toString() + "history.txt", true))
+        Log.e("다운로드엑티비티",text)
+        bw.write(text)
+        bw.write("\n")
+        bw.close()
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

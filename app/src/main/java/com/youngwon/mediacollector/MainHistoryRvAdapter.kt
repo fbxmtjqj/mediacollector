@@ -4,18 +4,15 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 
 
-class DownloadRvAdapter(val context: Context, private val urlList: ArrayList<String>):
-    RecyclerView.Adapter<DownloadRvAdapter.Holder>() {
+class MainHistoryRvAdapter(val context: Context, private val urlList: ArrayList<String>):
+    RecyclerView.Adapter<MainHistoryRvAdapter.Holder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-        val view = LayoutInflater.from(context).inflate(R.layout.download_recycleview, parent, false)
+        val view = LayoutInflater.from(context).inflate(R.layout.main_history_recycleview, parent, false)
         return Holder(view)
     }
 
@@ -29,14 +26,8 @@ class DownloadRvAdapter(val context: Context, private val urlList: ArrayList<Str
 
     inner class Holder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
         private val text = itemView?.findViewById<TextView>(R.id.main_history_text)
-        private val img = itemView?.findViewById<ImageView>(R.id.img)
         fun bind (str:String) {
-            Glide.with(itemView.context).load(str)
-                .into(img)
-            text?.text = str.split("/".toRegex()).last()
-            itemView.setOnClickListener {
-                Toast.makeText(itemView.context, "'$str'를 선택했습니다", Toast.LENGTH_LONG).show()
-            }
+            text?.text = str
         }
     }
 }

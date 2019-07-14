@@ -10,13 +10,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.content_home.*
+import java.io.BufferedReader
+import java.io.FileNotFoundException
+import java.io.FileReader
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
-
-    private val filename = "log.txt"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +34,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
-        //textView2.setText(loadFromInnerStorage())
         navView.setNavigationItemSelectedListener(this)
 
         //media블록의 더보기 클릭시 media로 이동, media액티브추가시 수정요망
@@ -67,6 +68,25 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 setStopService()
             }
         }
+        val fileurl = arrayListOf<String>()
+        try {
+            val br = BufferedReader(FileReader(filesDir.toString() + "history.txt"))
+            var str = br.readLine()
+            // 파일로부터 한 라인 읽기.
+            while (str != null) {
+                fileurl.add(str)
+                str = br.readLine()
+            }
+            br.close()
+        } catch (e: FileNotFoundException) {
+            e.printStackTrace()
+        }
+        val mAdapter = MainHistoryRvAdapter(this@MainActivity, fileurl)
+        main_history_recycleview.adapter = mAdapter
+        val lm = LinearLayoutManager(this@MainActivity)
+        main_history_recycleview.layoutManager = lm
+        main_history_recycleview.setHasFixedSize(true)
+
     }
 
     override fun onBackPressed() {
@@ -140,10 +160,4 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
         false
     }))
-
-    fun loadFromInnerStorage(): String {
-        val fileInputStream = openFileInput(filename)
-        return fileInputStream.reader().readText()
-    }
-
 }
