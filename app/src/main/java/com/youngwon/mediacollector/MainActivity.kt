@@ -132,9 +132,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private val mMessenger = Messenger(Handler(Handler.Callback { msg ->
         when (msg.what) {
             DownloadService().SEND_TO_ACTIVITY -> {
-                val value1 = msg.data.getString("fromService")
-                Toast.makeText(this@MainActivity,value1, Toast.LENGTH_LONG).show()
-                startActivity(Intent(this@MainActivity,DownloadActivity::class.java).putExtra("url",value1))
+                val url = msg.data.getString("url")
+                Toast.makeText(this@MainActivity,"URL 복사됨", Toast.LENGTH_LONG).show()
+                startActivity(Intent(this@MainActivity,DownloadActivity::class.java).putExtra("url",url))
             }
         }
         false
