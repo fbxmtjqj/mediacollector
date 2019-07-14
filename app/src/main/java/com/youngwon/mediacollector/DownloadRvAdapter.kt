@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
@@ -33,7 +34,11 @@ class DownloadRvAdapter(val context: Context, private val urlList: ArrayList<Str
         fun bind (str:String) {
             Glide.with(itemView.context).load(str)
                 .into(img)
-            text?.text = str
+            val separate1 = str.split("/".toRegex())
+            text?.text = separate1.last()
+            itemView.setOnClickListener {
+                Toast.makeText(itemView.context, "'$str'를 선택했습니다", Toast.LENGTH_LONG).show()
+            }
         }
     }
 }
