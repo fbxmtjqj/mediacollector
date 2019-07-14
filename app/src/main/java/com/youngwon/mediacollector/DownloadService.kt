@@ -13,12 +13,14 @@ class DownloadService : ClipboardManager.OnPrimaryClipChangedListener,Service() 
     var i = true
     override fun onPrimaryClipChanged() {
         if (mManager != null && mManager!!.getPrimaryClip() != null) {
-            if(i) {
-                val data = mManager?.getPrimaryClip()?.getItemAt(0)?.getText()
-                sendMsgToActivity(data as String)
-                i = false
-            } else {
-                i = true
+            val data = mManager?.getPrimaryClip()?.getItemAt(0)?.getText()
+            if(data!!.contains("http",true)) {
+                if (i) {
+                    sendMsgToActivity(data as String)
+                    i = false
+                } else {
+                    i = true
+                }
             }
         }
     }

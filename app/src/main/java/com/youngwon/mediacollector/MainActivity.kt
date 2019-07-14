@@ -53,18 +53,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         ActiveSwitch.setOnCheckedChangeListener{ buttonView,isChecked ->
             if (isChecked){ //만약 스위치를 On시킨다면
                 ActiveText.text = "활성화"
-                Toast.makeText(this@MainActivity, "mediacollector가 작동합니다.", Toast.LENGTH_SHORT).show()
-                //비활성화버튼을 활성화로
-                NotificationHelper(this@MainActivity).createNotification("자동다운로드","")
+                NotificationHelper(this@MainActivity).createNotification("자동다운로드",null,5)
                 editor.putBoolean("switch", isChecked)
                 editor.commit()
                 setStartService()
             }
             else { //만약 스위치를 Off시킨다면
                 ActiveText.text = "비활성화"
-                Toast.makeText(this@MainActivity, "mediacollector가 비활성화됩니다.", Toast.LENGTH_SHORT).show()
-                //활성화를 비활성화로
-                NotificationHelper(this@MainActivity).deleteNotification()
+                NotificationHelper(this@MainActivity).deleteNotification(5)
                 editor.putBoolean("switch", isChecked)
                 editor.commit()
                 setStopService()
@@ -143,8 +139,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
         false
     }))
-
-
 
     fun loadFromInnerStorage(): String {
         val fileInputStream = openFileInput(filename)

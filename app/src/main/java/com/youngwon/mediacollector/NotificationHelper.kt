@@ -6,7 +6,6 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.provider.Settings
 import androidx.core.app.NotificationCompat
 
 class NotificationHelper(private val mContext: Context) {
@@ -15,7 +14,7 @@ class NotificationHelper(private val mContext: Context) {
     /**
      * Create and push the notification
      */
-    fun createNotification(title: String, message: String) {
+    fun createNotification(title: String, message: String?, channelId:Int) {
         /**Creates an explicit intent for an Activity in your app */
         val resultIntent = Intent(mContext, StartActivity::class.java)
             .setAction(Intent.ACTION_MAIN)
@@ -32,25 +31,23 @@ class NotificationHelper(private val mContext: Context) {
         mBuilder = NotificationCompat.Builder(mContext)
         mBuilder!!.setSmallIcon(R.mipmap.sym_def_app_icon)
         mBuilder!!.setContentTitle(title)
-            .setContentText(message)
             .setAutoCancel(false)
-            .setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
             .setContentIntent(resultPendingIntent)
             .setOngoing(true);
+        if(message != null) {
+            mBuilder!!.setContentText(message)
+        }
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             val importance = NotificationManager.IMPORTANCE_HIGH
-            val notificationChannel = NotificationChannel(NOTIFICATION_CHANNEL_ID, "NOTIFICATION_CHANNEL_NAME", importance)
-            mBuilder!!.setChannelId(NOTIFICATION_CHANNEL_ID)
+            val notificationChannel = NotificationChannel(channelId.toString(), "NOTIFICATION_CHANNEL_NAME", importance)
+            mBuilder!!.setChannelId(channelId.toString())
             mNotificationManager!!.createNotificationChannel(notificationChannel)
         }
         mNotificationManager!!.notify(0 /* Request Code */, mBuilder!!.build())
     }
 
-    fun deleteNotification() {
-        mNotificationManager?.cancelAll()
-    }
-    companion object {
-        val NOTIFICATION_CHANNEL_ID = "10001"
+    fun deleteNotification(channelId:Int) {
+        mNotificationManager?.cancel(channelId)
     }
 }
