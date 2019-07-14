@@ -58,6 +58,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 NotificationHelper(this@MainActivity).createNotification("자동다운로드","")
                 editor.putBoolean("switch", isChecked)
                 editor.commit()
+                startService(Intent(this@MainActivity, DownloadService::class.java)) // 서비스 시작
             }
             else { //만약 스위치를 Off시킨다면
                 ActiveText.text = "비활성화"
@@ -66,6 +67,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 NotificationHelper(this@MainActivity).deleteNotification()
                 editor.putBoolean("switch", isChecked)
                 editor.commit()
+                stopService(Intent(this@MainActivity, DownloadService::class.java)) // 서비스 종료
             }
         }
     }
