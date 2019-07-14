@@ -3,23 +3,26 @@ package com.youngwon.mediacollector
 import android.app.Activity
 import android.app.Service
 import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
 import android.os.Binder
 import android.os.IBinder
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import android.content.ClipData
-import android.content.Context
 import android.util.Log
-
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 
 class DownloadService : ClipboardManager.OnPrimaryClipChangedListener,Service() {
 
     var mManager: ClipboardManager? = null
-
+    var i = true
     override fun onPrimaryClipChanged() {
         if (mManager != null && mManager!!.getPrimaryClip() != null) {
-            val data = mManager?.getPrimaryClip()?.getItemAt(0)?.getText()
-            Log.e("클립보드 테스트","$data")
+            if(i) {
+                val data = mManager?.getPrimaryClip()?.getItemAt(0)?.getText()
+                Log.e("te출력","$data")
+                i = false
+            } else {
+                i = true
+            }
         }
     }
 

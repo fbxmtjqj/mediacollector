@@ -18,7 +18,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.content_download.*
 
-
 class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     val filename = "log.txt"

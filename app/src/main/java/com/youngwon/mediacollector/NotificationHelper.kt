@@ -7,9 +7,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.provider.Settings
-import android.util.Log
 import androidx.core.app.NotificationCompat
-
 
 class NotificationHelper(private val mContext: Context) {
     private var mBuilder: NotificationCompat.Builder? = null
