@@ -7,9 +7,9 @@
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
         android:background="#f0f0f0">
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:showIn="@layout/main"
-    tools:context=".MainActivity"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:showIn="@layout/main"
+        tools:context=".MainActivity"
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"

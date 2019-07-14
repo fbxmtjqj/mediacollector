@@ -4,22 +4,19 @@ import android.content.Context
 import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import androidx.core.view.GravityCompat
-import androidx.appcompat.app.ActionBarDrawerToggle
+import android.view.LayoutInflater
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
-import androidx.drawerlayout.widget.DrawerLayout
-import com.google.android.material.navigation.NavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.content_download.*
-import android.app.ProgressDialog
-import android.view.LayoutInflater
-import androidx.recyclerview.widget.RecyclerView
-
 
 class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -53,7 +50,7 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START)
         } else {
-            startActivity(Intent(this@DownloadActivity,MainActivity::class.java))
+            super.onBackPressed()
         }
     }
 
