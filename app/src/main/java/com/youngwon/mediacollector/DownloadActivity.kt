@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -63,9 +62,7 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
     fun saveToInnerStorage(text:String) {
         val bw = BufferedWriter(FileWriter(filesDir.toString() + "history.txt", true))
-        Log.e("다운로드엑티비티",text)
-        bw.write(text)
-        bw.write("\n")
+        bw.write(text+"\n")
         bw.close()
     }
 

@@ -28,7 +28,7 @@ class DownloadRvAdapter(val context: Context, private val urlList: ArrayList<Str
     }
 
     inner class Holder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
-        private val text = itemView?.findViewById<TextView>(R.id.main_history_text)
+        private val text = itemView?.findViewById<TextView>(R.id.download_recycleview_text)
         private val img = itemView?.findViewById<ImageView>(R.id.img)
         fun bind (str:String) {
             Glide.with(itemView.context).load(str)

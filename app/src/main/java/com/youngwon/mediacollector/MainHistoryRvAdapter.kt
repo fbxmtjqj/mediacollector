@@ -25,7 +25,7 @@ class MainHistoryRvAdapter(val context: Context, private val urlList: ArrayList<
     }
 
     inner class Holder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
-        private val text = itemView?.findViewById<TextView>(R.id.main_history_text)
+        private val text = itemView?.findViewById<TextView>(R.id.main_history_recycleview)
         fun bind (str:String) {
             text?.text = str
         }
