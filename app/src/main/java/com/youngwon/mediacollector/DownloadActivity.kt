@@ -102,10 +102,10 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         }
 
         override fun doInBackground(vararg url: String?): ArrayList<String>? {
-            if(MediaDownload().MediaDownload(url[0]) != null) {
+            if(MediaDownload().mediadownload(url[0]) != null) {
                 url[0]?.let { saveToInnerStorage(it) }
             }
-            return MediaDownload().MediaDownload(url[0])
+            return MediaDownload().mediadownload(url[0])
         }
 
         override fun onPostExecute(result: ArrayList<String>?) {
