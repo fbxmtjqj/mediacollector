@@ -55,6 +55,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 ActiveText.text = "활성화"
                 Toast.makeText(this@MainActivity, "mediacollector가 작동합니다.", Toast.LENGTH_SHORT).show()
                 //비활성화버튼을 활성화로
+                NotificationHelper(this@MainActivity).createNotification("자동다운로드","")
                 editor.putBoolean("switch", isChecked)
                 editor.commit()
             }
@@ -62,6 +63,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 ActiveText.text = "비활성화"
                 Toast.makeText(this@MainActivity, "mediacollector가 비활성화됩니다.", Toast.LENGTH_SHORT).show()
                 //활성화를 비활성화로
+                NotificationHelper(this@MainActivity).deleteNotification()
                 editor.putBoolean("switch", isChecked)
                 editor.commit()
             }
@@ -74,7 +76,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         alert.setPositiveButton("취소") {dialog, which ->
         }
         alert.setNegativeButton("종료") {dialog, which ->
-            finish()
+            super.onBackPressed()
         }
         val dialog:AlertDialog = alert.create()
         dialog.show()
