@@ -114,7 +114,7 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 Toast.makeText(this@DownloadActivity,"잘못된 url", Toast.LENGTH_LONG).show()
             }
             else{
-                val mAdapter = DownloadRvAdapter(this@DownloadActivity,result)
+                val mAdapter = RecycleViewAdapter(3,this@DownloadActivity,result)
                 recycler.adapter = mAdapter
                 val lm = LinearLayoutManager(this@DownloadActivity)
                 recycler.layoutManager = lm
