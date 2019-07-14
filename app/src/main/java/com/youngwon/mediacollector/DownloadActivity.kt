@@ -120,6 +120,8 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 val lm = LinearLayoutManager(this@DownloadActivity)
                 recycler.layoutManager = lm
                 recycler.setHasFixedSize(true)
+                selectbutton.visibility = View.VISIBLE
+                totalbutton.visibility = View.VISIBLE
             }
         }
     }
