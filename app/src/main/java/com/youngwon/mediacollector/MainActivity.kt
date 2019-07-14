@@ -2,7 +2,6 @@ package com.youngwon.mediacollector
 
 import android.content.*
 import android.os.*
-import android.util.Log
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -116,12 +115,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             val msg = Message.obtain(null, DownloadService().MSG_REGISTER_CLIENT)
             msg.replyTo = mMessenger
             mServiceMessenger?.send(msg)
-            Log.e("LOG", "onServiceConnected()")
         }
         //서비스가 종료될 때 호출
         override fun onServiceDisconnected(name: ComponentName) {
             isBind = false
-            Log.e("LOG", "onServiceDisconnected()")
         }
     }
     fun setStartService() {
@@ -137,12 +134,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         stopService(Intent(this@MainActivity, DownloadService::class.java)) // 서비스 종료
     }
     private val mMessenger = Messenger(Handler(Handler.Callback { msg ->
-        Log.i("test", "act : what " + msg.what)
         when (msg.what) {
             DownloadService().MSG_SEND_TO_ACTIVITY -> {
                 val value1 = msg.data.getString("fromService")
                 Toast.makeText(this@MainActivity,value1, Toast.LENGTH_LONG).show()
-                Log.i("test", "act : value1 $value1")
+                startActivity(Intent(this@MainActivity,DownloadActivity::class.java).putExtra("url",value1))
             }
         }
         false

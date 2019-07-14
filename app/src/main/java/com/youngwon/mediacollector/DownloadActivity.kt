@@ -29,6 +29,11 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
+        if (intent.hasExtra("url")) {
+            textInputEditText.setText(intent.getStringExtra("url"))
+            downloadasync().execute(intent.getStringExtra("url"))
+        }
+
         val fab: FloatingActionButton = findViewById(R.id.fab)
         fab.setOnClickListener {
             val url = textInputEditText.text.toString()

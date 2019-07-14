@@ -5,7 +5,6 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.os.*
-import android.util.Log
 
 
 class DownloadService : ClipboardManager.OnPrimaryClipChangedListener,Service() {
@@ -16,7 +15,6 @@ class DownloadService : ClipboardManager.OnPrimaryClipChangedListener,Service() 
         if (mManager != null && mManager!!.getPrimaryClip() != null) {
             if(i) {
                 val data = mManager?.getPrimaryClip()?.getItemAt(0)?.getText()
-                Log.e("te출력","$data")
                 sendMsgToActivity(data as String)
                 i = false
             } else {
@@ -56,7 +54,6 @@ class DownloadService : ClipboardManager.OnPrimaryClipChangedListener,Service() 
     }
 
     private val mMessenger = Messenger(Handler(Handler.Callback { msg ->
-        Log.i("test", "act : what " + msg.what)
         when (msg.what) {
             DownloadService().MSG_REGISTER_CLIENT -> {
                 mClient = msg.replyTo
@@ -71,12 +68,10 @@ class DownloadService : ClipboardManager.OnPrimaryClipChangedListener,Service() 
     private fun sendMsgToActivity(sendValue: String) {
         try {
             val bundle = Bundle()
-            Log.e("service 메세지 함수","$sendValue")
             bundle.putString("fromService", sendValue)
             val msg = Message.obtain(null, MSG_SEND_TO_ACTIVITY)
             msg.setData(bundle)
             if (mClient != null) {
-                Log.e("service 메세지 전송직전","$sendValue")
                 mClient!!.send(msg)
             }      // msg 보내기
         } catch (e: RemoteException) {
