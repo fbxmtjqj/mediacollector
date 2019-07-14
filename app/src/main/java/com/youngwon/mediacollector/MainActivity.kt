@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
+        //textView2.setText(loadFromInnerStorage())
         navView.setNavigationItemSelectedListener(this)
 
         //media블록의 더보기 클릭시 media로 이동, media액티브추가시 수정요망

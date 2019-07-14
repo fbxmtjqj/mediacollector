@@ -94,6 +94,13 @@
                 app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="28dp"
                 android:layout_marginStart="28dp"
                 android:layout_marginTop="16dp" app:layout_constraintTop_toTopOf="parent"/>
+        <TextView
+                android:text="TextView"
+                android:layout_height="144dp"
+                android:id="@+id/textView2"
+                app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginLeft="24dp" android:layout_marginTop="62dp" android:layout_marginStart="24dp"
+                android:layout_width="367dp"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
