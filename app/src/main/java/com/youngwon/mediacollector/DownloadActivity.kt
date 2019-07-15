@@ -1,6 +1,7 @@
 package com.youngwon.mediacollector
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
@@ -20,6 +21,10 @@ import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.content_download.*
 import java.io.BufferedWriter
 import java.io.FileWriter
+import android.widget.EditText
+import android.content.Context.INPUT_METHOD_SERVICE
+import android.view.inputmethod.InputMethodManager
+
 
 class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -35,10 +40,17 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             DownloadAsync().execute(intent.getStringExtra("url"))
         }
 
+        url_clear.setOnClickListener{
+            textInputEditText.text = null
+        }
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         val fab: FloatingActionButton = findViewById(R.id.fab)
         fab.setOnClickListener {
             val url = textInputEditText.text.toString()
-            DownloadAsync().execute(url)
+            if(url != "") {
+                imm.hideSoftInputFromWindow(textInputEditText.windowToken, 0)
+                DownloadAsync().execute(url)
+            }
         }
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)

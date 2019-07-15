@@ -29,6 +29,16 @@
                 app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginTop="16dp" android:layout_marginStart="24dp"
                 android:padding="8dp" android:layout_marginLeft="10dp"/>
+        <ImageButton
+                android:layout_width="27dp"
+                android:layout_height="31dp" android:src="@drawable/ic_clear"
+                android:background="@android:color/transparent"
+                app:layout_constraintTop_toTopOf="@+id/textInputEditText"
+                app:layout_constraintBottom_toBottomOf="@+id/textInputEditText"
+                android:layout_marginRight="5dp" android:layout_marginEnd="5dp"
+                app:layout_constraintEnd_toEndOf="@+id/textInputEditText" android:id="@+id/url_clear"
+                app:layout_constraintVertical_bias="0.444" android:layout_marginTop="1dp"
+                android:layout_marginBottom="1dp"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="414dp"

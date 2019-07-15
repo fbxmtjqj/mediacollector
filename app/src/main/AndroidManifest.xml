@@ -13,12 +13,14 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
+
         <activity
                 android:name=".StartActivity"
                 android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.VIEW"/>
+
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
@@ -32,6 +34,7 @@
                 android:label="@string/download"
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
+
         <service
                 android:name=".DownloadService"
                 android:enabled="true"
