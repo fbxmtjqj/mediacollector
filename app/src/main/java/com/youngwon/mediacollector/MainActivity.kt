@@ -41,6 +41,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             startActivity(Intent(this@MainActivity,DownloadActivity::class.java))
         }
 
+        HistoryView.setOnClickListener{
+            startActivity(Intent(this@MainActivity,HistoryActivity::class.java))
+        }
+
         val settings: SharedPreferences = getSharedPreferences("dico", MODE_PRIVATE)
         val editor: SharedPreferences.Editor = settings.edit()
         if(settings.getBoolean("switch", false)) {
@@ -109,7 +113,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 startActivity(Intent(this@MainActivity,MainActivity::class.java))
             }
             R.id.nav_history -> {
-                // Handle the camera action
+                startActivity(Intent(this@MainActivity,HistoryActivity::class.java))
             }
             R.id.nav_download -> {
                 startActivity(Intent(this@MainActivity,DownloadActivity::class.java))
