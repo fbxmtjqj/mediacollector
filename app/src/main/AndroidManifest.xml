@@ -38,7 +38,8 @@
         <activity
                 android:name=".DownloadActivity"
                 android:label="@string/download"
-                android:theme="@style/AppTheme.NoActionBar">
+                android:theme="@style/AppTheme.NoActionBar"
+                android:windowSoftInputMode="adjustResize">
         </activity>
 
         <service
