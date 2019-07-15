@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
@@ -21,9 +22,6 @@ import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.content_download.*
 import java.io.BufferedWriter
 import java.io.FileWriter
-import android.widget.EditText
-import android.content.Context.INPUT_METHOD_SERVICE
-import android.view.inputmethod.InputMethodManager
 
 
 class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -111,7 +109,6 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             super.onPreExecute()
             dialog.show()
         }
-
 
         override fun doInBackground(vararg url: String?): ArrayList<String>? {
             if(MediaDownload().mediadownload(url[0]) != null) {
