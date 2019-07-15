@@ -45,8 +45,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             startActivity(Intent(this@MainActivity,HistoryActivity::class.java))
         }
 
+
         val settings: SharedPreferences = getSharedPreferences("dico", MODE_PRIVATE)
         val editor: SharedPreferences.Editor = settings.edit()
+
         if(settings.getBoolean("switch", false)) {
             ActiveText.text = "활성화"
             ActiveSwitch.isChecked = true
@@ -94,11 +96,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onBackPressed() {
+        val settings: SharedPreferences = getSharedPreferences("dico", MODE_PRIVATE)
+        val editor: SharedPreferences.Editor = settings.edit()
         val alert = AlertDialog.Builder(this@MainActivity)
         alert.setMessage("정말로 종료하시겠습니까?")
         alert.setPositiveButton("취소") { _, _ ->
         }
         alert.setNegativeButton("종료") { _, _ ->
+            NotificationHelper(this@MainActivity).deleteNotification(5)
+            setStopService()
+            editor.putBoolean("switch", false)
+            editor.apply()
             super.onBackPressed()
         }
         val dialog:AlertDialog = alert.create()

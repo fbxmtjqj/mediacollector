@@ -48,6 +48,6 @@ class NotificationHelper(private val mContext: Context) {
     }
 
     fun deleteNotification(channelId:Int) {
-        mNotificationManager.cancel(channelId)
+        mNotificationManager.cancelAll()
     }
 }
