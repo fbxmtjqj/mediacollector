@@ -1,6 +1,5 @@
 package com.youngwon.mediacollector
 
-import android.R
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -11,11 +10,8 @@ import androidx.core.app.NotificationCompat
 class NotificationHelper(private val mContext: Context) {
     private var mBuilder: NotificationCompat.Builder? = null
     private var mNotificationManager:NotificationManager  = mContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-    /**
-     * Create and push the notification
-     */
+
     fun createNotification(title: String, message: String?, channelId:Int) {
-        /**Creates an explicit intent for an Activity in your app */
         val resultIntent = Intent(mContext, StartActivity::class.java)
             .setAction(Intent.ACTION_MAIN)
             .addCategory(Intent.CATEGORY_LAUNCHER)
@@ -23,13 +19,13 @@ class NotificationHelper(private val mContext: Context) {
 
         val resultPendingIntent = PendingIntent.getActivity(
             mContext,
-            0 ,
+            0,
             resultIntent,
             PendingIntent.FLAG_UPDATE_CURRENT
         )
 
         mBuilder = NotificationCompat.Builder(mContext, mContext.toString())
-        mBuilder!!.setSmallIcon(R.mipmap.sym_def_app_icon)
+        mBuilder!!.setSmallIcon(R.mipmap.ic_launcher_round)
         mBuilder!!.setContentTitle(title)
             .setAutoCancel(false)
             .setContentIntent(resultPendingIntent)
@@ -40,14 +36,14 @@ class NotificationHelper(private val mContext: Context) {
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             val importance = NotificationManager.IMPORTANCE_DEFAULT
-            val notificationChannel = NotificationChannel(channelId.toString(), "NOTIFICATION_CHANNEL_NAME", importance)
+            val notificationChannel = NotificationChannel(channelId.toString(), "자동다운로드", importance)
             mBuilder!!.setChannelId(channelId.toString())
             mNotificationManager.createNotificationChannel(notificationChannel)
         }
-        mNotificationManager.notify(0 /* Request Code */, mBuilder!!.build())
+        mNotificationManager.notify(0, mBuilder!!.build())
     }
 
-    fun deleteNotification(channelId:Int) {
+    fun deleteNotification() {
         mNotificationManager.cancelAll()
     }
 }

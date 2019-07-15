@@ -36,7 +36,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         navView.setNavigationItemSelectedListener(this)
 
-        //media블록의 더보기 클릭시 media로 이동, media액티브추가시 수정요망
         MediaView.setOnClickListener{
             startActivity(Intent(this@MainActivity,DownloadActivity::class.java))
         }
@@ -45,10 +44,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             startActivity(Intent(this@MainActivity,HistoryActivity::class.java))
         }
 
-
         val settings: SharedPreferences = getSharedPreferences("dico", MODE_PRIVATE)
         val editor: SharedPreferences.Editor = settings.edit()
-
         if(settings.getBoolean("switch", false)) {
             ActiveText.text = "활성화"
             ActiveSwitch.isChecked = true
@@ -56,7 +53,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             ActiveText.text = "비활성화"
             ActiveSwitch.isChecked = false
         }
-
         //스위치버튼 클릭시 활성화로 텍스트변경
         ActiveSwitch.setOnCheckedChangeListener{ _, isChecked ->
             if (isChecked){ //만약 스위치를 On시킨다면
@@ -68,7 +64,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             else { //만약 스위치를 Off시킨다면
                 ActiveText.text = "비활성화"
-                NotificationHelper(this@MainActivity).deleteNotification(5)
+                NotificationHelper(this@MainActivity).deleteNotification()
                 editor.putBoolean("switch", isChecked)
                 editor.commit()
                 setStopService()
@@ -78,7 +74,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         try {
             val br = BufferedReader(FileReader(filesDir.toString() + "history.txt"))
             var str = br.readLine()
-            // 파일로부터 한 라인 읽기.
             while (str != null) {
                 fileurl.add(str)
                 str = br.readLine()
@@ -92,7 +87,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val lm = LinearLayoutManager(this@MainActivity)
         main_history_recycleview.layoutManager = lm
         main_history_recycleview.setHasFixedSize(true)
-
     }
 
     override fun onBackPressed() {
@@ -100,10 +94,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val editor: SharedPreferences.Editor = settings.edit()
         val alert = AlertDialog.Builder(this@MainActivity)
         alert.setMessage("정말로 종료하시겠습니까?")
-        alert.setPositiveButton("취소") { _, _ ->
+        alert.setPositiveButton("종료") { _, _ ->
         }
-        alert.setNegativeButton("종료") { _, _ ->
-            NotificationHelper(this@MainActivity).deleteNotification(5)
+        alert.setNegativeButton("취소") { _, _ ->
+            NotificationHelper(this@MainActivity).deleteNotification()
             setStopService()
             editor.putBoolean("switch", false)
             editor.apply()
@@ -114,10 +108,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        // Handle navigation view item clicks here.
         when (item.itemId) {
             R.id.nav_home -> {
-                // Handle the camera action
                 startActivity(Intent(this@MainActivity,MainActivity::class.java))
             }
             R.id.nav_history -> {

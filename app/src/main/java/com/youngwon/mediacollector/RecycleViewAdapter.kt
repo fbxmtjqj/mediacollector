@@ -1,7 +1,5 @@
 package com.youngwon.mediacollector
 
-import android.Manifest
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
@@ -9,8 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.download_recycleview.view.*
@@ -20,7 +16,7 @@ class RecycleViewAdapter(private val index:Int, val context: Context, private va
     RecyclerView.Adapter<RecycleViewAdapter.Holder>() {
 
     private lateinit var view:View
-    private val te = arrayListOf<CheckClass?>()
+    private val checkclass = arrayListOf<CheckClass?>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
          view = when(index) {
             2,4 -> LayoutInflater.from(context).inflate(R.layout.history_recycleview, parent, false)
@@ -38,8 +34,7 @@ class RecycleViewAdapter(private val index:Int, val context: Context, private va
                 urlList.reverse()
             }
             3 -> {
-               val test = CheckClass(urlList[position],false)
-                te.add(test)
+                checkclass.add(CheckClass(urlList[position],false))
             }
         }
         holder.bind(urlList[position],index, position)
@@ -51,32 +46,32 @@ class RecycleViewAdapter(private val index:Int, val context: Context, private va
 
     inner class Holder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
 
-        fun bind(str: String, index: Int, toString: Int) {
+        fun bind(url: String, index: Int, position: Int) {
             when(index) {
                 2 -> {
-                    itemView.main_history_recycleview.text = str
+                    itemView.main_history_recycleview.text = url
                 }
                 3 -> {
-                    Glide.with(itemView.context).load(str)
+                    Glide.with(itemView.context).load(url)
                         .into(itemView.img)
                     itemView.mediacheck.setOnCheckedChangeListener(null)
-                    itemView.mediacheck.isChecked = te[toString]!!.selected
+                    itemView.mediacheck.isChecked = checkclass[position]!!.selected
                     itemView.mediacheck.setOnCheckedChangeListener { _, isChecked ->
-                        te[toString] = CheckClass(urlList[toString], isChecked)
+                        checkclass[position] = CheckClass(urlList[position], isChecked)
                     }
-                    itemView.download_recycleview_text.text = str.split("/".toRegex()).last()
+                    itemView.download_recycleview_text.text = url.split("/".toRegex()).last()
                     itemView.setOnClickListener {
-                        Toast.makeText(itemView.context, "'$str'를 선택했습니다", Toast.LENGTH_LONG).show()
+                        Toast.makeText(itemView.context, "'$url'를 선택했습니다", Toast.LENGTH_LONG).show()
                     }
                 }
                 4 -> {
-                    itemView.main_history_recycleview.text = str
+                    itemView.main_history_recycleview.text = url
                     itemView.setOnClickListener {
                         val builder = AlertDialog.Builder(context)
                         builder.setTitle("다운로드")
                         builder.setMessage("다시 다운로드 하시겠습니까?")
                         builder.setPositiveButton("다운받기") { _, _ ->
-                            context.startActivity(Intent(context,DownloadActivity::class.java).putExtra("url",str))
+                            context.startActivity(Intent(context,DownloadActivity::class.java).putExtra("url",url))
                         }
                         builder.setNegativeButton("취소") { _, _ ->
                         }

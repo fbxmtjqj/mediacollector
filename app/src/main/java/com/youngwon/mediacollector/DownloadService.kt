@@ -25,19 +25,8 @@ class DownloadService : ClipboardManager.OnPrimaryClipChangedListener,Service() 
         }
     }
 
-    private val mIBinder = MyBinder()
-
-    internal inner class MyBinder : Binder() {
-        fun getService(): DownloadService {
-            return this@DownloadService
-        }
-    }
     override fun onBind(intent: Intent): IBinder {
         return mMessenger.binder
-    }
-
-    override fun onCreate() {
-        super.onCreate()
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
@@ -51,9 +40,6 @@ class DownloadService : ClipboardManager.OnPrimaryClipChangedListener,Service() 
         mManager?.removePrimaryClipChangedListener(this)
     }
 
-    override fun onUnbind(intent: Intent): Boolean {
-        return super.onUnbind(intent)
-    }
 
     private val mMessenger = Messenger(Handler(Handler.Callback { msg ->
         when (msg.what) {
@@ -79,4 +65,21 @@ class DownloadService : ClipboardManager.OnPrimaryClipChangedListener,Service() 
         } catch (e: RemoteException) {
         }
     }
+
+    /*
+    private val mIBinder = MyBinder()
+
+    internal inner class MyBinder : Binder() {
+        fun getService(): DownloadService {
+            return this@DownloadService
+        }
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+    }
+
+    override fun onUnbind(intent: Intent): Boolean {
+        return super.onUnbind(intent)
+    }*/
 }

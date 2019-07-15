@@ -36,7 +36,6 @@ class StartActivity : AppCompatActivity() {
                 }
                 val dialog:AlertDialog = builder.create()
                 dialog.show()
-
             }
             else {
                 ActivityCompat.requestPermissions(
