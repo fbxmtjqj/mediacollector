@@ -16,6 +16,7 @@ import kotlinx.android.synthetic.main.content_home.*
 import java.io.BufferedReader
 import java.io.FileNotFoundException
 import java.io.FileReader
+import java.io.FileWriter
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -80,7 +81,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             br.close()
         } catch (e: FileNotFoundException) {
-            FileReader(filesDir.toString() + "history.txt").close()
+            FileWriter(filesDir.toString() + "history.txt")
         }
         val mAdapter = RecycleViewAdapter(2,this@MainActivity, fileurl)
         main_history_recycleview.adapter = mAdapter

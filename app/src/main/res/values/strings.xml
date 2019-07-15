@@ -10,5 +10,6 @@
 
     <string name="media">Media</string>
     <string name="hint">Link</string>
+    <string name="clear">clear</string>
 
 </resources>
