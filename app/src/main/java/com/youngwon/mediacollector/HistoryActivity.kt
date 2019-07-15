@@ -49,7 +49,7 @@ class HistoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         } catch (e: FileNotFoundException) {
             e.printStackTrace()
         }
-        val mAdapter = RecycleViewAdapter(2,this@HistoryActivity, fileurl)
+        val mAdapter = RecycleViewAdapter(4,this@HistoryActivity, fileurl)
         main_history_recycleview.adapter = mAdapter
         val lm = LinearLayoutManager(this@HistoryActivity)
         main_history_recycleview.layoutManager = lm

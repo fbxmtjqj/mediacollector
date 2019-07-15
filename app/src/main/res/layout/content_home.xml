@@ -55,7 +55,7 @@
             app:layout_constraintHorizontal_bias="0.0" android:layout_marginRight="2dp">
 
         <TextView
-                android:text="media"
+                android:text="@string/media"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/textview_media"
@@ -92,7 +92,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
         />
         <TextView
-                android:text="history"
+                android:text="@string/history"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/textview_history"
