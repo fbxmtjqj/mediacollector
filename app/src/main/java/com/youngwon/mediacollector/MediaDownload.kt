@@ -9,7 +9,7 @@ class MediaDownload {
         val url1:Document
         try {
             url1 = Jsoup.connect(url).get()
-            url1.absUrl("src")
+            //url1.absUrl("src")
         } catch (e:Exception) {
             return  null
         }

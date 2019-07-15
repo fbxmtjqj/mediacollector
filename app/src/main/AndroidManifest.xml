@@ -14,8 +14,7 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
-            android:usesCleartextTraffic="true"
-            tools:targetApi="m">
+            android:usesCleartextTraffic="true" tools:targetApi="m">
         <activity
                 android:name=".HistoryActivity"
                 android:label="@string/title_activity_history"

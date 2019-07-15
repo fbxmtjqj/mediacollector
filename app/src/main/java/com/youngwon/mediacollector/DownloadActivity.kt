@@ -112,6 +112,7 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             dialog.show()
         }
 
+
         override fun doInBackground(vararg url: String?): ArrayList<String>? {
             if(MediaDownload().mediadownload(url[0]) != null) {
                 url[0]?.let { saveToInnerStorage(it) }
