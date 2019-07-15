@@ -32,12 +32,12 @@
             android:layout_height="wrap_content" android:src="@drawable/ic_clear"
             android:background="@android:color/transparent"
             android:id="@+id/url_clear"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="8dp" android:layout_marginRight="8dp" android:layout_marginTop="8dp"
-            app:layout_constraintTop_toTopOf="parent" android:layout_marginStart="8dp"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"
-            android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.951" app:layout_constraintVertical_bias="0.026"/>
+            app:layout_constraintEnd_toEndOf="@+id/textInputEditText"
+            android:layout_marginEnd="8dp" android:layout_marginRight="8dp"
+            app:layout_constraintTop_toTopOf="@+id/textInputEditText"
+            app:layout_constraintBottom_toBottomOf="@+id/textInputEditText"
+            app:layout_constraintVertical_bias="0.562" android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"/>
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -61,9 +61,7 @@
             android:src="@drawable/ic_download" app:backgroundTint="#FF8EA0"
             android:layout_marginBottom="16dp"
             app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="16dp" android:layout_marginRight="16dp" android:layout_marginTop="8dp"
-            app:layout_constraintTop_toTopOf="parent" android:layout_marginStart="8dp"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"
-            app:layout_constraintHorizontal_bias="1.0" app:layout_constraintVertical_bias="0.966"/>
+            android:layout_marginEnd="16dp" android:layout_marginRight="16dp"
+    />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

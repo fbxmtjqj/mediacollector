@@ -80,7 +80,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             br.close()
         } catch (e: FileNotFoundException) {
-            e.printStackTrace()
+            FileReader(filesDir.toString() + "history.txt").close()
         }
         val mAdapter = RecycleViewAdapter(2,this@MainActivity, fileurl)
         main_history_recycleview.adapter = mAdapter
