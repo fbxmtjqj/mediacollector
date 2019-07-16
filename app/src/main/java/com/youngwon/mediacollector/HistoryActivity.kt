@@ -50,8 +50,7 @@ class HistoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
                     builder.setPositiveButton("삭제") { _, _ ->
                         br.delete()
                         Toast.makeText(this@HistoryActivity, "삭제되었습니다", Toast.LENGTH_LONG).show()
-
-                        test()
+                        createRv()
                     }
                     builder.setNegativeButton("취소") { _, _ ->
                     }
@@ -61,10 +60,10 @@ class HistoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
             } catch (e: FileNotFoundException) {
             }
         }
-        test()
+        createRv()
     }
 
-    fun test() {
+    fun createRv() {
         val fileurl = arrayListOf<String>()
         try {
             val br = BufferedReader(FileReader(filesDir.toString() + "history.txt"))
