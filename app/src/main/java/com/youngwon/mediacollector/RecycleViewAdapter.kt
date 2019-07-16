@@ -12,15 +12,10 @@ import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.download_recycleview.view.*
 import kotlinx.android.synthetic.main.history_recycleview.view.*
 
-class RecycleViewAdapter(private val index:Int, val context: Context, private val urlList: ArrayList<String>):
+class RecycleViewAdapter(private val index:Int, val context: Context, private val urlList: ArrayList<CheckClass>):
     RecyclerView.Adapter<RecycleViewAdapter.Holder>() {
 
     private lateinit var view:View
-    private val checkclass = arrayListOf<CheckClass?>()
-
-    fun geturlchecklist(): ArrayList<CheckClass?> {
-        return checkclass
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
          view = when(index) {
@@ -36,11 +31,10 @@ class RecycleViewAdapter(private val index:Int, val context: Context, private va
     override fun onBindViewHolder(holder: Holder, position: Int) {
         when(index) {
             2,4 -> {
-                holder.bind(urlList[urlList.size-position-1],index, position)
+                holder.bind(urlList[urlList.size-position-1].url,index, position)
             }
             3 -> {
-                checkclass.add(CheckClass(urlList[position],false))
-                holder.bind(urlList[position],index, position)
+                holder.bind(urlList[position].url,index, position)
             }
         }
     }
@@ -60,9 +54,9 @@ class RecycleViewAdapter(private val index:Int, val context: Context, private va
                     Glide.with(itemView.context).load(url)
                         .into(itemView.img)
                     itemView.mediacheck.setOnCheckedChangeListener(null)
-                    itemView.mediacheck.isChecked = checkclass[position]!!.selected
+                    itemView.mediacheck.isChecked = urlList[position].selected
                     itemView.mediacheck.setOnCheckedChangeListener { _, isChecked ->
-                        checkclass[position] = CheckClass(urlList[position], isChecked)
+                        urlList[position] = CheckClass(urlList[position].url, isChecked)
                     }
                     itemView.download_recycleview_text.text = url.split("/".toRegex()).last()
                     itemView.setOnClickListener {

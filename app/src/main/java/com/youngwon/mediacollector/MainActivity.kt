@@ -71,12 +71,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 setStopService()
             }
         }
-        val fileurl = arrayListOf<String>()
+        val fileurl = arrayListOf<CheckClass>()
         try {
             val br = BufferedReader(FileReader(filesDir.toString() + "history.txt"))
             var str = br.readLine()
             while (str != null) {
-                fileurl.add(str)
+                fileurl.add(CheckClass(str))
                 str = br.readLine()
             }
             br.close()

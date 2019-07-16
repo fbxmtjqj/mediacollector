@@ -5,7 +5,7 @@ import org.jsoup.nodes.Document
 import org.jsoup.select.Elements
 
 class MediaDownload {
-    fun mediadownload(url: String?): ArrayList<String>? {
+    fun mediadownload(url: String?): ArrayList<CheckClass>? {
         val url1:Document
         try {
             url1 = Jsoup.connect(url).get()
@@ -14,10 +14,10 @@ class MediaDownload {
             return  null
         }
         val imgelements: Elements? =  url1.select("img")
-        val imgsrc = arrayListOf<String>()
+        val imgsrc = arrayListOf<CheckClass>()
         if (imgelements != null) {
             for(i in imgelements) {
-                imgsrc.add(i.attr("src"))
+                imgsrc.add(CheckClass(i.attr("src")))
             }
         }
         return imgsrc

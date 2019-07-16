@@ -64,13 +64,13 @@ class HistoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
     }
 
     fun createRv() {
-        val fileurl = arrayListOf<String>()
+        val fileurl = arrayListOf<CheckClass>()
         try {
             val br = BufferedReader(FileReader(filesDir.toString() + "history.txt"))
             var str = br.readLine()
             // 파일로부터 한 라인 읽기.
             while (str != null) {
-                fileurl.add(str)
+                fileurl.add(CheckClass(str))
                 str = br.readLine()
             }
             br.close()

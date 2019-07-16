@@ -29,7 +29,11 @@ import java.io.FileWriter
 
 class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    private var urlchecklist = arrayListOf<CheckClass?>()
+    private var urlList: ArrayList<CheckClass>? = null
+    private var checkvisibility = false
+    private var check = 0
+    var mAdapter: RecycleViewAdapter? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -85,7 +89,7 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             builder.setTitle("파일 다운로드")
             builder.setMessage("선택한 파일 다운로드 하시겠습니까?")
             builder.setPositiveButton("다운받기") { _, _ ->
-                startActivity(Intent(this@DownloadActivity,DownloadActivity::class.java).putExtra("url",urlchecklist))
+                /*startActivity(Intent(this@DownloadActivity,DownloadActivity::class.java).putExtra("url",urlchecklist))*/
             }
             builder.setNegativeButton("취소") { _, _ ->
             }
@@ -137,10 +141,29 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        return when (item.itemId) {
-            R.id.checkAll -> true
-            else -> super.onOptionsItemSelected(item)
+        when (item.itemId) {
+            R.id.checkAll -> {
+                if(checkvisibility) {
+                    when(check) {
+                        0 -> {
+                            for (i in urlList!!.indices) {
+                                urlList?.set(i, CheckClass(urlList!![i].url, true))
+                            }
+                            check = 1
+                        }
+                        1 -> {
+                            for (i in urlList!!.indices) {
+                                urlList?.set(i, CheckClass(urlList!![i].url, false))
+                            }
+                            check = 0
+                        }
+                    }
+                    mAdapter!!.notifyDataSetChanged()
+                }
+            }
+           /* else -> super.onOptionsItemSelected(item)*/
         }
+        return true
     }
 
     fun saveToInnerStorage(text:String) {
@@ -150,7 +173,7 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     }
 
     @SuppressLint("StaticFieldLeak")
-    inner class DownloadAsync : AsyncTask<String, String, ArrayList<String>?>() {
+    inner class DownloadAsync : AsyncTask<String, String, ArrayList<CheckClass>?>() {
 
         @SuppressLint("InflateParams")
         private val dialogView: View = LayoutInflater.from(this@DownloadActivity).inflate(R.layout.progressbar, null)
@@ -162,8 +185,8 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             dialog.show()
         }
 
-        override fun doInBackground(vararg url: String?): ArrayList<String>? {
-            val urlList = MediaDownload().mediadownload(url[0])
+        override fun doInBackground(vararg url: String?): ArrayList<CheckClass>? {
+            urlList = MediaDownload().mediadownload(url[0])
             if(urlList != null) {
                 url[0]?.let { saveToInnerStorage(it) }
             }
@@ -171,7 +194,7 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         }
 
         @SuppressLint("RestrictedApi")
-        override fun onPostExecute(result: ArrayList<String>?) {
+        override fun onPostExecute(result: ArrayList<CheckClass>?) {
             super.onPostExecute(result)
             dialog.dismiss()
             if(result == null) {
@@ -182,12 +205,12 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 val medeadownload: FloatingActionButton = findViewById(R.id.medeadownload)
                 urldownload.visibility = View.INVISIBLE
                 medeadownload.visibility = View.VISIBLE
-                val mAdapter = RecycleViewAdapter(3,this@DownloadActivity,result)
+                mAdapter = RecycleViewAdapter(3,this@DownloadActivity,result)
                 recycler.adapter = mAdapter
                 val lm = LinearLayoutManager(this@DownloadActivity)
                 recycler.layoutManager = lm
                 recycler.setHasFixedSize(true)
-                urlchecklist = mAdapter.geturlchecklist()
+                checkvisibility = true
             }
         }
     }
