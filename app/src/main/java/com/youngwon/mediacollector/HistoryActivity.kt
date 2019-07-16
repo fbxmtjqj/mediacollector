@@ -104,7 +104,6 @@ class HistoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
             }
             R.id.nav_history -> {
                 startActivity(Intent(this@HistoryActivity,HistoryActivity::class.java))
-                finish()
             }
             R.id.nav_download -> {
                 startActivity(Intent(this@HistoryActivity,DownloadActivity::class.java))

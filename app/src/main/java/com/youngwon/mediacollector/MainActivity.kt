@@ -111,7 +111,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         when (item.itemId) {
             R.id.nav_home -> {
                 startActivity(Intent(this@MainActivity,MainActivity::class.java))
-                finish()
             }
             R.id.nav_history -> {
                 startActivity(Intent(this@MainActivity,HistoryActivity::class.java))

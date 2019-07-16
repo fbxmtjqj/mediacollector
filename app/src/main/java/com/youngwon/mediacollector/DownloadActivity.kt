@@ -118,7 +118,6 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             }
             R.id.nav_download -> {
                 startActivity(Intent(this@DownloadActivity, DownloadActivity::class.java))
-                finish()
             }
             R.id.nav_setting -> {
             }
