@@ -3,6 +3,7 @@ package com.youngwon.mediacollector
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.AsyncTask
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -40,6 +41,12 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         val toggle = ActionBarDrawerToggle(
             this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
         )
+        //다운로드 테스트소스
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            // Check run time permission for write external storage
+            // android.permission.WRITE_EXTERNAL_STORAGE
+        }
+
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
         navView.setNavigationItemSelectedListener(this)

@@ -11,4 +11,5 @@
     <string name="media">Media</string>
     <string name="hint">Link</string>
     <string name="clear">clear</string>
+    <string name="checkall">checkAll</string>
 </resources>

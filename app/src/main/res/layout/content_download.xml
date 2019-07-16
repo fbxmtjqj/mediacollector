@@ -40,8 +40,8 @@
             app:layout_constraintVertical_bias="0.562" android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp" android:contentDescription="@string/clear"/>
     <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="406dp"
+            android:layout_height="600dp"
             android:id="@+id/constraintLayout7" app:layout_constraintTop_toBottomOf="@+id/urlinputedit"
             app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="@+id/urldownload">

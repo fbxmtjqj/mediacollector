@@ -3,7 +3,7 @@
       xmlns:app="http://schemas.android.com/apk/res-auto"
 >
     <item android:id="@+id/checkAll"
-          android:title="@string/checkAll"
+          android:title="@string/checkall"
           app:showAsAction="ifRoom"
           android:orderInCategory="100"
           android:icon="@drawable/ic_check"/>
