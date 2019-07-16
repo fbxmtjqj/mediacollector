@@ -13,7 +13,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
-import kotlinx.android.synthetic.main.content_home.*
+import kotlinx.android.synthetic.main.content_history.*
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileNotFoundException
@@ -78,10 +78,10 @@ class HistoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
             e.printStackTrace()
         }
         val mAdapter = RecycleViewAdapter(4,this@HistoryActivity, fileurl)
-        main_history_recycleview.adapter = mAdapter
+        history_recycleview.adapter = mAdapter
         val lm = LinearLayoutManager(this@HistoryActivity)
-        main_history_recycleview.layoutManager = lm
-        main_history_recycleview.setHasFixedSize(true)
+        history_recycleview.layoutManager = lm
+        history_recycleview.setHasFixedSize(true)
     }
 
     override fun onBackPressed() {
