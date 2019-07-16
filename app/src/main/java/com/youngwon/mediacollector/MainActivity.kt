@@ -37,10 +37,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         MediaView.setOnClickListener{
             startActivity(Intent(this@MainActivity,DownloadActivity::class.java))
+            finish()
         }
 
         HistoryView.setOnClickListener{
             startActivity(Intent(this@MainActivity,HistoryActivity::class.java))
+            finish()
         }
 
         val settings: SharedPreferences = getSharedPreferences("dico", MODE_PRIVATE)
@@ -109,12 +111,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         when (item.itemId) {
             R.id.nav_home -> {
                 startActivity(Intent(this@MainActivity,MainActivity::class.java))
+                finish()
             }
             R.id.nav_history -> {
                 startActivity(Intent(this@MainActivity,HistoryActivity::class.java))
+                finish()
             }
             R.id.nav_download -> {
                 startActivity(Intent(this@MainActivity,DownloadActivity::class.java))
+                finish()
             }
             R.id.nav_setting -> {
 
@@ -158,6 +163,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 val url = msg.data.getString("url")
                 Toast.makeText(this@MainActivity,"URL 복사됨", Toast.LENGTH_LONG).show()
                 startActivity(Intent(this@MainActivity,DownloadActivity::class.java).putExtra("url",url))
+                finish()
             }
         }
         false

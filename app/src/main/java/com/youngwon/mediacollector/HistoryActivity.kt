@@ -89,7 +89,8 @@ class HistoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START)
         } else {
-            super.onBackPressed()
+            startActivity(Intent(this@HistoryActivity,MainActivity::class.java))
+            finish()
         }
     }
 
@@ -99,12 +100,15 @@ class HistoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
             R.id.nav_home -> {
                 // Handle the camera action
                 startActivity(Intent(this@HistoryActivity,MainActivity::class.java))
+                finish()
             }
             R.id.nav_history -> {
                 startActivity(Intent(this@HistoryActivity,HistoryActivity::class.java))
+                finish()
             }
             R.id.nav_download -> {
                 startActivity(Intent(this@HistoryActivity,DownloadActivity::class.java))
+                finish()
             }
             R.id.nav_setting -> {
 
