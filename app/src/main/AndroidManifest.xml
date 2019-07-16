@@ -14,13 +14,15 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
-            android:usesCleartextTraffic="true" tools:targetApi="m">
+            android:usesCleartextTraffic="true"
+            tools:targetApi="m">
         <activity
                 android:name=".StartActivity"
                 android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <action android:name="android.intent.action.VIEW"/>
+
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
@@ -34,8 +36,8 @@
                 android:name=".DownloadActivity"
                 android:label="@string/download"
                 android:launchMode="singleTop"
-                android:windowSoftInputMode="adjustPan"
-                android:theme="@style/AppTheme.NoActionBar">
+                android:theme="@style/AppTheme.NoActionBar"
+                android:windowSoftInputMode="adjustPan">
         </activity>
         <activity
                 android:name=".HistoryActivity"
@@ -43,6 +45,7 @@
                 android:launchMode="singleTop"
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
+
         <service
                 android:name=".DownloadService"
                 android:enabled="true"

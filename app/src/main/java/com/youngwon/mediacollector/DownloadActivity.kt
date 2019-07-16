@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
@@ -27,6 +28,7 @@ import java.io.FileWriter
 
 class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
+    private var urlchecklist = arrayListOf<CheckClass?>()
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -76,13 +78,13 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             builder.setTitle("파일 다운로드")
             builder.setMessage("선택한 파일 다운로드 하시겠습니까?")
             builder.setPositiveButton("다운받기") { _, _ ->
+                startActivity(Intent(this@DownloadActivity,DownloadActivity::class.java).putExtra("url",urlchecklist))
             }
             builder.setNegativeButton("취소") { _, _ ->
             }
             val dialog: AlertDialog = builder.create()
             dialog.show()
         }
-
     }
 
     override fun onBackPressed() {
@@ -117,6 +119,22 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menuInflater.inflate(R.menu.download_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        return when (item.itemId) {
+            R.id.checkAll -> true
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     fun saveToInnerStorage(text:String) {
@@ -163,6 +181,7 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 val lm = LinearLayoutManager(this@DownloadActivity)
                 recycler.layoutManager = lm
                 recycler.setHasFixedSize(true)
+                urlchecklist = mAdapter.geturlchecklist()
             }
         }
     }

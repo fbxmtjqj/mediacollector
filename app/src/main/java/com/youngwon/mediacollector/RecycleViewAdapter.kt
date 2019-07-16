@@ -17,6 +17,11 @@ class RecycleViewAdapter(private val index:Int, val context: Context, private va
 
     private lateinit var view:View
     private val checkclass = arrayListOf<CheckClass?>()
+
+    fun geturlchecklist(): ArrayList<CheckClass?> {
+        return checkclass
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
          view = when(index) {
             2,4 -> LayoutInflater.from(context).inflate(R.layout.history_recycleview, parent, false)
