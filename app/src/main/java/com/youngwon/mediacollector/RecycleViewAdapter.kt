@@ -31,13 +31,13 @@ class RecycleViewAdapter(private val index:Int, val context: Context, private va
     override fun onBindViewHolder(holder: Holder, position: Int) {
         when(index) {
             2,4 -> {
-                urlList.reverse()
+                holder.bind(urlList[urlList.size-position-1],index, position)
             }
             3 -> {
                 checkclass.add(CheckClass(urlList[position],false))
+                holder.bind(urlList[position],index, position)
             }
         }
-        holder.bind(urlList[position],index, position)
     }
 
     override fun getItemCount(): Int {

@@ -135,10 +135,11 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         }
 
         override fun doInBackground(vararg url: String?): ArrayList<String>? {
-            if(MediaDownload().mediadownload(url[0]) != null) {
+            val urlList = MediaDownload().mediadownload(url[0])
+            if(urlList != null) {
                 url[0]?.let { saveToInnerStorage(it) }
             }
-            return MediaDownload().mediadownload(url[0])
+            return urlList
         }
 
         @SuppressLint("RestrictedApi")
