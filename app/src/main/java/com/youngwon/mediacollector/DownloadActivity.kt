@@ -78,9 +78,8 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             urlinputedit.text = null
         }
         urldownload.setOnClickListener {
-            val url = urlinputedit.text.toString()
-            if(url != "") {
-                DownloadAsync().execute(url)
+            if(urlinputedit.text.toString() != "") {
+                DownloadAsync().execute(urlinputedit.text.toString())
             }
         }
         medeadownload.setOnClickListener {
@@ -88,7 +87,9 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             builder.setTitle("파일 다운로드")
             builder.setMessage("선택한 파일 다운로드 하시겠습니까?")
             builder.setPositiveButton("다운받기") { _, _ ->
-                /*startActivity(Intent(this@DownloadActivity,DownloadActivity::class.java).putExtra("url",urlchecklist))*/
+                startActivity(Intent(this, Download2Activity::class.java)
+                    .putExtra("url",urlinputedit.text.toString())
+                    .putExtra("urlCheckList",urlList))
             }
             builder.setNegativeButton("취소") { _, _ ->
             }

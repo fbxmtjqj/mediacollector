@@ -38,8 +38,15 @@
                 android:label="@string/download"
                 android:launchMode="singleTop"
                 android:screenOrientation="portrait"
-                android:theme="@style/AppTheme.NoActionBar"
-                android:windowSoftInputMode="adjustPan">
+                android:windowSoftInputMode="adjustPan"
+                android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
+                android:name=".Download2Activity"
+                android:label="@string/download"
+                android:launchMode="singleTop"
+                android:screenOrientation="portrait"
+                android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
                 android:name=".HistoryActivity"

@@ -19,10 +19,10 @@ class RecycleViewAdapter(private val index:Int, val context: Context, private va
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
          view = when(index) {
-            2,4 -> LayoutInflater.from(context).inflate(R.layout.history_recycleview, parent, false)
-            3 -> LayoutInflater.from(context).inflate(R.layout.download_recycleview, parent, false)
-            else -> {
-                LayoutInflater.from(context).inflate(R.layout.download_recycleview, parent, false)
+             2,4 -> LayoutInflater.from(context).inflate(R.layout.history_recycleview, parent, false)
+             3 -> LayoutInflater.from(context).inflate(R.layout.download_recycleview, parent, false)
+             else -> {
+                 LayoutInflater.from(context).inflate(R.layout.download_recycleview, parent, false)
             }
         }
         return Holder(view)
