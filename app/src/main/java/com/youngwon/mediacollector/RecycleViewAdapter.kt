@@ -58,9 +58,11 @@ class RecycleViewAdapter(private val index:Int, val context: Context, private va
                     itemView.mediacheck.setOnCheckedChangeListener { _, isChecked ->
                         urlList[position] = CheckClass(urlList[position].url, isChecked)
                     }
-                    itemView.download_recycleview_text.text = url.split("/".toRegex()).last()
+                    itemView.download_recycleview_text.text = url.split("/").last()
                     itemView.setOnClickListener {
+                        urlList[position] = CheckClass(urlList[position].url, !urlList[position].selected)
                         Toast.makeText(itemView.context, "'$url'를 선택했습니다", Toast.LENGTH_LONG).show()
+
                     }
                 }
                 4 -> {

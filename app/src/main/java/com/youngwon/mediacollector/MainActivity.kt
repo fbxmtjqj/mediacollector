@@ -42,12 +42,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         HistoryView.setOnClickListener{
             startActivity(Intent(this@MainActivity,HistoryActivity::class.java))
+            setStopService()
             finish()
         }
 
         val settings: SharedPreferences = getSharedPreferences("dico", MODE_PRIVATE)
         val editor: SharedPreferences.Editor = settings.edit()
         if(settings.getBoolean("switch", false)) {
+            setStartService()
             ActiveText.text = "활성화"
             ActiveSwitch.isChecked = true
         } else {
@@ -58,7 +60,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         ActiveSwitch.setOnCheckedChangeListener{ _, isChecked ->
             if (isChecked){ //만약 스위치를 On시킨다면
                 ActiveText.text = "활성화"
-                NotificationHelper(this@MainActivity).createNotification("자동다운로드",null,5)
                 editor.putBoolean("switch", isChecked)
                 editor.apply()
                 setStartService()
@@ -145,6 +146,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
     private fun setStartService() {
+        NotificationHelper(this@MainActivity).createNotification("자동다운로드",null,5)
         startService(Intent(this@MainActivity, DownloadService::class.java)) // 서비스 시작
         bindService(Intent(this@MainActivity, DownloadService::class.java), mConnection, Context.BIND_AUTO_CREATE)
         isBind = true
@@ -162,6 +164,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 val url = msg.data.getString("url")
                 Toast.makeText(this@MainActivity,"URL 복사됨", Toast.LENGTH_LONG).show()
                 startActivity(Intent(this@MainActivity,DownloadActivity::class.java).putExtra("url",url))
+                setStopService()
                 finish()
             }
         }
