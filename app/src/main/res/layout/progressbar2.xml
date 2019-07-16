@@ -11,9 +11,12 @@
     <ProgressBar
             android:max="100"
             android:progress="50"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:progressDrawable="@drawable/progressbar_style1"
             android:layout_width="match_parent"
-            android:layout_height="12dp" android:id="@+id/downloadprogress"/>
+            android:layout_height="20dp" android:id="@+id/downloadprogress" android:maxHeight="60dp"
+            android:minHeight="60dp" android:background="#00FA0000"
+    />
     <!--// 프로그레스바 -->
     <TextView
             android:id="@+id/downloadprogresstext"
