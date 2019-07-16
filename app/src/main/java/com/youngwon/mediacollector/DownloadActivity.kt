@@ -74,6 +74,9 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 medeadownload.visibility = View.INVISIBLE
             }
         })
+/*        recyclecontain.setOnClickListener {
+            mAdapter!!.notifyDataSetChanged()
+        }*/
         url_clear.setOnClickListener{
             urlinputedit.text = null
         }

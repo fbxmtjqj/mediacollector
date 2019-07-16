@@ -18,16 +18,13 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.progressbar2.view.*
-import java.io.FileOutputStream
-import java.io.IOException
-import java.io.InputStream
-import java.io.OutputStream
+import org.jsoup.Jsoup
+import java.io.*
 import java.net.HttpURLConnection
 import java.net.URL
 
 
 class Download2Activity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
-
 
     @SuppressLint("InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,7 +45,6 @@ class Download2Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         ImageDownload().execute(intent.getSerializableExtra(("urlCheckList")) as ArrayList<CheckClass>)
 
     }
-
 
     override fun onBackPressed() {
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
@@ -121,44 +117,47 @@ class Download2Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         }
 
         override fun doInBackground(vararg list: ArrayList<CheckClass>?): Boolean? {
+            var temp = ""
             var input: InputStream? = null
             var output: OutputStream? = null
             var connection: HttpURLConnection? = null
+            val title = Jsoup.connect(intent.getStringExtra("url")).get().title().split(" ")[0]
+            val path = getExternalStorageDirectory().toString() + "/MediaDownloader/$title/"
+
+            getDir_IfNotExistMKDir(path)
             urllist = list[0]!!
-            val path = getExternalStorageDirectory().toString() + "/test/"
-            var temp = ""
-            for(i in urllist!!.indices) {
+            for(i in urllist.indices) {
                 publishProgress(i)
                 if(urllist[i].selected) {
-                    var url = urllist[i].url.split("/".toRegex()).last().split("\\?".toRegex())[0]
+                    val url = urllist[i].url.split("/").last()
+                    var filename:String
                     if(temp == url) {
+                        filename = url.split(".")[0]
                         try {
-                            url = url + "$i." + url.split('.')[1]
+                            filename = filename + "$i." + url.split(".").last()
                         } catch (e: Exception) {
-                            url += ".jpg"
+                            filename += ".jpg"
                         }
                     }else {
+                        filename = url.split(".")[0]
                         try {
-                            url = url + "." + url.split('.')[1]
+                            filename = filename + "." + url.split(".").last()
                         } catch (e: Exception) {
-                            url += ".jpg"
+                            filename += ".jpg"
                         }
                     }
-                    temp = url
-                    Log.e("테스트1",  url)
+                    temp = urllist[i].url.split("/").last()
                     try {
                         val urls = URL(urllist[i].url)
                         connection = urls.openConnection() as HttpURLConnection
                         connection.connect()
 
                         if (connection.responseCode != HttpURLConnection.HTTP_OK) {
-                            Log.e("테스트","Server returned HTTP "+connection.responseCode + " " + connection.responseMessage)
+                            Log.e("http에러","Server returned HTTP "+connection.responseCode + " " + connection.responseMessage)
                         }
 
                         input = connection.inputStream
-                        output = FileOutputStream(path+ url)
-                        Log.e("테스트2",  url)
-                        Log.e("테스트3", path+ url)
+                        output = FileOutputStream(path + filename)
                         val data = ByteArray(4096)
                         var count = 0
                         while (count != -1) {
@@ -166,7 +165,7 @@ class Download2Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
                             output.write(data, 0, count)
                         }
                     } catch (e: Exception) {
-                        Log.e("테스트4", e.toString())
+                        Log.e("에러", e.toString())
                     } finally {
                         try {
                             output?.close()
@@ -182,5 +181,23 @@ class Download2Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
             }
             return true
         }
+    }
+    fun getDir_IfNotExistMKDir(pPath: String): File {
+        var ret = File(pPath)
+        if (!ret.exists()) {
+            ret.parentFile.mkdirs()
+            val result = ret.mkdir()
+            if (!result) {
+                ret.delete()
+                ret.absoluteFile.delete()
+                ret = File(pPath)
+                ret.mkdir()
+            }
+        } else if (!ret.isDirectory) {
+            ret.delete()
+            ret = File(pPath)
+            ret.mkdir()
+        }
+        return ret
     }
 }
