@@ -3,7 +3,6 @@ package com.youngwon.mediacollector
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.AsyncTask
-import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -42,16 +41,15 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         val toggle = ActionBarDrawerToggle(
             this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
         )
-        urlinputedit.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
+        urlinputedit.setOnKeyListener { _, keyCode, event ->
             if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
                 //Perform Code
-                    val url = urlinputedit.text.toString()
-                    if(url != "") {
-                        DownloadAsync().execute(url)
+                if(urlinputedit.text.toString() != "") {
+                    DownloadAsync().execute(urlinputedit.text.toString())
                 }
             }
             false
-        })
+        }
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
         navView.setNavigationItemSelectedListener(this)
