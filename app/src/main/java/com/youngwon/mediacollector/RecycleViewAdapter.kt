@@ -5,7 +5,6 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -61,8 +60,7 @@ class RecycleViewAdapter(private val index:Int, val context: Context, private va
                     itemView.download_recycleview_text.text = url.split("/").last()
                     itemView.setOnClickListener {
                         urlList[position] = CheckClass(urlList[position].url, !urlList[position].selected)
-                        Toast.makeText(itemView.context, "'$url'를 선택했습니다", Toast.LENGTH_LONG).show()
-
+                        itemView.mediacheck.isChecked = urlList[position].selected
                     }
                 }
                 4 -> {

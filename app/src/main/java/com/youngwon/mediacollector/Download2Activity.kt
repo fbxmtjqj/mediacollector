@@ -29,7 +29,7 @@ class Download2Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
     @SuppressLint("InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.history)
+        setContentView(R.layout.download2)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
@@ -51,7 +51,7 @@ class Download2Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START)
         } else {
-            alert(this@Download2Activity,MainActivity::class.java)
+            startActivity(Intent(this@Download2Activity,DownloadActivity::class.java))
         }
     }
 
@@ -63,10 +63,10 @@ class Download2Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
                 alert(this@Download2Activity,MainActivity::class.java)
             }
             R.id.nav_history -> {
-                alert(this@Download2Activity,MainActivity::class.java)
+                alert(this@Download2Activity,HistoryActivity::class.java)
             }
             R.id.nav_download -> {
-                alert(this@Download2Activity,MainActivity::class.java)
+                alert(this@Download2Activity,DownloadActivity::class.java)
             }
             R.id.nav_setting -> {
 
