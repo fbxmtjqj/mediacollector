@@ -1,14 +1,15 @@
 package com.youngwon.mediacollector
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
-import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
@@ -32,24 +33,6 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         setContentView(R.layout.download)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-
-        if (intent.hasExtra("url")) {
-            textInputEditText.setText(intent.getStringExtra("url"))
-            DownloadAsync().execute(intent.getStringExtra("url"))
-        }
-
-        url_clear.setOnClickListener{
-            textInputEditText.text = null
-        }
-        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        val fab: FloatingActionButton = findViewById(R.id.fab)
-        fab.setOnClickListener {
-            val url = textInputEditText.text.toString()
-            if(url != "") {
-                imm.hideSoftInputFromWindow(textInputEditText.windowToken, 0)
-                DownloadAsync().execute(url)
-            }
-        }
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
         val toggle = ActionBarDrawerToggle(
@@ -57,8 +40,49 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         )
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
-
         navView.setNavigationItemSelectedListener(this)
+
+        val urldownload: FloatingActionButton = findViewById(R.id.urldownload)
+        val medeadownload: FloatingActionButton = findViewById(R.id.medeadownload)
+        val urlinputedit: EditText = findViewById(R.id.urlinputedit)
+
+        if (intent.hasExtra("url")) {
+            urlinputedit.setText(intent.getStringExtra("url"))
+            DownloadAsync().execute(intent.getStringExtra("url"))
+        }
+
+        urlinputedit.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+            override fun afterTextChanged(p0: Editable?) {
+            }
+            @SuppressLint("RestrictedApi")
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                urldownload.visibility = View.VISIBLE
+                medeadownload.visibility = View.INVISIBLE
+            }
+        })
+        url_clear.setOnClickListener{
+            urlinputedit.text = null
+        }
+        urldownload.setOnClickListener {
+            val url = urlinputedit.text.toString()
+            if(url != "") {
+                DownloadAsync().execute(url)
+            }
+        }
+        medeadownload.setOnClickListener {
+            val builder = AlertDialog.Builder(this@DownloadActivity)
+            builder.setTitle("파일 다운로드")
+            builder.setMessage("선택한 파일 다운로드 하시겠습니까?")
+            builder.setPositiveButton("다운받기") { _, _ ->
+            }
+            builder.setNegativeButton("취소") { _, _ ->
+            }
+            val dialog: AlertDialog = builder.create()
+            dialog.show()
+        }
+
     }
 
     override fun onBackPressed() {
@@ -68,12 +92,6 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         } else {
             super.onBackPressed()
         }
-    }
-
-    fun saveToInnerStorage(text:String) {
-        val bw = BufferedWriter(FileWriter(filesDir.toString() + "history.txt", true))
-        bw.write(text+"\n")
-        bw.close()
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -97,6 +115,12 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         return true
     }
 
+    fun saveToInnerStorage(text:String) {
+        val bw = BufferedWriter(FileWriter(filesDir.toString() + "history.txt", true))
+        bw.write(text+"\n")
+        bw.close()
+    }
+
     @SuppressLint("StaticFieldLeak")
     inner class DownloadAsync : AsyncTask<String, String, ArrayList<String>?>() {
 
@@ -117,6 +141,7 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             return MediaDownload().mediadownload(url[0])
         }
 
+        @SuppressLint("RestrictedApi")
         override fun onPostExecute(result: ArrayList<String>?) {
             super.onPostExecute(result)
             dialog.dismiss()
@@ -124,6 +149,10 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 Toast.makeText(this@DownloadActivity,"잘못된 url", Toast.LENGTH_LONG).show()
             }
             else{
+                val urldownload: FloatingActionButton = findViewById(R.id.urldownload)
+                val medeadownload: FloatingActionButton = findViewById(R.id.medeadownload)
+                urldownload.visibility = View.INVISIBLE
+                medeadownload.visibility = View.VISIBLE
                 val mAdapter = RecycleViewAdapter(3,this@DownloadActivity,result)
                 recycler.adapter = mAdapter
                 val lm = LinearLayoutManager(this@DownloadActivity)
