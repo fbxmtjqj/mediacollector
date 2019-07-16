@@ -16,11 +16,9 @@ import kotlinx.android.synthetic.main.content_home.*
 import java.io.BufferedReader
 import java.io.FileNotFoundException
 import java.io.FileReader
-import java.io.FileWriter
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main)
@@ -81,7 +79,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             br.close()
         } catch (e: FileNotFoundException) {
-            FileWriter(filesDir.toString() + "history.txt")
         }
         val mAdapter = RecycleViewAdapter(2,this@MainActivity, fileurl)
         main_history_recycleview.adapter = mAdapter
@@ -96,13 +93,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val alert = AlertDialog.Builder(this@MainActivity)
         alert.setMessage("정말로 종료하시겠습니까?")
         alert.setPositiveButton("종료") { _, _ ->
-        }
-        alert.setNegativeButton("취소") { _, _ ->
             NotificationHelper(this@MainActivity).deleteNotification()
             setStopService()
             editor.putBoolean("switch", false)
             editor.apply()
             super.onBackPressed()
+        }
+        alert.setNegativeButton("취소") { _, _ ->
         }
         val dialog:AlertDialog = alert.create()
         dialog.show()

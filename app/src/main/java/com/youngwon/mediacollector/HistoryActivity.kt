@@ -3,17 +3,22 @@ package com.youngwon.mediacollector
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.content_home.*
 import java.io.BufferedReader
+import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileReader
+
 
 class HistoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -31,9 +36,35 @@ class HistoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         )
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
-
         navView.setNavigationItemSelectedListener(this)
 
+        val historydelete: FloatingActionButton = findViewById(R.id.historydelete)
+
+        historydelete.setOnClickListener{
+            try {
+                val br = File(filesDir.toString() + "history.txt")
+                if(br.exists()) {
+                    val builder = AlertDialog.Builder(this@HistoryActivity)
+                    builder.setTitle("히스토리 삭제")
+                    builder.setMessage("히스토리 삭제 하시겠습니까? \n삭제하면 복구 못합니다.")
+                    builder.setPositiveButton("삭제") { _, _ ->
+                        br.delete()
+                        Toast.makeText(this@HistoryActivity, "삭제되었습니다", Toast.LENGTH_LONG).show()
+
+                        test()
+                    }
+                    builder.setNegativeButton("취소") { _, _ ->
+                    }
+                    val dialog: AlertDialog = builder.create()
+                    dialog.show()
+                }
+            } catch (e: FileNotFoundException) {
+            }
+        }
+        test()
+    }
+
+    fun test() {
         val fileurl = arrayListOf<String>()
         try {
             val br = BufferedReader(FileReader(filesDir.toString() + "history.txt"))
