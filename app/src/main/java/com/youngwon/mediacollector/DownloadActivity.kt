@@ -7,10 +7,7 @@ import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -45,12 +42,16 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         val toggle = ActionBarDrawerToggle(
             this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
         )
-        //다운로드 테스트소스
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-            // Check run time permission for write external storage
-            // android.permission.WRITE_EXTERNAL_STORAGE
-        }
-
+        urlinputedit.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
+                //Perform Code
+                    val url = urlinputedit.text.toString()
+                    if(url != "") {
+                        DownloadAsync().execute(url)
+                }
+            }
+            false
+        })
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
         navView.setNavigationItemSelectedListener(this)
