@@ -28,7 +28,7 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     private var urlList: ArrayList<CheckClass>? = null
     private var checkvisibility = false
     private var check = 0
-    var mBeginner = false
+    var mBeginner = true
     var mAdapter: RecycleViewAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -77,6 +77,7 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         })
 
         url_clear.setOnClickListener{
+            mBeginner = true
             invalidateOptionsMenu()
             urlinputedit.text = null
         }
@@ -135,8 +136,7 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        mBeginner = !mBeginner
+        // Inflate the menu; this adds items to the action bar if it is present.\
         if(mBeginner) {
             menuInflater.inflate(R.menu.download_menu1, menu)
         } else {
@@ -194,6 +194,7 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         }
 
         override fun doInBackground(vararg url: String?): ArrayList<CheckClass>? {
+            mBeginner = false
             invalidateOptionsMenu()
             urlList = MediaDownload().mediadownload(url[0])
             if(urlList != null) {
