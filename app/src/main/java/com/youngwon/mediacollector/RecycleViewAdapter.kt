@@ -18,8 +18,9 @@ class RecycleViewAdapter(private val index:Int, val context: Context, private va
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
          view = when(index) {
-             2,4 -> LayoutInflater.from(context).inflate(R.layout.history_recycleview, parent, false)
+             2,5 -> LayoutInflater.from(context).inflate(R.layout.history_recycleview, parent, false)
              3 -> LayoutInflater.from(context).inflate(R.layout.download_recycleview, parent, false)
+             4 -> LayoutInflater.from(context).inflate(R.layout.download2_recycleview, parent, false)
              else -> {
                  LayoutInflater.from(context).inflate(R.layout.download_recycleview, parent, false)
             }
@@ -29,10 +30,10 @@ class RecycleViewAdapter(private val index:Int, val context: Context, private va
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         when(index) {
-            2,4 -> {
+            2,5 -> {
                 holder.bind(urlList[urlList.size-position-1].url,index, position)
             }
-            3 -> {
+            3,4 -> {
                 holder.bind(urlList[position].url,index, position)
             }
         }
@@ -64,6 +65,9 @@ class RecycleViewAdapter(private val index:Int, val context: Context, private va
                     }
                 }
                 4 -> {
+
+                }
+                5 -> {
                     itemView.main_history_recycleview.text = url
                     itemView.setOnClickListener {
                         val builder = AlertDialog.Builder(context)

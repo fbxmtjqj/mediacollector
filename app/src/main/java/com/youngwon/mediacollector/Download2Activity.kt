@@ -16,7 +16,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.navigation.NavigationView
+import kotlinx.android.synthetic.main.content_history.*
 import kotlinx.android.synthetic.main.progressbar2.view.*
 import org.jsoup.Jsoup
 import java.io.*
@@ -27,6 +29,7 @@ import java.net.URL
 class Download2Activity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     @SuppressLint("InflateParams")
+    val filenamelist =  arrayListOf<CheckClass>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.download2)
@@ -43,7 +46,6 @@ class Download2Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         navView.setNavigationItemSelectedListener(this)
 
         ImageDownload().execute(intent.getSerializableExtra(("urlCheckList")) as ArrayList<CheckClass>)
-
     }
 
     override fun onBackPressed() {
@@ -114,6 +116,11 @@ class Download2Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         override fun onPostExecute(result: Boolean) {
             super.onPostExecute(result)
             dialog.dismiss()
+            val mAdapter = RecycleViewAdapter(5,this@Download2Activity, filenamelist)
+            history_recycleview.adapter = mAdapter
+            val lm = LinearLayoutManager(this@Download2Activity)
+            history_recycleview.layoutManager = lm
+            history_recycleview.setHasFixedSize(true)
         }
 
         override fun doInBackground(vararg list: ArrayList<CheckClass>?): Boolean? {
@@ -134,16 +141,22 @@ class Download2Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
                     if(temp == url) {
                         filename = url.split(".")[0]
                         try {
-                            filename = filename + "$i." + url.split(".").last()
-                        } catch (e: Exception) {
-                            filename += ".jpg"
+                            if(url.split(".").size == 1) {
+                                filename += ".jpg"
+                            } else {
+                                filename = filename + "$i." + url.split(".").last()
+                            }
+                        } catch (e: ArrayIndexOutOfBoundsException) {
                         }
                     }else {
                         filename = url.split(".")[0]
                         try {
-                            filename = filename + "." + url.split(".").last()
-                        } catch (e: Exception) {
-                            filename += ".jpg"
+                            if(url.split(".").size == 1) {
+                                filename += ".jpg"
+                            } else {
+                                filename = filename + "." + url.split(".")[1]
+                            }
+                        } catch (e: ArrayIndexOutOfBoundsException) {
                         }
                     }
                     temp = urllist[i].url.split("/").last()
@@ -155,7 +168,7 @@ class Download2Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
                         if (connection.responseCode != HttpURLConnection.HTTP_OK) {
                             Log.e("http에러","Server returned HTTP "+connection.responseCode + " " + connection.responseMessage)
                         }
-
+                        filenamelist.add(CheckClass("file:/" + (path + filename)))
                         input = connection.inputStream
                         output = FileOutputStream(path + filename)
                         val data = ByteArray(4096)
