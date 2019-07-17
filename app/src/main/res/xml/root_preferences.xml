@@ -1,0 +1,49 @@
+<!--
+  ~ Copyright 2018 The app Open Source Project
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<androidx.preference.PreferenceScreen
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+        <EditTextPreference
+                app:key="downloadroute"
+                app:title="다운로드 위치"
+                app:defaultValue="mediadownload"
+                app:useSimpleSummaryProvider="true"/>
+        <SwitchPreferenceCompat
+                app:key="Limit"
+                app:title="다운로드 제한"/>
+        <EditTextPreference
+                app:key="minsize"
+                app:title="다운로드 최소 사이즈"
+                app:entries="@array/reply_entries"
+                app:entryValues="@array/reply_values"
+                app:defaultValue="100"
+                app:useSimpleSummaryProvider="true"
+                app:dependency="Limit"/>
+
+        <SwitchPreferenceCompat
+                app:key="sync"
+                app:title="@string/sync_title"/>
+
+        <SwitchPreferenceCompat
+                app:key="attachment"
+                app:title="@string/attachment_title"
+                app:summaryOn="@string/attachment_summary_on"
+                app:summaryOff="@string/attachment_summary_off"
+                app:dependency="sync"/>
+
+</androidx.preference.PreferenceScreen>
