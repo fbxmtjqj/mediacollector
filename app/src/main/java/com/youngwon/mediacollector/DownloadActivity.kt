@@ -196,7 +196,7 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         override fun doInBackground(vararg url: String?): ArrayList<CheckClass>? {
             mBeginner = false
             invalidateOptionsMenu()
-            urlList = MediaDownload().mediadownload(url[0])
+            urlList = MediaDownload(this@DownloadActivity).mediadownload(url[0])
             if(urlList != null) {
                 url[0]?.let { saveToInnerStorage(it) }
             }
