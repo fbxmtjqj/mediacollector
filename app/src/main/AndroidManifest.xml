@@ -16,7 +16,6 @@
             android:theme="@style/AppTheme"
             android:usesCleartextTraffic="true"
             tools:targetApi="m">
-
         <activity
                 android:name=".StartActivity"
                 android:noHistory="true">
@@ -50,6 +49,12 @@
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
+            android:name=".MediaActivity"
+            android:label="@string/media"
+            android:launchMode="singleTop"
+            android:theme="@style/AppTheme.NoActionBar">
+    </activity>
+        <activity
                 android:name=".HistoryActivity"
                 android:label="@string/history"
                 android:launchMode="singleTop"
@@ -62,6 +67,7 @@
                 android:launchMode="singleTop"
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
+
         <service
                 android:name=".DownloadService"
                 android:enabled="true"

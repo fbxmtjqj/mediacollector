@@ -95,22 +95,25 @@ class HistoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        // Handle navigation view item clicks here.
         when (item.itemId) {
             R.id.nav_home -> {
-                // Handle the camera action
                 startActivity(Intent(this@HistoryActivity,MainActivity::class.java))
                 finish()
             }
-            R.id.nav_history -> {
-                startActivity(Intent(this@HistoryActivity,HistoryActivity::class.java))
-            }
             R.id.nav_download -> {
-                startActivity(Intent(this@HistoryActivity,DownloadActivity::class.java))
+                startActivity(Intent(this@HistoryActivity, DownloadActivity::class.java))
                 finish()
+            }
+            R.id.nav_file -> {
+                startActivity(Intent(this@HistoryActivity, MediaActivity::class.java))
+                finish()
+            }
+            R.id.nav_history -> {
+                startActivity(Intent(this@HistoryActivity, HistoryActivity::class.java))
             }
             R.id.nav_setting -> {
                 startActivity(Intent(this@HistoryActivity,SettingActivity::class.java))
+                finish()
             }
         }
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)

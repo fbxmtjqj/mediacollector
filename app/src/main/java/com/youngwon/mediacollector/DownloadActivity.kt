@@ -113,10 +113,8 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        // Handle navigation view item clicks here.
         when (item.itemId) {
             R.id.nav_home -> {
-                // Handle the camera action
                 startActivity(Intent(this@DownloadActivity, MainActivity::class.java))
                 finish()
             }
@@ -124,6 +122,8 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 startActivity(Intent(this@DownloadActivity, DownloadActivity::class.java))
             }
             R.id.nav_file -> {
+                startActivity(Intent(this@DownloadActivity, MediaActivity::class.java))
+                finish()
             }
             R.id.nav_history -> {
                 startActivity(Intent(this@DownloadActivity, HistoryActivity::class.java))
@@ -131,6 +131,7 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             }
             R.id.nav_setting -> {
                 startActivity(Intent(this@DownloadActivity,SettingActivity::class.java))
+                finish()
             }
         }
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
