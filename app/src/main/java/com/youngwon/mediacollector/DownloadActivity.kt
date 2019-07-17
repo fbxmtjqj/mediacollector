@@ -28,6 +28,7 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     private var urlList: ArrayList<CheckClass>? = null
     private var checkvisibility = false
     private var check = 0
+    var mBeginner = false
     var mAdapter: RecycleViewAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,10 +75,9 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 medeadownload.visibility = View.INVISIBLE
             }
         })
-/*        recyclecontain.setOnClickListener {
-            mAdapter!!.notifyDataSetChanged()
-        }*/
+
         url_clear.setOnClickListener{
+            invalidateOptionsMenu()
             urlinputedit.text = null
         }
         urldownload.setOnClickListener {
@@ -136,7 +136,12 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.download_menu, menu)
+        mBeginner = !mBeginner
+        if(mBeginner) {
+            menuInflater.inflate(R.menu.download_menu1, menu)
+        } else {
+            menuInflater.inflate(R.menu.download_menu2, menu)
+        }
         return true
     }
 
@@ -189,6 +194,7 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         }
 
         override fun doInBackground(vararg url: String?): ArrayList<CheckClass>? {
+            invalidateOptionsMenu()
             urlList = MediaDownload().mediadownload(url[0])
             if(urlList != null) {
                 url[0]?.let { saveToInnerStorage(it) }

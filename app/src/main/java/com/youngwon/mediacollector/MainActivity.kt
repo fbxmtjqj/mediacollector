@@ -37,6 +37,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         MediaView.setOnClickListener{
             startActivity(Intent(this@MainActivity,DownloadActivity::class.java))
+            setStopService()
             finish()
         }
 
