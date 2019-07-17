@@ -77,7 +77,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             val br = BufferedReader(FileReader(filesDir.toString() + "history.txt"))
             var str = br.readLine()
             while (str != null) {
-                fileurl.add(CheckClass(str))
+                fileurl.add(0,CheckClass(str))
                 str = br.readLine()
             }
             br.close()

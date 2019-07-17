@@ -70,7 +70,7 @@ class HistoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
             var str = br.readLine()
             // 파일로부터 한 라인 읽기.
             while (str != null) {
-                fileurl.add(CheckClass(str))
+                fileurl.add(0,CheckClass(str))
                 str = br.readLine()
             }
             br.close()

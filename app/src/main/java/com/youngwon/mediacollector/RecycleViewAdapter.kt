@@ -3,7 +3,6 @@ package com.youngwon.mediacollector
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,14 +30,7 @@ class RecycleViewAdapter(private val index:Int, val context: Context, private va
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        when(index) {
-            2,5 -> {
-                holder.bind(urlList[urlList.size-position-1].url,index, position)
-            }
-            3,4 -> {
-                holder.bind(urlList[position].url,index, position)
-            }
-        }
+        holder.bind(urlList[position].url,index, position)
     }
 
     override fun getItemCount(): Int {
@@ -66,8 +58,6 @@ class RecycleViewAdapter(private val index:Int, val context: Context, private va
                     }
                 }
                 4 -> {
-                    Log.e("테스트",url)
-                    Log.e("테스트uri", Uri.parse(url).toString())
                     itemView.img.setImageURI(Uri.parse(url))
                 }
                 5 -> {

@@ -16,12 +16,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.navigation.NavigationView
-import kotlinx.android.synthetic.main.content_download.*
 import kotlinx.android.synthetic.main.content_download2.*
-import kotlinx.android.synthetic.main.content_history.*
 import kotlinx.android.synthetic.main.progressbar2.view.*
 import org.jsoup.Jsoup
 import java.io.*
@@ -135,7 +132,22 @@ class Download2Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
             val title = Jsoup.connect(intent.getStringExtra("url")).get().title().split(" ")[0]
             val path = getExternalStorageDirectory().toString() + "/MediaDownloader/$title/"
 
-            getDir_IfNotExistMKDir(path)
+            val folder = File(path)
+            if (!File(getExternalStorageDirectory().toString() + "/MediaDownloader").exists()) {
+                File(getExternalStorageDirectory().toString() + "/MediaDownloader").mkdir()
+            }
+            if (!folder.exists()) {
+                folder.mkdirs()
+                if (!folder.mkdir()) {
+                    folder.delete()
+                    folder.absoluteFile.delete()
+                    folder.mkdir()
+                }
+            } else if (!folder.isDirectory) {
+                folder.delete()
+                folder.mkdir()
+            }
+
             urllist = list[0]!!
             for(i in urllist.indices) {
                 publishProgress(i)
@@ -198,23 +210,5 @@ class Download2Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
             }
             return true
         }
-    }
-    fun getDir_IfNotExistMKDir(pPath: String): File {
-        var ret = File(pPath)
-        if (!ret.exists()) {
-            ret.parentFile.mkdirs()
-            val result = ret.mkdir()
-            if (!result) {
-                ret.delete()
-                ret.absoluteFile.delete()
-                ret = File(pPath)
-                ret.mkdir()
-            }
-        } else if (!ret.isDirectory) {
-            ret.delete()
-            ret = File(pPath)
-            ret.mkdir()
-        }
-        return ret
     }
 }
