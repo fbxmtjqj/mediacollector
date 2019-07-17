@@ -1,7 +1,6 @@
 package com.youngwon.mediacollector
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
@@ -58,19 +57,18 @@ class Download2Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        // Handle navigation view item clicks here.
         when (item.itemId) {
             R.id.nav_home -> {
-                // Handle the camera action
-                alert(this@Download2Activity,MainActivity::class.java)
+                startActivity(Intent(this@Download2Activity,MainActivity::class.java))
             }
             R.id.nav_download -> {
-                alert(this@Download2Activity,DownloadActivity::class.java)
+                startActivity(Intent(this@Download2Activity,DownloadActivity::class.java))
             }
             R.id.nav_file -> {
+                startActivity(Intent(this@Download2Activity,MediaActivity::class.java))
             }
             R.id.nav_history -> {
-                alert(this@Download2Activity,HistoryActivity::class.java)
+                startActivity(Intent(this@Download2Activity,HistoryActivity::class.java))
             }
             R.id.nav_setting -> {
                 startActivity(Intent(this@Download2Activity,SettingsActivity::class.java))
@@ -84,19 +82,6 @@ class Download2Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
     override fun viewclick(value: String) {
     }
 
-    fun alert(context: Context, url: Class<*>) {
-        val builder = AlertDialog.Builder(context)
-        builder.setTitle("확인")
-        builder.setMessage("다른페이지로 이동하시겠습니까?")
-        builder.setPositiveButton("이동") { _, _ ->
-            context.startActivity(Intent(context,url))
-            finish()
-        }
-        builder.setNegativeButton("취소") { _, _ ->
-        }
-        val dialog:AlertDialog = builder.create()
-        dialog.show()
-    }
     @SuppressLint("StaticFieldLeak")
     inner class ImageDownload : AsyncTask<ArrayList<CheckClass>, Int, Boolean>() {
 

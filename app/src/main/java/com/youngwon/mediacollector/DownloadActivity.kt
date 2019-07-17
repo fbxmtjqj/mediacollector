@@ -140,7 +140,6 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.\
         if(mBeginner) {
             menuInflater.inflate(R.menu.download_menu1, menu)
         } else {
@@ -150,9 +149,6 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         when (item.itemId) {
             R.id.checkAll -> {
                 if(checkvisibility) {
@@ -227,6 +223,7 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 recycler.layoutManager = lm
                 recycler.setHasFixedSize(true)
                 checkvisibility = true
+                Toast.makeText(this@DownloadActivity,"다운받을 이미지를 클릭 해주세요",Toast.LENGTH_LONG).show()
             }
         }
     }
