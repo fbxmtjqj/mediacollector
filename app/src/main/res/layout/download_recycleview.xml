@@ -21,8 +21,6 @@
             android:gravity="center"
             android:checked="false" app:layout_constraintTop_toTopOf="@+id/img"
             app:layout_constraintStart_toStartOf="@+id/img"
-            app:layout_constraintBottom_toBottomOf="@+id/img" app:layout_constraintEnd_toEndOf="@+id/img"
-            app:layout_constraintHorizontal_bias="0.069" app:layout_constraintVertical_bias="0.065"
-    />
+            android:layout_marginTop="10dp" android:layout_marginStart="10dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
