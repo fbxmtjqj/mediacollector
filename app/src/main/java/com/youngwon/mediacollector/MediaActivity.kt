@@ -3,7 +3,6 @@ package com.youngwon.mediacollector
 import android.content.Intent
 import android.os.Bundle
 import android.os.Environment
-import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -11,14 +10,16 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.navigation.NavigationView
-import kotlinx.android.synthetic.main.content_history.*
+import kotlinx.android.synthetic.main.content_media.*
 import java.io.File
 
 
 class MediaActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, RecycleViewClick {
 
     var filelist = arrayListOf<CheckClass>()
+    private val mAdapter = RecycleViewAdapter(5, filelist, this@MediaActivity,this@MediaActivity)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,13 +37,11 @@ class MediaActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
 
         navView.setNavigationItemSelectedListener(this)
 
-        fileList(null)
+        fileList("")
 
-        val mAdapter = RecycleViewAdapter(5, filelist, this@MediaActivity,this@MediaActivity)
-        history_recycleview.adapter = mAdapter
-        val lm = LinearLayoutManager(this@MediaActivity)
-        history_recycleview.layoutManager = lm
-        history_recycleview.setHasFixedSize(true)
+        media_recycleview.adapter = mAdapter
+        media_recycleview.layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
+        media_recycleview.setHasFixedSize(true)
     }
 
     override fun onBackPressed() {
@@ -83,17 +82,19 @@ class MediaActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
     }
 
     override fun viewclick(value: String) {
+        filelist.clear()
+        fileList("$value/")
+        mAdapter.notifyDataSetChanged()
     }
 
     private fun fileList(path: String?) {
-        val filepath = Environment.getExternalStorageDirectory().toString() + "/MediaDownloader" + path
+        val filepath = Environment.getExternalStorageDirectory().toString() + "/MediaDownloader/" + path
         val files = File(filepath).listFiles()
-        for(i in files!!.indices) {
-            Log.e("파일 출력",files[i].name)
+        for(i in files.indices) {
             if(File(filepath + "/" + files[i].name).isDirectory) {
-                filelist.add(CheckClass(files[i].name, true))
+                filelist.add(CheckClass("file://" +filepath+files[i].name, true))
             } else {
-                filelist.add(CheckClass(files[i].name))
+                filelist.add(CheckClass("file://" +filepath+files[i].name))
             }
         }
     }
@@ -101,7 +102,7 @@ class MediaActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
     fun fileDelete(dir: String) {
         val path = Environment.getExternalStorageDirectory().toString() + "/MediaDownloader/" + dir
         if(File(path).exists()) {
-            for(childFile in File(path).listFiles()!!) {
+            for(childFile in File(path).listFiles()) {
                 if(childFile.isDirectory) {
                     fileDelete(childFile.name)
                 } else {

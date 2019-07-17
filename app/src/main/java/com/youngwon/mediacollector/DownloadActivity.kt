@@ -223,7 +223,7 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 medeadownload.visibility = View.VISIBLE
                 mAdapter = RecycleViewAdapter(3, result,this@DownloadActivity,this@DownloadActivity)
                 recycler.adapter = mAdapter
-                val lm = StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL)
+                val lm = StaggeredGridLayoutManager(3,StaggeredGridLayoutManager.VERTICAL)
                 recycler.layoutManager = lm
                 recycler.setHasFixedSize(true)
                 checkvisibility = true

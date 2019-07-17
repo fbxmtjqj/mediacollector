@@ -10,13 +10,14 @@ import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.download_recycleview.view.*
+import kotlinx.android.synthetic.main.download_recycleview.view.img
 import kotlinx.android.synthetic.main.history_recycleview.view.*
+import kotlinx.android.synthetic.main.media_recycleview.view.*
 
-class RecycleViewAdapter(private val index:Int, private val urlList: ArrayList<CheckClass>, val context: Context,listener: RecycleViewClick):
+class RecycleViewAdapter(private val index:Int, private val urlList: ArrayList<CheckClass>, val context: Context, private val listener: RecycleViewClick):
     RecyclerView.Adapter<RecycleViewAdapter.Holder>() {
 
     private lateinit var view:View
-    val valuelistener = listener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
          view = when(index) {
@@ -63,7 +64,16 @@ class RecycleViewAdapter(private val index:Int, private val urlList: ArrayList<C
                     itemView.img.setImageURI(Uri.parse(url))
                 }
                 5-> {
-
+                    if(urlList[position].selected) {
+                        itemView.img.setImageResource(R.drawable.ic_folder);
+                        itemView.media_text.text = urlList[position].url.split("/").last()
+                    }else {
+                        itemView.img.setImageURI(Uri.parse(url))
+                        itemView.media_text.text = null
+                    }
+                    itemView.setOnClickListener {
+                        listener.viewclick(urlList[position].url.split("/").last())
+                    }
                 }
                 6 -> {
                     itemView.history_recycleview_text.text = url
