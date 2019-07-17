@@ -136,7 +136,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 finish()
             }
             R.id.nav_setting -> {
-                startActivity(Intent(this@MainActivity,SettingActivity::class.java))
+                startActivity(Intent(this@MainActivity,SettingsActivity::class.java))
                 setStopService()
                 finish()
             }

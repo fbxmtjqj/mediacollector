@@ -65,7 +65,7 @@ class MediaActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
                 finish()
             }
             R.id.nav_setting -> {
-                startActivity(Intent(this@MediaActivity,SettingActivity::class.java))
+                startActivity(Intent(this@MediaActivity,SettingsActivity::class.java))
                 finish()
             }
         }

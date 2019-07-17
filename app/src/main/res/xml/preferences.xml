@@ -1,0 +1,46 @@
+<!--
+  ~ Copyright 2018 The app Open Source Project
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<androidx.preference.PreferenceScreen
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+        <EditTextPreference
+                app:key="MediaDownloader"
+                app:title="다운로드 경로"
+                app:summary="MediaDownloader"
+                app:defaultValue="MediaDownloader"
+                app:iconSpaceReserved="false"/>
+        <SwitchPreferenceCompat
+                app:key="Limit"
+                app:title="다운로드 제한"
+                app:iconSpaceReserved="false"
+        />
+        <EditTextPreference
+                app:key="100"
+                app:title="다운로드 사이즈 제한"
+                app:summary="100"
+                app:defaultValue="100"
+                app:iconSpaceReserved="false"
+                app:dependency="Limit"/>
+        <ListPreference
+                app:key="limit"
+                app:title="다운로드 확장자 제한"
+                app:summary="jpg"
+                app:entries="@array/downloadlimit"
+                app:entryValues="@array/downloadlimit"
+                app:defaultValue="기본"
+                app:iconSpaceReserved="false"/>
+</androidx.preference.PreferenceScreen>

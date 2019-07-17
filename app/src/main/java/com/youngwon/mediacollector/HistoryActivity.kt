@@ -93,7 +93,7 @@ class HistoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
                 startActivity(Intent(this@HistoryActivity, HistoryActivity::class.java))
             }
             R.id.nav_setting -> {
-                startActivity(Intent(this@HistoryActivity,SettingActivity::class.java))
+                startActivity(Intent(this@HistoryActivity,SettingsActivity::class.java))
                 finish()
             }
         }

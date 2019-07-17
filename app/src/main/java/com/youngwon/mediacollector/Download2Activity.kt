@@ -73,7 +73,7 @@ class Download2Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
                 alert(this@Download2Activity,HistoryActivity::class.java)
             }
             R.id.nav_setting -> {
-                startActivity(Intent(this@Download2Activity,SettingActivity::class.java))
+                startActivity(Intent(this@Download2Activity,SettingsActivity::class.java))
             }
         }
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
