@@ -20,8 +20,7 @@ import java.io.FileNotFoundException
 import java.io.FileReader
 
 
-class HistoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
-
+class HistoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, RecycleViewClick {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,25 +62,7 @@ class HistoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         createRv()
     }
 
-    fun createRv() {
-        val fileurl = arrayListOf<CheckClass>()
-        try {
-            val br = BufferedReader(FileReader(filesDir.toString() + "history.txt"))
-            var str = br.readLine()
-            // 파일로부터 한 라인 읽기.
-            while (str != null) {
-                fileurl.add(0,CheckClass(str))
-                str = br.readLine()
-            }
-            br.close()
-        } catch (e: FileNotFoundException) {
-            e.printStackTrace()
-        }
-        val mAdapter = RecycleViewAdapter(5,this@HistoryActivity, fileurl)
-        history_recycleview.adapter = mAdapter
-        val lm = LinearLayoutManager(this@HistoryActivity)
-        history_recycleview.layoutManager = lm
-        history_recycleview.setHasFixedSize(true)
+    override fun viewclick(value: String) {
     }
 
     override fun onBackPressed() {
@@ -119,5 +100,26 @@ class HistoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    fun createRv() {
+        val fileurl = arrayListOf<CheckClass>()
+        try {
+            val br = BufferedReader(FileReader(filesDir.toString() + "history.txt"))
+            var str = br.readLine()
+            // 파일로부터 한 라인 읽기.
+            while (str != null) {
+                fileurl.add(0,CheckClass(str))
+                str = br.readLine()
+            }
+            br.close()
+        } catch (e: FileNotFoundException) {
+            e.printStackTrace()
+        }
+        val mAdapter = RecycleViewAdapter(5, fileurl, this@HistoryActivity,this@HistoryActivity)
+        history_recycleview.adapter = mAdapter
+        val lm = LinearLayoutManager(this@HistoryActivity)
+        history_recycleview.layoutManager = lm
+        history_recycleview.setHasFixedSize(true)
     }
 }

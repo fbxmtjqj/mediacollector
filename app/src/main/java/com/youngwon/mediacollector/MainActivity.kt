@@ -18,7 +18,8 @@ import java.io.FileNotFoundException
 import java.io.FileReader
 
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, RecycleViewClick {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main)
@@ -83,11 +84,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             br.close()
         } catch (e: FileNotFoundException) {
         }
-        val mAdapter = RecycleViewAdapter(2,this@MainActivity, fileurl)
-        main_history_recycleview.adapter = mAdapter
+        val mAdapter = RecycleViewAdapter(2, fileurl,this@MainActivity,this@MainActivity)
+        history_recycleview_text.adapter = mAdapter
         val lm = LinearLayoutManager(this@MainActivity)
-        main_history_recycleview.layoutManager = lm
-        main_history_recycleview.setHasFixedSize(true)
+        history_recycleview_text.layoutManager = lm
+        history_recycleview_text.setHasFixedSize(true)
     }
 
     override fun onBackPressed() {
@@ -137,6 +138,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    override fun viewclick(value: String) {
     }
 
     private var isBind: Boolean = false

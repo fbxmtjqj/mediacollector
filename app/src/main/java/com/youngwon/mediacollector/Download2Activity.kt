@@ -26,7 +26,7 @@ import java.net.HttpURLConnection
 import java.net.URL
 
 
-class Download2Activity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class Download2Activity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, RecycleViewClick {
 
     @SuppressLint("InflateParams")
     val filenamelist =  arrayListOf<CheckClass>()
@@ -81,6 +81,9 @@ class Download2Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         return true
     }
 
+    override fun viewclick(value: String) {
+    }
+
     fun alert(context: Context, url: Class<*>) {
         val builder = AlertDialog.Builder(context)
         builder.setTitle("확인")
@@ -118,7 +121,7 @@ class Download2Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         override fun onPostExecute(result: Boolean) {
             super.onPostExecute(result)
             dialog.dismiss()
-            val mAdapter = RecycleViewAdapter(4,this@Download2Activity, filenamelist)
+            val mAdapter = RecycleViewAdapter(4, filenamelist,this@Download2Activity,this@Download2Activity)
             download2_recycleview.adapter = mAdapter
             download2_recycleview.layoutManager = StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL)
             download2_recycleview.setHasFixedSize(true)

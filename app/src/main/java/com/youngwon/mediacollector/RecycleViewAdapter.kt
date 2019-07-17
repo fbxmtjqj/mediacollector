@@ -12,10 +12,11 @@ import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.download_recycleview.view.*
 import kotlinx.android.synthetic.main.history_recycleview.view.*
 
-class RecycleViewAdapter(private val index:Int, val context: Context, private val urlList: ArrayList<CheckClass>):
+class RecycleViewAdapter(private val index:Int, private val urlList: ArrayList<CheckClass>, val context: Context,listener: RecycleViewClick):
     RecyclerView.Adapter<RecycleViewAdapter.Holder>() {
 
     private lateinit var view:View
+    val valuelistener = listener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
          view = when(index) {
@@ -42,7 +43,7 @@ class RecycleViewAdapter(private val index:Int, val context: Context, private va
         fun bind(url: String, index: Int, position: Int) {
             when(index) {
                 2 -> {
-                    itemView.main_history_recycleview.text = url
+                    itemView.history_recycleview_text.text = url
                 }
                 3 -> {
                     Glide.with(itemView.context).load(url)
@@ -61,7 +62,7 @@ class RecycleViewAdapter(private val index:Int, val context: Context, private va
                     itemView.img.setImageURI(Uri.parse(url))
                 }
                 5 -> {
-                    itemView.main_history_recycleview.text = url
+                    itemView.history_recycleview_text.text = url
                     itemView.setOnClickListener {
                         val builder = AlertDialog.Builder(context)
                         builder.setTitle("다운로드")
