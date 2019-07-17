@@ -8,6 +8,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.*
 import android.widget.EditText
+import android.widget.GridLayout.VERTICAL
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
@@ -15,12 +16,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.content_download.*
 import java.io.BufferedWriter
 import java.io.FileWriter
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 
 
 class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -221,7 +225,7 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 medeadownload.visibility = View.VISIBLE
                 mAdapter = RecycleViewAdapter(3,this@DownloadActivity,result)
                 recycler.adapter = mAdapter
-                val lm = LinearLayoutManager(this@DownloadActivity)
+                val lm = StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL)
                 recycler.layoutManager = lm
                 recycler.setHasFixedSize(true)
                 checkvisibility = true

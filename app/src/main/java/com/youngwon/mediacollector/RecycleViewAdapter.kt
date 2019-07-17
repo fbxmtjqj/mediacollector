@@ -2,6 +2,8 @@ package com.youngwon.mediacollector
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -58,14 +60,15 @@ class RecycleViewAdapter(private val index:Int, val context: Context, private va
                     itemView.mediacheck.setOnCheckedChangeListener { _, isChecked ->
                         urlList[position] = CheckClass(urlList[position].url, isChecked)
                     }
-                    itemView.download_recycleview_text.text = url.split("/").last()
                     itemView.setOnClickListener {
                         urlList[position] = CheckClass(urlList[position].url, !urlList[position].selected)
                         itemView.mediacheck.isChecked = urlList[position].selected
                     }
                 }
                 4 -> {
-
+                    Log.e("테스트",url)
+                    Log.e("테스트uri", Uri.parse(url).toString())
+                    itemView.img.setImageURI(Uri.parse(url))
                 }
                 5 -> {
                     itemView.main_history_recycleview.text = url
