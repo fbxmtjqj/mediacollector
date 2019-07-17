@@ -16,10 +16,7 @@
             android:theme="@style/AppTheme"
             android:usesCleartextTraffic="true"
             tools:targetApi="m">
-        <activity
-                android:name=".SettingsActivity"
-                android:label="@string/title_activity_settings">
-        </activity>
+
         <activity
                 android:name=".StartActivity"
                 android:noHistory="true">
@@ -59,7 +56,12 @@
                 android:screenOrientation="portrait"
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
-
+        <activity
+                android:name=".SettingActivity"
+                android:label="@string/setting"
+                android:launchMode="singleTop"
+                android:theme="@style/AppTheme.NoActionBar">
+        </activity>
         <service
                 android:name=".DownloadService"
                 android:enabled="true"

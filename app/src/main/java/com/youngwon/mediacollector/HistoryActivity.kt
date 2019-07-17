@@ -110,7 +110,7 @@ class HistoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
                 finish()
             }
             R.id.nav_setting -> {
-
+                startActivity(Intent(this@HistoryActivity,SettingActivity::class.java))
             }
         }
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)

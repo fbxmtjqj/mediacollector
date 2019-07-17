@@ -115,14 +115,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.nav_history -> {
                 startActivity(Intent(this@MainActivity,HistoryActivity::class.java))
+                setStopService()
                 finish()
             }
             R.id.nav_download -> {
                 startActivity(Intent(this@MainActivity,DownloadActivity::class.java))
+                setStopService()
                 finish()
             }
             R.id.nav_setting -> {
-
+                startActivity(Intent(this@MainActivity,SettingActivity::class.java))
+                setStopService()
+                finish()
             }
         }
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)

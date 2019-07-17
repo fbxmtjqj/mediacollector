@@ -128,6 +128,7 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 startActivity(Intent(this@DownloadActivity, DownloadActivity::class.java))
             }
             R.id.nav_setting -> {
+                startActivity(Intent(this@DownloadActivity,SettingActivity::class.java))
             }
         }
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
