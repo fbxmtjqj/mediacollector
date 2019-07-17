@@ -67,7 +67,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             else { //만약 스위치를 Off시킨다면
                 ActiveText.text = "비활성화"
-                NotificationHelper(this@MainActivity).deleteNotification()
                 editor.putBoolean("switch", isChecked)
                 editor.commit()
                 setStopService()
@@ -157,6 +156,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             unbindService(mConnection)
             isBind = false
         }
+        NotificationHelper(this@MainActivity).deleteNotification()
         stopService(Intent(this@MainActivity, DownloadService::class.java)) // 서비스 종료
     }
     private val mMessenger = Messenger(Handler(Handler.Callback { msg ->

@@ -11,16 +11,22 @@ class MediaDownload(context: Context) {
 
     private val settings: SharedPreferences = context.getSharedPreferences("dico", AppCompatActivity.MODE_PRIVATE)
     fun mediadownload(url: String?): ArrayList<CheckClass>? {
-        val url1:Document
-        try {
-            url1 = Jsoup.connect(url).get()
-        } catch (e:Exception) {
-            return  null
+        var url1: Document? = null
+        var i = 0
+        while(i < 5) {
+            i += 1
+            try {
+                url1 = Jsoup.connect(url).get()
+            } catch (e: Exception) {
+            }
+        }
+        if(url == null) {
+            return null
         }
         val imgElements = if(settings.getInt("downloadmethod", 1) == 2) {
-            url1.select("img[src~=(?i)\\.(gif|png|jpe?g)]")
+            url1!!.select("img[src~=(?i)\\.(gif|png|jpe?g)]")
         } else {
-            url1.select("img")
+            url1!!.select("img")
         }
         val imgSrc = arrayListOf<CheckClass>()
         if (imgElements != null) {
