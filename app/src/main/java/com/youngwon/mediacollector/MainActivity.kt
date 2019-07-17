@@ -113,14 +113,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_home -> {
                 startActivity(Intent(this@MainActivity,MainActivity::class.java))
             }
-            R.id.nav_history -> {
-                startActivity(Intent(this@MainActivity,HistoryActivity::class.java))
-                setStopService()
-                finish()
-            }
             R.id.nav_download -> {
-                startActivity(Intent(this@MainActivity,DownloadActivity::class.java))
-                setStopService()
+                startActivity(Intent(this@MainActivity, DownloadActivity::class.java))
+            }
+            R.id.nav_file -> {
+            }
+            R.id.nav_history -> {
+                startActivity(Intent(this@MainActivity, HistoryActivity::class.java))
                 finish()
             }
             R.id.nav_setting -> {

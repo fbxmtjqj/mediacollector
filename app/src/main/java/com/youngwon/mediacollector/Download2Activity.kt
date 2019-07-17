@@ -64,11 +64,13 @@ class Download2Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
                 // Handle the camera action
                 alert(this@Download2Activity,MainActivity::class.java)
             }
-            R.id.nav_history -> {
-                alert(this@Download2Activity,HistoryActivity::class.java)
-            }
             R.id.nav_download -> {
                 alert(this@Download2Activity,DownloadActivity::class.java)
+            }
+            R.id.nav_file -> {
+            }
+            R.id.nav_history -> {
+                alert(this@Download2Activity,HistoryActivity::class.java)
             }
             R.id.nav_setting -> {
                 startActivity(Intent(this@Download2Activity,SettingActivity::class.java))

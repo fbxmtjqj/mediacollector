@@ -120,12 +120,14 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 startActivity(Intent(this@DownloadActivity, MainActivity::class.java))
                 finish()
             }
+            R.id.nav_download -> {
+                startActivity(Intent(this@DownloadActivity, DownloadActivity::class.java))
+            }
+            R.id.nav_file -> {
+            }
             R.id.nav_history -> {
                 startActivity(Intent(this@DownloadActivity, HistoryActivity::class.java))
                 finish()
-            }
-            R.id.nav_download -> {
-                startActivity(Intent(this@DownloadActivity, DownloadActivity::class.java))
             }
             R.id.nav_setting -> {
                 startActivity(Intent(this@DownloadActivity,SettingActivity::class.java))
