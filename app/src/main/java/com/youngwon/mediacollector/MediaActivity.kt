@@ -10,7 +10,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.navigation.NavigationView
+import kotlinx.android.synthetic.main.content_history.*
 import java.io.File
 
 
@@ -34,7 +36,13 @@ class MediaActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
 
         navView.setNavigationItemSelectedListener(this)
 
-        filelist(Environment.getExternalStorageDirectory().toString() + "/MediaDownloader")
+        fileList(null)
+
+        val mAdapter = RecycleViewAdapter(5, filelist, this@MediaActivity,this@MediaActivity)
+        history_recycleview.adapter = mAdapter
+        val lm = LinearLayoutManager(this@MediaActivity)
+        history_recycleview.layoutManager = lm
+        history_recycleview.setHasFixedSize(true)
     }
 
     override fun onBackPressed() {
@@ -77,11 +85,12 @@ class MediaActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
     override fun viewclick(value: String) {
     }
 
-    fun filelist(path: String) {
-        val files = File(path).listFiles()
-        for(i in files.indices) {
+    private fun fileList(path: String?) {
+        val filepath = Environment.getExternalStorageDirectory().toString() + "/MediaDownloader" + path
+        val files = File(filepath).listFiles()
+        for(i in files!!.indices) {
             Log.e("파일 출력",files[i].name)
-            if(File(path + "/" + files[i].name).isDirectory) {
+            if(File(filepath + "/" + files[i].name).isDirectory) {
                 filelist.add(CheckClass(files[i].name, true))
             } else {
                 filelist.add(CheckClass(files[i].name))
@@ -89,12 +98,12 @@ class MediaActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
         }
     }
 
-    fun filedelete(dir: String) {
+    fun fileDelete(dir: String) {
         val path = Environment.getExternalStorageDirectory().toString() + "/MediaDownloader/" + dir
         if(File(path).exists()) {
-            for(childFile in File(path).listFiles()) {
+            for(childFile in File(path).listFiles()!!) {
                 if(childFile.isDirectory) {
-                    filedelete(childFile.name)
+                    fileDelete(childFile.name)
                 } else {
                     childFile.delete()
                 }

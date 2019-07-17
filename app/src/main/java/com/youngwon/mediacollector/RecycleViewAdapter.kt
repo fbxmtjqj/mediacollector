@@ -20,9 +20,10 @@ class RecycleViewAdapter(private val index:Int, private val urlList: ArrayList<C
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
          view = when(index) {
-             2,5 -> LayoutInflater.from(context).inflate(R.layout.history_recycleview, parent, false)
+             2,6 -> LayoutInflater.from(context).inflate(R.layout.history_recycleview, parent, false)
              3 -> LayoutInflater.from(context).inflate(R.layout.download_recycleview, parent, false)
              4 -> LayoutInflater.from(context).inflate(R.layout.download2_recycleview, parent, false)
+             5 -> LayoutInflater.from(context).inflate(R.layout.media_recycleview, parent, false)
              else -> {
                  LayoutInflater.from(context).inflate(R.layout.download_recycleview, parent, false)
             }
@@ -61,7 +62,10 @@ class RecycleViewAdapter(private val index:Int, private val urlList: ArrayList<C
                 4 -> {
                     itemView.img.setImageURI(Uri.parse(url))
                 }
-                5 -> {
+                5-> {
+
+                }
+                6 -> {
                     itemView.history_recycleview_text.text = url
                     itemView.setOnClickListener {
                         val builder = AlertDialog.Builder(context)

@@ -45,7 +45,7 @@ class Download2Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         toggle.syncState()
         navView.setNavigationItemSelectedListener(this)
 
-        ImageDownload().execute(intent.getSerializableExtra(("urlCheckList")) as ArrayList<CheckClass>)
+        ImageDownload().execute(intent.getSerializableExtra("urlCheckList") as ArrayList<CheckClass>)
     }
 
     override fun onBackPressed() {

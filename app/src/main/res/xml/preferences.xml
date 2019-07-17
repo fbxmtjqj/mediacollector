@@ -23,7 +23,7 @@
                 app:summary="MediaDownloader"
                 app:defaultValue="MediaDownloader"
                 app:iconSpaceReserved="false"/>
-        <SwitchPreferenceCompat
+      <!--  <SwitchPreferenceCompat
                 app:key="Limit"
                 app:title="다운로드 제한"
                 app:iconSpaceReserved="false"
@@ -42,5 +42,5 @@
                 app:entries="@array/downloadlimit"
                 app:entryValues="@array/downloadlimit"
                 app:defaultValue="기본"
-                app:iconSpaceReserved="false"/>
+                app:iconSpaceReserved="false"/>-->
 </androidx.preference.PreferenceScreen>

@@ -1,12 +1,10 @@
 package com.youngwon.mediacollector
 
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.PreferenceManager
+
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -18,19 +16,38 @@ class SettingsActivity : AppCompatActivity() {
             .replace(R.id.settings, SettingsFragment())
             .commit()
         /*supportActionBar?.setDisplayHomeAsUpEnabled(true)*/
-        PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener { _: SharedPreferences, _: String ->
+/*        PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener { _: SharedPreferences, _: String ->
             fun onSharedPreferenceChanged( sharedPreferences :SharedPreferences,  key:String) {
                 val value = sharedPreferences.getString (key, "");
             }
-        };
-
+        };*/
     }
 
     class SettingsFragment : PreferenceFragmentCompat() {
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.preferences, rootKey)
-            Log.e("테스트", "changed> $rootKey");
+
+            /*setOnPreferenceChange(findPreference("MediaDownloader")!!)*/
         }
+
+
+     /*   private val onPreferenceChangeListener = Preference.OnPreferenceChangeListener { preference, newValue ->
+                InitPreference(preference, newValue)
+                true
+        }
+
+        fun InitPreference( preference: Preference,  newValue :Any){
+            val stringValue = newValue.toString()
+            Log.e("TEST", stringValue)
+        }
+
+        private fun setOnPreferenceChange(mPreference: Preference) {
+            mPreference.onPreferenceChangeListener = onPreferenceChangeListener
+            onPreferenceChangeListener.onPreferenceChange(
+                mPreference,
+                PreferenceManager.getDefaultSharedPreferences(mPreference.context).getBoolean(mPreference.key,false)
+            )
+        }*/
     }
 
     override fun onBackPressed() {
