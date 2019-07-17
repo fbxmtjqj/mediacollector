@@ -72,6 +72,7 @@
                 app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp" app:layout_constraintTop_toTopOf="parent"/>
+
         <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="378dp"
                 android:layout_height="218dp"
