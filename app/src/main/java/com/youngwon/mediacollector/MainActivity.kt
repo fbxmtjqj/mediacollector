@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.content_home.*
 import java.io.BufferedReader
+import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileReader
 
@@ -73,6 +74,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 setStopService()
             }
         }
+
+        if (!File(Environment.getExternalStorageDirectory().toString() + "/MediaDownloader").exists()) {
+            File(Environment.getExternalStorageDirectory().toString() + "/MediaDownloader").mkdir()
+        }
+
         val fileurl = arrayListOf<CheckClass>()
         try {
             val br = BufferedReader(FileReader(filesDir.toString() + "history.txt"))

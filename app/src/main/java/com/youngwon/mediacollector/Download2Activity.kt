@@ -136,9 +136,6 @@ class Download2Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
             val path = getExternalStorageDirectory().toString() + "/MediaDownloader/$title/"
 
             val folder = File(path)
-            if (!File(getExternalStorageDirectory().toString() + "/MediaDownloader").exists()) {
-                File(getExternalStorageDirectory().toString() + "/MediaDownloader").mkdir()
-            }
             if (!folder.exists()) {
                 folder.mkdirs()
                 if (!folder.mkdir()) {

@@ -2,6 +2,8 @@ package com.youngwon.mediacollector
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Environment
+import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -9,8 +11,12 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
+import java.io.File
+
 
 class MediaActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, RecycleViewClick {
+
+    var filelist = arrayListOf<CheckClass>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +33,8 @@ class MediaActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
         toggle.syncState()
 
         navView.setNavigationItemSelectedListener(this)
+
+        filelist(Environment.getExternalStorageDirectory().toString() + "/MediaDownloader")
     }
 
     override fun onBackPressed() {
@@ -68,4 +76,31 @@ class MediaActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
 
     override fun viewclick(value: String) {
     }
+
+    fun filelist(path: String) {
+        val files = File(path).listFiles()
+        for(i in files.indices) {
+            Log.e("파일 출력",files[i].name)
+            if(File(path + "/" + files[i].name).isDirectory) {
+                filelist.add(CheckClass(files[i].name, true))
+            } else {
+                filelist.add(CheckClass(files[i].name))
+            }
+        }
+    }
+
+    fun filedelete(dir: String) {
+        val path = Environment.getExternalStorageDirectory().toString() + "/MediaDownloader/" + dir
+        if(File(path).exists()) {
+            for(childFile in File(path).listFiles()) {
+                if(childFile.isDirectory) {
+                    filedelete(childFile.name)
+                } else {
+                    childFile.delete()
+                }
+            }
+            File(path).delete()
+        }
+    }
+
 }
