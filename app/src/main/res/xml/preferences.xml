@@ -18,29 +18,28 @@
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
         <EditTextPreference
-                app:key="MediaDownloader"
+                app:key="DownloadFolder"
                 app:title="다운로드 경로"
                 app:summary="MediaDownloader"
                 app:defaultValue="MediaDownloader"
+                app:singleLine="true"
                 app:iconSpaceReserved="false"/>
-      <!--  <SwitchPreferenceCompat
-                app:key="Limit"
+
+
+        <ListPreference
+                app:key="DownloadMethod"
                 app:title="다운로드 제한"
-                app:iconSpaceReserved="false"
-        />
+                app:summary="기본"
+                app:entries="@array/DownloadLimit"
+                app:entryValues="@array/DownloadLimit_value"
+                app:defaultValue="기본"
+                app:iconSpaceReserved="false"/>
+
         <EditTextPreference
-                app:key="100"
+                app:key="DownloadSize"
                 app:title="다운로드 사이즈 제한"
                 app:summary="100"
                 app:defaultValue="100"
-                app:iconSpaceReserved="false"
-                app:dependency="Limit"/>
-        <ListPreference
-                app:key="limit"
-                app:title="다운로드 확장자 제한"
-                app:summary="jpg"
-                app:entries="@array/downloadlimit"
-                app:entryValues="@array/downloadlimit"
-                app:defaultValue="기본"
-                app:iconSpaceReserved="false"/>-->
+                app:iconSpaceReserved="false"/>
+
 </androidx.preference.PreferenceScreen>

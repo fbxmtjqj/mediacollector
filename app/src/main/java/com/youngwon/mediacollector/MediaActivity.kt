@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.content_media.*
@@ -19,7 +20,7 @@ class MediaActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
 
     var filelist = arrayListOf<CheckClass>()
     private val mAdapter = RecycleViewAdapter(5, filelist, this@MediaActivity,this@MediaActivity)
-
+    private val parentFolder = PreferenceManager.getDefaultSharedPreferences(this@MediaActivity).getString("DownloadFolder", "MediaDownloader")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.media)
@@ -87,7 +88,7 @@ class MediaActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
     }
 
     private fun fileList(path: String?) {
-        val filepath = Environment.getExternalStorageDirectory().toString() + "/MediaDownloader/" + path
+        val filepath = Environment.getExternalStorageDirectory().toString() + "/$parentFolder/$path"
         val files = File(filepath).listFiles()
         if(files != null) {
             for (i in files.indices) {
@@ -101,7 +102,7 @@ class MediaActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
     }
 
     fun fileDelete(dir: String) {
-        val path = Environment.getExternalStorageDirectory().toString() + "/MediaDownloader/" + dir
+        val path = Environment.getExternalStorageDirectory().toString() + "/$parentFolder/$dir"
         if(File(path).exists()) {
             val filepath = File(path).listFiles()
             if(filepath != null) {

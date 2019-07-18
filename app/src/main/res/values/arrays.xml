@@ -5,9 +5,14 @@
         <item>Reply to all</item>
     </string-array>
 
-    <string-array name="downloadlimit">
+    <string-array name="DownloadLimit">
         <item>기본</item>
-        <item>확장자제한</item>
-        <item>사이즈제한</item>
+        <item>확장자 제한</item>
+        <item>사이즈 제한</item>
+    </string-array>
+    <string-array name="DownloadLimit_value">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
     </string-array>
 </resources>

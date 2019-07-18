@@ -2,8 +2,11 @@ package com.youngwon.mediacollector
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Environment
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.*
+import java.io.File
 
 
 class SettingsActivity : AppCompatActivity() {
@@ -16,38 +19,55 @@ class SettingsActivity : AppCompatActivity() {
             .replace(R.id.settings, SettingsFragment())
             .commit()
         /*supportActionBar?.setDisplayHomeAsUpEnabled(true)*/
-/*        PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener { _: SharedPreferences, _: String ->
-            fun onSharedPreferenceChanged( sharedPreferences :SharedPreferences,  key:String) {
-                val value = sharedPreferences.getString (key, "");
-            }
-        };*/
     }
 
     class SettingsFragment : PreferenceFragmentCompat() {
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.preferences, rootKey)
 
-            /*setOnPreferenceChange(findPreference("MediaDownloader")!!)*/
+            setOnPreferenceChange(findPreference("DownloadFolder"))
+            setOnPreferenceChange(findPreference("DownloadMethod"))
         }
 
+        private fun setOnPreferenceChange(mPreference: Preference?) {
+            mPreference!!.onPreferenceChangeListener = onPreferenceChangeListener
+            onPreferenceChangeListener.onPreferenceChange(mPreference, PreferenceManager.getDefaultSharedPreferences(mPreference.context).getString(mPreference.key, ""))
+        }
 
-     /*   private val onPreferenceChangeListener = Preference.OnPreferenceChangeListener { preference, newValue ->
-                InitPreference(preference, newValue)
+        private val onPreferenceChangeListener =
+            Preference.OnPreferenceChangeListener { preference, newValue ->
+                if (preference is EditTextPreference) {
+                    val folder = if(newValue.toString().isEmpty()) {
+                        preference.setSummary("MediaDownloader")
+                        File(Environment.getExternalStorageDirectory().toString() + "/MediaDownloader/")
+                    } else {
+                        preference.setSummary(newValue.toString())
+                        File(Environment.getExternalStorageDirectory().toString() + "/" + newValue.toString())
+                    }
+                    Log.e("테스ㅡㅌ", folder.toString())
+                    if (!folder.exists()) {
+                        folder.mkdirs()
+                        if (!folder.mkdir()) {
+                            folder.delete()
+                            folder.absoluteFile.delete()
+                            folder.mkdir()
+                        }
+                    } else if (!folder.isDirectory) {
+                        folder.delete()
+                        folder.mkdir()
+                    }
+                } else if (preference is ListPreference) {
+                    val index = preference.findIndexOfValue(newValue.toString())
+
+                    preference.setSummary(
+                            if (index >= 0)
+                                preference.entries[index]
+                            else
+                                null
+                        )
+                }
                 true
-        }
-
-        fun InitPreference( preference: Preference,  newValue :Any){
-            val stringValue = newValue.toString()
-            Log.e("TEST", stringValue)
-        }
-
-        private fun setOnPreferenceChange(mPreference: Preference) {
-            mPreference.onPreferenceChangeListener = onPreferenceChangeListener
-            onPreferenceChangeListener.onPreferenceChange(
-                mPreference,
-                PreferenceManager.getDefaultSharedPreferences(mPreference.context).getBoolean(mPreference.key,false)
-            )
-        }*/
+            }
     }
 
     override fun onBackPressed() {

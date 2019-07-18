@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.content_download2.*
@@ -118,7 +119,7 @@ class Download2Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
             var output: OutputStream? = null
             var connection: HttpURLConnection? = null
             val title = Jsoup.connect(intent.getStringExtra("url")).get().title().split(" ")[0]
-            val path = getExternalStorageDirectory().toString() + "/MediaDownloader/$title/"
+            val path = getExternalStorageDirectory().toString() + "/" + PreferenceManager.getDefaultSharedPreferences(this@Download2Activity).getString("DownloadFolder", "MediaDownloader") + "/$title/"
 
             val folder = File(path)
             if (!folder.exists()) {
