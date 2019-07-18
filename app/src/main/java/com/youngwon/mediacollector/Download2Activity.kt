@@ -185,7 +185,7 @@ class Download2Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
                         }
                         filenamelist.add(CheckClass("file://$path/$filename"))
                         input = connection.inputStream
-                        output = FileOutputStream(path + filename)
+                        output = FileOutputStream("$path/$filename")
                         val data = ByteArray(4096)
                         var count = 0
                         while (count != -1) {

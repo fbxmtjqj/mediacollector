@@ -73,6 +73,6 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        startActivity(Intent(this@SettingsActivity, MainActivity::class.java))
+        startActivity(Intent(this@SettingsActivity, MainActivity::class.java).putExtra("setting","setting"))
     }
 }
