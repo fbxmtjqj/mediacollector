@@ -219,7 +219,7 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 medeadownload.visibility = View.VISIBLE
                 mAdapter = RecycleViewAdapter(3, result,this@DownloadActivity,this@DownloadActivity)
                 recycler.adapter = mAdapter
-                recycler.layoutManager = GridLayoutManager(this@DownloadActivity,2)
+                recycler.layoutManager = GridLayoutManager(this@DownloadActivity,3)
                 recycler.setHasFixedSize(true)
                 checkvisibility = true
                 Toast.makeText(this@DownloadActivity,"다운받을 이미지를 클릭 해주세요",Toast.LENGTH_LONG).show()
