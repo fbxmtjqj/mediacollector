@@ -24,6 +24,7 @@ import org.jsoup.Jsoup
 import java.io.*
 import java.net.HttpURLConnection
 import java.net.URL
+import kotlin.random.Random
 
 
 class Download2Activity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, RecycleViewClick {
@@ -123,9 +124,9 @@ class Download2Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
             var output: OutputStream? = null
             var connection: HttpURLConnection? = null
             val title = Jsoup.connect(intent.getStringExtra("url")).get().title().split(" ")[0]
-            val path = getExternalStorageDirectory().toString() + "/$parentFolder/$title/"
+            val path = getExternalStorageDirectory().toString() + "/$parentFolder/$title"
 
-            val folder = File(path)
+            val folder = File("$path/")
             if (!folder.exists()) {
                 folder.mkdirs()
                 if (!folder.mkdir()) {
@@ -136,6 +137,8 @@ class Download2Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
             } else if (!folder.isDirectory) {
                 folder.delete()
                 folder.mkdir()
+            } else {
+                File(path + Random.nextInt(5)+"/").mkdir()
             }
 
             urllist = list[0]!!
@@ -180,7 +183,7 @@ class Download2Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
                         if (connection.responseCode != HttpURLConnection.HTTP_OK) {
                             Log.e("http에러","Server returned HTTP "+connection.responseCode + " " + connection.responseMessage)
                         }
-                        filenamelist.add(CheckClass("file://" + (path + filename)))
+                        filenamelist.add(CheckClass("file://$path/$filename"))
                         input = connection.inputStream
                         output = FileOutputStream(path + filename)
                         val data = ByteArray(4096)

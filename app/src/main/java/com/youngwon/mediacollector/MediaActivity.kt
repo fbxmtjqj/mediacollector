@@ -101,9 +101,9 @@ class MediaActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
         if(files != null) {
             for (i in files.indices) {
                 if (File(filepath + "/" + files[i].name).isDirectory) {
-                    filelist.add(CheckClass("file://" + filepath + files[i].name, true))
+                    filelist.add(0, CheckClass("file://" + filepath + files[i].name, true))
                 } else {
-                    filelist.add(CheckClass("file://" + filepath + files[i].name))
+                    filelist.add(0, CheckClass("file://" + filepath + files[i].name))
                 }
             }
         }
