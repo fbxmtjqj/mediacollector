@@ -161,7 +161,7 @@ class Download2Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
                             if(url.split(".").size == 1) {
                                 filename += ".jpg"
                             } else {
-                                filename = filename + "." + url.split(".")[1]
+                                filename = filename + "." + url.split(".").last()
                             }
                         } catch (e: ArrayIndexOutOfBoundsException) {
                         }

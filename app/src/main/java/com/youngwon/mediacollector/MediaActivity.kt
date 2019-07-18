@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.content_media.*
@@ -90,11 +89,13 @@ class MediaActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
     private fun fileList(path: String?) {
         val filepath = Environment.getExternalStorageDirectory().toString() + "/MediaDownloader/" + path
         val files = File(filepath).listFiles()
-        for(i in files.indices) {
-            if(File(filepath + "/" + files[i].name).isDirectory) {
-                filelist.add(CheckClass("file://" +filepath+files[i].name, true))
-            } else {
-                filelist.add(CheckClass("file://" +filepath+files[i].name))
+        if(files != null) {
+            for (i in files.indices) {
+                if (File(filepath + "/" + files[i].name).isDirectory) {
+                    filelist.add(CheckClass("file://" + filepath + files[i].name, true))
+                } else {
+                    filelist.add(CheckClass("file://" + filepath + files[i].name))
+                }
             }
         }
     }
@@ -102,11 +103,14 @@ class MediaActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
     fun fileDelete(dir: String) {
         val path = Environment.getExternalStorageDirectory().toString() + "/MediaDownloader/" + dir
         if(File(path).exists()) {
-            for(childFile in File(path).listFiles()) {
-                if(childFile.isDirectory) {
-                    fileDelete(childFile.name)
-                } else {
-                    childFile.delete()
+            val filepath = File(path).listFiles()
+            if(filepath != null) {
+                for (childFile in filepath) {
+                    if (childFile.isDirectory) {
+                        fileDelete(childFile.name)
+                    } else {
+                        childFile.delete()
+                    }
                 }
             }
             File(path).delete()
