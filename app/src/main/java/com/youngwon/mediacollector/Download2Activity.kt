@@ -113,7 +113,7 @@ class Download2Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
             dialog.dismiss()
             val mAdapter = RecycleViewAdapter(4, filenamelist,this@Download2Activity,this@Download2Activity)
             download2_recycleview.adapter = mAdapter
-            download2_recycleview.layoutManager = GridLayoutManager(this@Download2Activity,2)
+            download2_recycleview.layoutManager = GridLayoutManager(this@Download2Activity,3)
             download2_recycleview.setHasFixedSize(true)
         }
 
