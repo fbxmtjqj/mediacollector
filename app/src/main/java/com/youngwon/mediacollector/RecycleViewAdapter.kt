@@ -6,8 +6,6 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
-import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -63,7 +61,6 @@ class RecycleViewAdapter(private val index:Int, private val urlList: ArrayList<C
                     }
                     itemView.mediacheck.setOnCheckedChangeListener { _, isChecked ->
                         urlList[position] = CheckClass(urlList[position].url, isChecked)
-                        itemView.mediacheck.visibility= View.VISIBLE
                     }
                     itemView.setOnClickListener {
                         urlList[position] = CheckClass(urlList[position].url, !urlList[position].selected)

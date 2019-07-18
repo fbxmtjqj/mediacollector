@@ -19,7 +19,6 @@ class SettingsActivity : AppCompatActivity() {
             .replace(R.id.settings, SettingsFragment())
             .commit()
 
-
         /*supportActionBar?.setDisplayHomeAsUpEnabled(true)*/
     }
 
