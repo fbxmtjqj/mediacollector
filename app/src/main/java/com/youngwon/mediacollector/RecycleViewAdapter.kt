@@ -51,13 +51,21 @@ class RecycleViewAdapter(private val index:Int, private val urlList: ArrayList<C
                     Glide.with(itemView.context).load(url)
                         .into(itemView.img)
                     itemView.mediacheck.setOnCheckedChangeListener(null)
-                    itemView.mediacheck.isChecked = urlList[position].selected
+                    itemView.mediacheck.visibility = if(urlList[position].selected) {
+                        View.VISIBLE
+                    } else {
+                        View.INVISIBLE
+                    }
                     itemView.mediacheck.setOnCheckedChangeListener { _, isChecked ->
                         urlList[position] = CheckClass(urlList[position].url, isChecked)
                     }
                     itemView.setOnClickListener {
                         urlList[position] = CheckClass(urlList[position].url, !urlList[position].selected)
-                        itemView.mediacheck.isChecked = urlList[position].selected
+                        itemView.mediacheck.visibility = if(urlList[position].selected) {
+                            View.VISIBLE
+                        } else {
+                            View.INVISIBLE
+                        }
                     }
                 }
                 4 -> {

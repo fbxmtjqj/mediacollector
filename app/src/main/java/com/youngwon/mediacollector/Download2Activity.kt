@@ -135,11 +135,17 @@ class Download2Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
 
             urllist = list[0]!!
             for(i in urllist.indices) {
-                publishProgress(i)
                 if(urllist[i].selected) {
-                    val url = urllist[i].url.split("/").last()
+                    val url = if(urllist[i].url.contains("dcinside")) {
+                        urllist[i].url
+                    } else {
+                        urllist[i].url.split("/").last()
+                    }
                     var filename:String
-                    if(temp == url) {
+                    if(urllist[i].url.contains("dcinside")) {
+                        filename = "img$i.jpg"
+                    }
+                    else if(temp == url) {
                         filename = url.split(".")[0]
                         try {
                             if(url.split(".").size == 1) {
@@ -192,6 +198,7 @@ class Download2Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
                 if(i == urllist.size-1) {
                     dialog.dismiss()
                 }
+                publishProgress(i)
             }
             return true
         }
