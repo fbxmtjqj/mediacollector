@@ -31,12 +31,12 @@ class MediaDownload(context: Context) {
             for(i in imgElements) {
                 if(settings.getString("DownloadMethod", "1")!!.toInt() == 3) {
                     try {
-                        if (Integer.parseInt(i.attr("width")) > (settings.getString("DownloadSize", "0")!!.toInt()) &&
-                            Integer.parseInt(i.attr("height")) > (settings.getString("DownloadSize", "0")!!.toInt())) {
+                        if (Integer.parseInt(i.attr("width")) > (settings.getString("DownloadSize", "100")!!.toInt()) &&
+                            Integer.parseInt(i.attr("height")) > (settings.getString("DownloadSize", "100")!!.toInt())) {
                             imgSrc.add(CheckClass(i.attr("src")))
                         }
                     } catch (e: NumberFormatException) {
-                        Log.e("테스트e", e.toString())
+                        Log.e("NumberFormatException", e.toString())
                     }
                 } else {
                     imgSrc.add(CheckClass(i.attr("src")))

@@ -124,7 +124,7 @@ class Download2Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
             var output: OutputStream? = null
             var connection: HttpURLConnection? = null
             val title = Jsoup.connect(intent.getStringExtra("url")).get().title().split(" ")[0]
-            val path = getExternalStorageDirectory().toString() + "/$parentFolder/$title"
+            var path = getExternalStorageDirectory().toString() + "/$parentFolder/$title"
 
             val folder = File("$path/")
             if (!folder.exists()) {
@@ -138,7 +138,8 @@ class Download2Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
                 folder.delete()
                 folder.mkdir()
             } else {
-                File(path + Random.nextInt(5)+"/").mkdir()
+                path = path + Random.nextInt(1000) + "/"
+                File(path).mkdir()
             }
 
             urllist = list[0]!!
