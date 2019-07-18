@@ -12,7 +12,7 @@
         <ListPreference
                 app:key="DownloadMethod"
                 app:title="다운로드 제한"
-                app:summary="기본"
+                app:summary="제한을 하게 되면 보이던 이미지도 안보일수도 있습니다."
                 app:entries="@array/DownloadLimit"
                 app:entryValues="@array/DownloadLimit_value"
                 app:defaultValue="1"
@@ -23,6 +23,7 @@
                 app:title="다운로드 사이즈 제한"
                 app:summary="사이즈 제한 일때만 적용됩니다."
                 app:defaultValue="100"
+                app:singleLine="true"
                 app:iconSpaceReserved="false"/>
 
 </androidx.preference.PreferenceScreen>

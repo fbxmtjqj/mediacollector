@@ -6,6 +6,8 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
+import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -21,6 +23,7 @@ class RecycleViewAdapter(private val index:Int, private val urlList: ArrayList<C
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
          view = when(index) {
+             1 -> LayoutInflater.from(context).inflate(R.layout.media_recycleview,parent,false)
              2,6 -> LayoutInflater.from(context).inflate(R.layout.history_recycleview, parent, false)
              3 -> LayoutInflater.from(context).inflate(R.layout.download_recycleview, parent, false)
              4 -> LayoutInflater.from(context).inflate(R.layout.download2_recycleview, parent, false)
@@ -41,9 +44,11 @@ class RecycleViewAdapter(private val index:Int, private val urlList: ArrayList<C
     }
 
     inner class Holder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
-
         fun bind(url: String, index: Int, position: Int) {
             when(index) {
+                1 -> {
+                    
+                }
                 2 -> {
                     itemView.history_recycleview_text.text = url
                 }
@@ -58,6 +63,7 @@ class RecycleViewAdapter(private val index:Int, private val urlList: ArrayList<C
                     }
                     itemView.mediacheck.setOnCheckedChangeListener { _, isChecked ->
                         urlList[position] = CheckClass(urlList[position].url, isChecked)
+                        itemView.mediacheck.visibility= View.VISIBLE
                     }
                     itemView.setOnClickListener {
                         urlList[position] = CheckClass(urlList[position].url, !urlList[position].selected)
