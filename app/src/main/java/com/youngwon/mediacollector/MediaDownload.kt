@@ -21,7 +21,7 @@ class MediaDownload(context: Context) {
         if(url == null) {
             return null
         }
-        val imgElements = if(settings.getInt("DownloadMethod", 1) == 2) {
+        val imgElements = if(settings.getString("DownloadMethod", "1")!!.toInt() == 2) {
             url1!!.select("img[src~=(?i)\\.(gif|png|jpe?g)]")
         } else {
             url1!!.select("img")
@@ -29,10 +29,10 @@ class MediaDownload(context: Context) {
         val imgSrc = arrayListOf<CheckClass>()
         if (imgElements != null) {
             for(i in imgElements) {
-                if(settings.getInt("DownloadMethod", 1) == 3) {
+                if(settings.getString("DownloadMethod", "1")!!.toInt() == 3) {
                     try {
-                        if (Integer.parseInt(i.attr("width")) > (settings.getInt("DownloadSize", 0)) &&
-                            Integer.parseInt(i.attr("height")) > (settings.getInt("DownloadSize", 0))) {
+                        if (Integer.parseInt(i.attr("width")) > (settings.getString("DownloadSize", "0")!!.toInt()) &&
+                            Integer.parseInt(i.attr("height")) > (settings.getString("DownloadSize", "0")!!.toInt())) {
                             imgSrc.add(CheckClass(i.attr("src")))
                         }
                     } catch (e: NumberFormatException) {

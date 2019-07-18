@@ -30,6 +30,8 @@ class Download2Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
 
     @SuppressLint("InflateParams")
     val filenamelist =  arrayListOf<CheckClass>()
+    private var parentFolder: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.download2)
@@ -44,6 +46,8 @@ class Download2Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
         navView.setNavigationItemSelectedListener(this)
+
+        parentFolder = PreferenceManager.getDefaultSharedPreferences(this@Download2Activity).getString("DownloadFolder", "MediaDownloader")
 
         ImageDownload().execute(intent.getSerializableExtra("urlCheckList") as ArrayList<CheckClass>)
     }
@@ -119,7 +123,7 @@ class Download2Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
             var output: OutputStream? = null
             var connection: HttpURLConnection? = null
             val title = Jsoup.connect(intent.getStringExtra("url")).get().title().split(" ")[0]
-            val path = getExternalStorageDirectory().toString() + "/" + PreferenceManager.getDefaultSharedPreferences(this@Download2Activity).getString("DownloadFolder", "MediaDownloader") + "/$title/"
+            val path = getExternalStorageDirectory().toString() + "/$parentFolder/$title/"
 
             val folder = File(path)
             if (!folder.exists()) {

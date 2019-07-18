@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.preference.PreferenceManager
+import androidx.preference.PreferenceManager.getDefaultSharedPreferences
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.content_media.*
@@ -20,7 +20,8 @@ class MediaActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
 
     var filelist = arrayListOf<CheckClass>()
     private val mAdapter = RecycleViewAdapter(5, filelist, this@MediaActivity,this@MediaActivity)
-    private val parentFolder = PreferenceManager.getDefaultSharedPreferences(this@MediaActivity).getString("DownloadFolder", "MediaDownloader")
+    private var parentFolder: String? = null
+    /*val st = parentFolder*/
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.media)
@@ -37,8 +38,10 @@ class MediaActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
 
         navView.setNavigationItemSelectedListener(this)
 
+        parentFolder = getDefaultSharedPreferences(this).getString("DownloadFolder", "MediaDownloader")
+        
         fileList("")
-
+        
         media_recycleview.adapter = mAdapter
         media_recycleview.layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
         media_recycleview.setHasFixedSize(true)

@@ -1,9 +1,9 @@
 package com.youngwon.mediacollector
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Environment
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.*
 import java.io.File
@@ -36,6 +36,8 @@ class SettingsActivity : AppCompatActivity() {
 
         private val onPreferenceChangeListener =
             Preference.OnPreferenceChangeListener { preference, newValue ->
+                val settings: SharedPreferences = preference.sharedPreferences
+                val editor: SharedPreferences.Editor = settings.edit()
                 if (preference is EditTextPreference) {
                     val folder = if(newValue.toString().isEmpty()) {
                         preference.setSummary("MediaDownloader")
@@ -44,7 +46,6 @@ class SettingsActivity : AppCompatActivity() {
                         preference.setSummary(newValue.toString())
                         File(Environment.getExternalStorageDirectory().toString() + "/" + newValue.toString())
                     }
-                    Log.e("테스ㅡㅌ", folder.toString())
                     if (!folder.exists()) {
                         folder.mkdirs()
                         if (!folder.mkdir()) {
