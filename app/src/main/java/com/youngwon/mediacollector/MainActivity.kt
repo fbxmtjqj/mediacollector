@@ -15,6 +15,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.preference.PreferenceManager
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.content_home.*
@@ -25,6 +26,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private var parentFolder: String? = null
     private var oldparentFolder: String? = null
+    private var media = ArrayList<CheckClass>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main)
@@ -111,10 +113,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             br.close()
         } catch (e: FileNotFoundException) {
         }
-        val mAdapter = RecycleViewAdapter(2, fileurl,this@MainActivity,this@MainActivity)
-        history_recycleview_text.adapter = mAdapter
+        val mAdapter1 = RecycleViewAdapter(2, fileurl,this@MainActivity,this@MainActivity)
+        history_recycleview_text.adapter = mAdapter1
         history_recycleview_text.layoutManager = LinearLayoutManager(this@MainActivity)
         history_recycleview_text.setHasFixedSize(true)
+
+
+        testssss = "$testssss/$parentFolder/"
+        test("")
+        val mAdapter2 = RecycleViewAdapter(1, media,this@MainActivity,this@MainActivity)
+        recycleview.adapter = mAdapter2
+        recycleview.layoutManager = GridLayoutManager(this@MainActivity,3)
+        recycleview.setHasFixedSize(true)
     }
 
     override fun onBackPressed() {
@@ -247,13 +257,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val files = File(filepath).listFiles()
         if(files != null) {
             for (i in files.indices) {
-                val test = filepath + "/" + files[i].name
                 if (File(files[i].name).isDirectory) {
                     if (!File(newfilepath + "/" + files[i].name).exists()) {
                         File(newfilepath + "/" + files[i].name).mkdir()
                     }
                     fileMove(files[i].name)
-                    File(test).delete()
+                    File(filepath + "/" + files[i].name).delete()
                     filepath = filepath.substring(0, filepath.length - files[i].name.length - 2)
                     newfilepath = newfilepath.substring(0, newfilepath.length - files[i].name.length - 2)
                 } else {
@@ -282,6 +291,33 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                             oldFile.delete()
                         }
                     }
+                }
+            }
+        }
+    }
+
+    fun testt() : ArrayList<CheckClass>{
+        test("")
+
+        return media
+    }
+
+    private var testssss = Environment.getExternalStorageDirectory().toString()
+    fun test(name: String) {
+        testssss = "$testssss$name"
+        Log.e("테스트",testssss)
+        var temp = 0
+        val files = File(testssss).listFiles()
+        if(files != null) {
+            for (i in files.indices) {
+                if (File(testssss + files[i].name).isDirectory) {
+                    test(files[i].name+"/")
+                } else {
+                    media.add(CheckClass("file://" + testssss + files[i].name))
+                }
+                temp += 1
+                if(temp == 5) {
+                    break
                 }
             }
         }

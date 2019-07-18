@@ -21,11 +21,10 @@ class RecycleViewAdapter(private val index:Int, private val urlList: ArrayList<C
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
          view = when(index) {
-             1 -> LayoutInflater.from(context).inflate(R.layout.media_recycleview,parent,false)
+             1,5 -> LayoutInflater.from(context).inflate(R.layout.media_recycleview,parent,false)
              2,6 -> LayoutInflater.from(context).inflate(R.layout.history_recycleview, parent, false)
              3 -> LayoutInflater.from(context).inflate(R.layout.download_recycleview, parent, false)
              4 -> LayoutInflater.from(context).inflate(R.layout.download2_recycleview, parent, false)
-             5 -> LayoutInflater.from(context).inflate(R.layout.media_recycleview, parent, false)
              else -> {
                  LayoutInflater.from(context).inflate(R.layout.download_recycleview, parent, false)
             }
@@ -45,7 +44,8 @@ class RecycleViewAdapter(private val index:Int, private val urlList: ArrayList<C
         fun bind(url: String, index: Int, position: Int) {
             when(index) {
                 1 -> {
-                    
+                    itemView.img.setImageURI(Uri.parse(url))
+                    itemView.media_text.text = null
                 }
                 2 -> {
                     itemView.history_recycleview_text.text = url

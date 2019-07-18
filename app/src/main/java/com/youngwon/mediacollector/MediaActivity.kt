@@ -3,6 +3,7 @@ package com.youngwon.mediacollector
 import android.content.Intent
 import android.os.Bundle
 import android.os.Environment
+import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -20,7 +21,7 @@ class MediaActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
 
     var filelist = arrayListOf<CheckClass>()
     private val mAdapter = RecycleViewAdapter(5, filelist, this@MediaActivity,this@MediaActivity)
-    private var parentFolder: String? = null
+    private var mainfolder: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +39,8 @@ class MediaActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
 
         navView.setNavigationItemSelectedListener(this)
 
-        parentFolder = getDefaultSharedPreferences(this).getString("DownloadFolder", "MediaDownloader")
+        mainfolder = getDefaultSharedPreferences(this).getString("DownloadFolder", "MediaDownloader")
+        filepath = "$filepath/$mainfolder"
 
         if (intent.hasExtra("file")) {
             fileList(intent.getStringExtra("file"))
@@ -52,12 +54,15 @@ class MediaActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
     }
 
     override fun onBackPressed() {
-        val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START)
+        finish()
+        val parentfolder = filepath.substring(0, filepath.length - 1).split("/").last()
+        Log.e("테스트", parentfolder)
+        Log.e("테스트", filepath)
+        if(mainfolder == parentfolder) {
+            startActivity(Intent(this@MediaActivity, MainActivity::class.java))
         } else {
-            startActivity(Intent(this@MediaActivity,MainActivity::class.java))
             finish()
+            startActivity(intent.putExtra("file","$parentfolder/"))
         }
     }
 
@@ -94,13 +99,13 @@ class MediaActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
         finish()
         startActivity(intent.putExtra("file","$value/"))
     }
-
+    var filepath = Environment.getExternalStorageDirectory().toString()
     private fun fileList(path: String?) {
-        val filepath = Environment.getExternalStorageDirectory().toString() + "/$parentFolder/$path"
+        filepath = "$filepath/$path"
         val files = File(filepath).listFiles()
         if(files != null) {
             for (i in files.indices) {
-                if (File(filepath + "/" + files[i].name).isDirectory) {
+                if (File(filepath + files[i].name).isDirectory) {
                     filelist.add(0, CheckClass("file://" + filepath + files[i].name, true))
                 } else {
                     filelist.add(0, CheckClass("file://" + filepath + files[i].name))
@@ -110,7 +115,7 @@ class MediaActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
     }
 
     fun fileDelete(dir: String) {
-        val path = Environment.getExternalStorageDirectory().toString() + "/$parentFolder/$dir"
+        val path = Environment.getExternalStorageDirectory().toString() + "/$mainfolder/$dir"
         if(File(path).exists()) {
             val filepath = File(path).listFiles()
             if(filepath != null) {
