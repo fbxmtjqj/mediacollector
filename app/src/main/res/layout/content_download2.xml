@@ -11,9 +11,10 @@
         tools:showIn="@layout/download2"
         tools:context=".Download2Activity">
 
-    <androidx.recyclerview.widget.RecyclerView
+    <com.youngwon.mediacollector.GridRecyclerView
             android:layout_width="0dp"
             android:layout_height="wrap_content" android:id="@+id/download2_recycleview"
+            android:layoutAnimation="@anim/recycle_layout_anim"
             app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

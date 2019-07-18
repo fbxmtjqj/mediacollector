@@ -15,7 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.content_download.*
@@ -219,8 +219,7 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 medeadownload.visibility = View.VISIBLE
                 mAdapter = RecycleViewAdapter(3, result,this@DownloadActivity,this@DownloadActivity)
                 recycler.adapter = mAdapter
-                val lm = StaggeredGridLayoutManager(3,StaggeredGridLayoutManager.VERTICAL)
-                recycler.layoutManager = lm
+                recycler.layoutManager = GridLayoutManager(this@DownloadActivity,2)
                 recycler.setHasFixedSize(true)
                 checkvisibility = true
                 Toast.makeText(this@DownloadActivity,"다운받을 이미지를 클릭 해주세요",Toast.LENGTH_LONG).show()

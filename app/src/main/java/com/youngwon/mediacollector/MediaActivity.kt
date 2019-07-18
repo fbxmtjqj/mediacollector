@@ -10,7 +10,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.preference.PreferenceManager.getDefaultSharedPreferences
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.content_media.*
 import java.io.File
@@ -21,7 +21,7 @@ class MediaActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
     var filelist = arrayListOf<CheckClass>()
     private val mAdapter = RecycleViewAdapter(5, filelist, this@MediaActivity,this@MediaActivity)
     private var parentFolder: String? = null
-    /*val st = parentFolder*/
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.media)
@@ -39,11 +39,15 @@ class MediaActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
         navView.setNavigationItemSelectedListener(this)
 
         parentFolder = getDefaultSharedPreferences(this).getString("DownloadFolder", "MediaDownloader")
-        
-        fileList("")
-        
+
+        if (intent.hasExtra("file")) {
+            fileList(intent.getStringExtra("file"))
+        } else {
+            fileList("")
+        }
+
         media_recycleview.adapter = mAdapter
-        media_recycleview.layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
+        media_recycleview.layoutManager = GridLayoutManager(this@MediaActivity,3)
         media_recycleview.setHasFixedSize(true)
     }
 
@@ -87,7 +91,8 @@ class MediaActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
     override fun viewclick(value: String) {
         filelist.clear()
         fileList("$value/")
-        mAdapter.notifyDataSetChanged()
+        finish()
+        startActivity(intent.putExtra("file","$value/"))
     }
 
     private fun fileList(path: String?) {

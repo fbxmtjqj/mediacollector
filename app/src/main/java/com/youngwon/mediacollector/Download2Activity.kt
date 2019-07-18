@@ -16,7 +16,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.preference.PreferenceManager
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.content_download2.*
 import kotlinx.android.synthetic.main.progressbar2.view.*
@@ -113,7 +113,7 @@ class Download2Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
             dialog.dismiss()
             val mAdapter = RecycleViewAdapter(4, filenamelist,this@Download2Activity,this@Download2Activity)
             download2_recycleview.adapter = mAdapter
-            download2_recycleview.layoutManager = StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL)
+            download2_recycleview.layoutManager = GridLayoutManager(this@Download2Activity,2)
             download2_recycleview.setHasFixedSize(true)
         }
 

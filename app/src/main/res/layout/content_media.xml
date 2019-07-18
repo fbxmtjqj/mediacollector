@@ -18,9 +18,10 @@
             tools:ignore="MissingConstraints,UnknownIdInLayout"
     >
 
-        <androidx.recyclerview.widget.RecyclerView
+        <com.youngwon.mediacollector.GridRecyclerView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content" android:id="@+id/media_recycleview"
+                android:layoutAnimation="@anim/recycle_layout_anim"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
