@@ -3,7 +3,6 @@ package com.youngwon.mediacollector
 import android.annotation.SuppressLint
 import android.content.*
 import android.os.*
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -24,9 +23,13 @@ import java.io.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, RecycleViewClick {
 
-    private var parentFolder: String? = null
-    private var oldparentFolder: String? = null
+    private val externalStoragePath = Environment.getExternalStorageDirectory().toString()
+    private var oldFilePath = externalStoragePath
+    private var newFilePath = externalStoragePath
+    private var mediaRvPath = externalStoragePath
     private var media = ArrayList<CheckClass>()
+    private var mediaRVTemp = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main)
@@ -40,10 +43,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         )
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
-
         navView.setNavigationItemSelectedListener(this)
 
-        parentFolder = PreferenceManager.getDefaultSharedPreferences(this@MainActivity).getString("DownloadFolder", "MediaDownloader")
+        val mainFolder = PreferenceManager.getDefaultSharedPreferences(this@MainActivity).getString("DownloadFolder", "MediaDownloader")
+        val settings: SharedPreferences = getSharedPreferences("dico", MODE_PRIVATE)
+        val editor: SharedPreferences.Editor = settings.edit()
+        val fileUrl = arrayListOf<CheckClass>()
 
         MediaView.setOnClickListener{
             startActivity(Intent(this@MainActivity,DownloadActivity::class.java))
@@ -57,8 +62,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             finish()
         }
 
-        val settings: SharedPreferences = getSharedPreferences("dico", MODE_PRIVATE)
-        val editor: SharedPreferences.Editor = settings.edit()
         if(settings.getBoolean("switch", false)) {
             setStartService()
             ActiveText.text = "활성화"
@@ -84,45 +87,44 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
 
         if(settings.getBoolean("first", true)) {
-            if (!File(Environment.getExternalStorageDirectory().toString() + "/MediaDownloader").exists()) {
-                File(Environment.getExternalStorageDirectory().toString() + "/MediaDownloader").mkdir()
+            if (!File("$externalStoragePath/MediaDownloader").exists()) {
+                File("$externalStoragePath/MediaDownloader").mkdir()
             }
             editor.putBoolean("first", false)
             editor.putString("FolderName", "MediaDownloader")
             editor.apply()
         }
+
         if (intent.hasExtra("setting")) {
-            oldparentFolder = settings.getString("FolderName", "MediaDownloader")
-            if(oldparentFolder != parentFolder) {
-                newfilepath = newfilepath + "/" +  PreferenceManager.getDefaultSharedPreferences(this@MainActivity).getString("DownloadFolder", "MediaDownloader")
-                filepath = filepath + "/" + settings.getString("FolderName", "MediaDownloader")
-                editor.putString("FolderName", parentFolder)
+            val oldParentFolder = settings.getString("FolderName", "MediaDownloader")
+            if(oldParentFolder != mainFolder) {
+                newFilePath = newFilePath + "/" +  PreferenceManager.getDefaultSharedPreferences(this@MainActivity).getString("DownloadFolder", "MediaDownloader")
+                oldFilePath = oldFilePath + "/" + settings.getString("FolderName", "MediaDownloader")
+                editor.putString("FolderName", mainFolder)
                 editor.apply()
                 FileMoveAsyncTask().execute("")
             }
         }
 
-        val fileurl = arrayListOf<CheckClass>()
         try {
             val br = BufferedReader(FileReader(filesDir.toString() + "history.txt"))
             var str = br.readLine()
             while (str != null) {
-                fileurl.add(0,CheckClass(str))
+                fileUrl.add(0,CheckClass(str))
                 str = br.readLine()
             }
             br.close()
         } catch (e: FileNotFoundException) {
         }
-        val mAdapter1 = RecycleViewAdapter(2, fileurl,this@MainActivity,this@MainActivity)
-        history_recycleview_text.adapter = mAdapter1
+
+        history_recycleview_text.adapter = RecycleViewAdapter(2, fileUrl,this@MainActivity,this@MainActivity)
         history_recycleview_text.layoutManager = LinearLayoutManager(this@MainActivity)
         history_recycleview_text.setHasFixedSize(true)
 
 
-        testssss = "$testssss/$parentFolder/"
-        test("")
-        val mAdapter2 = RecycleViewAdapter(1, media,this@MainActivity,this@MainActivity)
-        recycleview.adapter = mAdapter2
+        mediaRvPath = "$mediaRvPath/$mainFolder/"
+        mediaRV("")
+        recycleview.adapter = RecycleViewAdapter(1, media,this@MainActivity,this@MainActivity)
         recycleview.layoutManager = GridLayoutManager(this@MainActivity,3)
         recycleview.setHasFixedSize(true)
     }
@@ -176,7 +178,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
-    override fun viewclick(value: String) {
+    override fun viewClick(value: String) {
     }
 
     private var isBind: Boolean = false
@@ -221,10 +223,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         false
     }))
 
-    @SuppressLint("StaticFieldLeak")
     inner class FileMoveAsyncTask : AsyncTask<String, String, Boolean>() {
 
-        @SuppressLint("InflateParams")
         private val dialogView: View = LayoutInflater.from(this@MainActivity).inflate(R.layout.progressbar, null)
         private val alert: AlertDialog.Builder = AlertDialog.Builder(this@MainActivity).setView(dialogView).setCancelable(false)
         private val dialog: AlertDialog = alert.create()
@@ -235,39 +235,34 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
 
         override fun doInBackground(vararg url: String?): Boolean {
-            fileMove(" ")
+            fileMove("")
+            dialog.dismiss()
             return true
         }
 
         @SuppressLint("RestrictedApi")
         override fun onPostExecute(result: Boolean) {
             super.onPostExecute(result)
-            dialog.dismiss()
         }
     }
 
-    private var filepath = Environment.getExternalStorageDirectory().toString()
-    private var newfilepath = Environment.getExternalStorageDirectory().toString()
     fun fileMove(name: String){
-        Log.e("테스트",name)
-        if(name != " ") {
-            filepath = "$filepath/$name"
-            newfilepath = "$newfilepath/$name"
-        }
-        val files = File(filepath).listFiles()
+        oldFilePath = "$oldFilePath/$name"
+        newFilePath = "$newFilePath/$name"
+        val files = File(oldFilePath).listFiles()
         if(files != null) {
             for (i in files.indices) {
                 if (File(files[i].name).isDirectory) {
-                    if (!File(newfilepath + "/" + files[i].name).exists()) {
-                        File(newfilepath + "/" + files[i].name).mkdir()
+                    if (!File(newFilePath + "/" + files[i].name).exists()) {
+                        File(newFilePath + "/" + files[i].name).mkdir()
                     }
                     fileMove(files[i].name)
-                    File(filepath + "/" + files[i].name).delete()
-                    filepath = filepath.substring(0, filepath.length - files[i].name.length - 2)
-                    newfilepath = newfilepath.substring(0, newfilepath.length - files[i].name.length - 2)
+                    File(oldFilePath + "/" + files[i].name).delete()
+                    oldFilePath = oldFilePath.substring(0, oldFilePath.length - files[i].name.length - 2)
+                    newFilePath = newFilePath.substring(0, newFilePath.length - files[i].name.length - 2)
                 } else {
-                    val oldFile = File(filepath + "/" + files[i].name)
-                    val newFile = File(newfilepath + "/" + files[i].name)
+                    val oldFile = File(oldFilePath + "/" + files[i].name)
+                    val newFile = File(newFilePath + "/" + files[i].name)
                     if(!oldFile.renameTo(newFile)) {
                         var fin: FileInputStream? = null
                         var fout: FileOutputStream? = null
@@ -282,12 +277,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                             }
                         } catch (e: IOException) {
                         } finally {
-                            if (fin != null) {
-                                fin.close()
-                            }
-                            if (fout != null) {
-                                fout.close()
-                            }
+                            fin?.close()
+                            fout?.close()
                             oldFile.delete()
                         }
                     }
@@ -296,27 +287,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
-    fun testt() : ArrayList<CheckClass>{
-        test("")
-
-        return media
-    }
-
-    private var testssss = Environment.getExternalStorageDirectory().toString()
-    fun test(name: String) {
-        testssss = "$testssss$name"
-        Log.e("테스트",testssss)
-        var temp = 0
-        val files = File(testssss).listFiles()
+    private fun mediaRV(name: String) {
+        mediaRvPath = "$mediaRvPath$name"
+        val files = File(mediaRvPath).listFiles()
         if(files != null) {
             for (i in files.indices) {
-                if (File(testssss + files[i].name).isDirectory) {
-                    test(files[i].name+"/")
+                if (File(mediaRvPath + files[i].name).isDirectory) {
+                    mediaRV(files[files.size-i-1].name+"/")
                 } else {
-                    media.add(CheckClass("file://" + testssss + files[i].name))
+                    media.add(CheckClass("file://" + mediaRvPath + files[i].name))
                 }
-                temp += 1
-                if(temp == 5) {
+                mediaRVTemp += 1
+                if(mediaRVTemp >= 5) {
                     break
                 }
             }

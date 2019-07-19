@@ -11,7 +11,6 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.content_history.*
 import java.io.BufferedReader
@@ -27,7 +26,6 @@ class HistoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         setContentView(R.layout.history)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
         val toggle = ActionBarDrawerToggle(
@@ -36,8 +34,6 @@ class HistoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
         navView.setNavigationItemSelectedListener(this)
-
-        val historydelete: FloatingActionButton = findViewById(R.id.historydelete)
 
         historydelete.setOnClickListener{
             try {
@@ -62,7 +58,7 @@ class HistoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         createRv()
     }
 
-    override fun viewclick(value: String) {
+    override fun viewClick(value: String) {
     }
 
     override fun onBackPressed() {
@@ -102,24 +98,22 @@ class HistoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         return true
     }
 
-    fun createRv() {
-        val fileurl = arrayListOf<CheckClass>()
+    private fun createRv() {
+        val history = arrayListOf<CheckClass>()
         try {
             val br = BufferedReader(FileReader(filesDir.toString() + "history.txt"))
             var str = br.readLine()
             // 파일로부터 한 라인 읽기.
             while (str != null) {
-                fileurl.add(0,CheckClass(str))
+                history.add(0,CheckClass(str))
                 str = br.readLine()
             }
             br.close()
         } catch (e: FileNotFoundException) {
             e.printStackTrace()
         }
-        val mAdapter = RecycleViewAdapter(6, fileurl, this@HistoryActivity,this@HistoryActivity)
-        history_recycleview.adapter = mAdapter
-        val lm = LinearLayoutManager(this@HistoryActivity)
-        history_recycleview.layoutManager = lm
+        history_recycleview.adapter = RecycleViewAdapter(6, history, this@HistoryActivity,this@HistoryActivity)
+        history_recycleview.layoutManager = LinearLayoutManager(this@HistoryActivity)
         history_recycleview.setHasFixedSize(true)
     }
 }

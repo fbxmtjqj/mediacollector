@@ -3,7 +3,6 @@ package com.youngwon.mediacollector
 import android.content.Intent
 import android.os.Bundle
 import android.os.Environment
-import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -19,9 +18,9 @@ import java.io.File
 
 class MediaActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, RecycleViewClick {
 
-    var filelist = arrayListOf<CheckClass>()
-    private val mAdapter = RecycleViewAdapter(5, filelist, this@MediaActivity,this@MediaActivity)
-    private var mainfolder: String? = null
+    private var fileList = arrayListOf<CheckClass>()
+    private var mainFolder: String? = null
+    private var filepath: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,33 +35,30 @@ class MediaActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
         )
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
-
         navView.setNavigationItemSelectedListener(this)
 
-        mainfolder = getDefaultSharedPreferences(this).getString("DownloadFolder", "MediaDownloader")
-        filepath = "$filepath/$mainfolder"
+        mainFolder = getDefaultSharedPreferences(this).getString("DownloadFolder", "MediaDownloader")
+        /*filepath = "$filepath/$mainFolder"*/
 
         if (intent.hasExtra("file")) {
-            fileList(intent.getStringExtra("file"))
+            addFileList(intent.getStringExtra("file"))
         } else {
-            fileList("")
+            addFileList(Environment.getExternalStorageDirectory().toString() + "/$mainFolder")
         }
 
-        media_recycleview.adapter = mAdapter
+        media_recycleview.adapter = RecycleViewAdapter(5, fileList, this@MediaActivity,this@MediaActivity)
         media_recycleview.layoutManager = GridLayoutManager(this@MediaActivity,3)
         media_recycleview.setHasFixedSize(true)
     }
 
     override fun onBackPressed() {
+        val nowFolderPath = filepath!!.substring(0, filepath!!.length - 1).split("/").last()
+        val parentFolderPath = filepath!!.substring(0, filepath!!.length - nowFolderPath.length - 1)
         finish()
-        val parentfolder = filepath.substring(0, filepath.length - 1).split("/").last()
-        Log.e("테스트", parentfolder)
-        Log.e("테스트", filepath)
-        if(mainfolder == parentfolder) {
+        if(filepath == (Environment.getExternalStorageDirectory().toString() + "/$mainFolder/")) {
             startActivity(Intent(this@MediaActivity, MainActivity::class.java))
         } else {
-            finish()
-            startActivity(intent.putExtra("file","$parentfolder/"))
+            startActivity(intent.putExtra("file", parentFolderPath))
         }
     }
 
@@ -93,29 +89,28 @@ class MediaActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
         return true
     }
 
-    override fun viewclick(value: String) {
-        filelist.clear()
-        fileList("$value/")
-        finish()
-        startActivity(intent.putExtra("file","$value/"))
+    override fun viewClick(value: String) {
+        fileList.clear()
+        if(File(value.substring(7)).isDirectory) {
+            finish()
+            startActivity(intent.putExtra("file", value.substring(7)))
+        }
     }
-    var filepath = Environment.getExternalStorageDirectory().toString()
-    private fun fileList(path: String?) {
-        filepath = "$filepath/$path"
+
+    private fun addFileList(path: String?) {
+        filepath = "$path/"
         val files = File(filepath).listFiles()
-        if(files != null) {
-            for (i in files.indices) {
-                if (File(filepath + files[i].name).isDirectory) {
-                    filelist.add(0, CheckClass("file://" + filepath + files[i].name, true))
-                } else {
-                    filelist.add(0, CheckClass("file://" + filepath + files[i].name))
-                }
+        for (i in files.indices) {
+            if (File(filepath + files[i].name).isDirectory) {
+                fileList.add(0, CheckClass("file://" + filepath + files[i].name, true))
+            } else {
+                fileList.add(0, CheckClass("file://" + filepath + files[i].name))
             }
         }
     }
 
     fun fileDelete(dir: String) {
-        val path = Environment.getExternalStorageDirectory().toString() + "/$mainfolder/$dir"
+        val path = Environment.getExternalStorageDirectory().toString() + "/$mainFolder/$dir"
         if(File(path).exists()) {
             val filepath = File(path).listFiles()
             if(filepath != null) {
@@ -130,5 +125,4 @@ class MediaActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
             File(path).delete()
         }
     }
-
 }

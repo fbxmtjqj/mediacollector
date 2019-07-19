@@ -1,7 +1,6 @@
 package com.youngwon.mediacollector
 
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Environment
 import androidx.appcompat.app.AppCompatActivity
@@ -19,7 +18,6 @@ class SettingsActivity : AppCompatActivity() {
             .replace(R.id.settings, SettingsFragment())
             .commit()
 
-        /*supportActionBar?.setDisplayHomeAsUpEnabled(true)*/
     }
 
     class SettingsFragment : PreferenceFragmentCompat() {
@@ -37,8 +35,6 @@ class SettingsActivity : AppCompatActivity() {
 
         private val onPreferenceChangeListener =
             Preference.OnPreferenceChangeListener { preference, newValue ->
-                val settings: SharedPreferences = preference.sharedPreferences
-                val editor: SharedPreferences.Editor = settings.edit()
                 if (preference is EditTextPreference) {
                     val folder = if(newValue.toString().isEmpty()) {
                         preference.setSummary("MediaDownloader")

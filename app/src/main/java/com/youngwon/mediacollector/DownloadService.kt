@@ -11,19 +11,6 @@ class DownloadService : ClipboardManager.OnPrimaryClipChangedListener,Service() 
 
     private var mManager: ClipboardManager? = null
     private var i = true
-    override fun onPrimaryClipChanged() {
-        if (mManager != null && mManager!!.primaryClip != null) {
-            val data = mManager?.primaryClip?.getItemAt(0)?.text
-            if(data!!.contains("http",true)) {
-                i = if (i) {
-                    sendMsgToActivity(data as String)
-                    false
-                } else {
-                    true
-                }
-            }
-        }
-    }
 
     override fun onBind(intent: Intent): IBinder {
         return mMessenger.binder
@@ -40,6 +27,19 @@ class DownloadService : ClipboardManager.OnPrimaryClipChangedListener,Service() 
         mManager?.removePrimaryClipChangedListener(this)
     }
 
+    override fun onPrimaryClipChanged() {
+        if (mManager != null && mManager!!.primaryClip != null) {
+            val data = mManager?.primaryClip?.getItemAt(0)?.text
+            if(data!!.contains("http",true)) {
+                i = if (i) {
+                    sendMsgToActivity(data as String)
+                    false
+                } else {
+                    true
+                }
+            }
+        }
+    }
 
     private val mMessenger = Messenger(Handler(Handler.Callback { msg ->
         when (msg.what) {
@@ -53,10 +53,10 @@ class DownloadService : ClipboardManager.OnPrimaryClipChangedListener,Service() 
     val SEND_TO_ACTIVITY = 4
     val MSG_REGISTER_CLIENT = 1
     private var mClient: Messenger? = null
-    private fun sendMsgToActivity(sendurl: String) {
+    private fun sendMsgToActivity(sendUrl: String) {
         try {
             val bundle = Bundle()
-            bundle.putString("url", sendurl)
+            bundle.putString("url", sendUrl)
             val msg = Message.obtain(null, SEND_TO_ACTIVITY)
             msg.data = bundle
             if (mClient != null) {
@@ -65,21 +65,4 @@ class DownloadService : ClipboardManager.OnPrimaryClipChangedListener,Service() 
         } catch (e: RemoteException) {
         }
     }
-
-    /*
-    private val mIBinder = MyBinder()
-
-    internal inner class MyBinder : Binder() {
-        fun getService(): DownloadService {
-            return this@DownloadService
-        }
-    }
-
-    override fun onCreate() {
-        super.onCreate()
-    }
-
-    override fun onUnbind(intent: Intent): Boolean {
-        return super.onUnbind(intent)
-    }*/
 }
