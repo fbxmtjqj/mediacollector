@@ -51,15 +51,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val fileUrl = arrayListOf<CheckClass>()
 
         MediaView.setOnClickListener{
-            startActivity(Intent(this@MainActivity,DownloadActivity::class.java))
+            startActivity(Intent(this@MainActivity,MediaActivity::class.java))
             setStopService()
-            finish()
         }
 
         HistoryView.setOnClickListener{
             startActivity(Intent(this@MainActivity,HistoryActivity::class.java))
             setStopService()
-            finish()
         }
 
         if(settings.getBoolean("switch", false)) {
@@ -155,22 +153,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_download -> {
                 startActivity(Intent(this@MainActivity, DownloadActivity::class.java))
                 setStopService()
-                finish()
             }
             R.id.nav_file -> {
                 startActivity(Intent(this@MainActivity, MediaActivity::class.java))
                 setStopService()
-                finish()
             }
             R.id.nav_history -> {
                 startActivity(Intent(this@MainActivity, HistoryActivity::class.java))
                 setStopService()
-                finish()
             }
             R.id.nav_setting -> {
                 startActivity(Intent(this@MainActivity,SettingsActivity::class.java))
                 setStopService()
-                finish()
             }
         }
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
@@ -217,7 +211,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 Toast.makeText(this@MainActivity,"URL 복사됨", Toast.LENGTH_LONG).show()
                 startActivity(Intent(this@MainActivity,DownloadActivity::class.java).putExtra("url",url))
                 setStopService()
-                finish()
             }
         }
         false

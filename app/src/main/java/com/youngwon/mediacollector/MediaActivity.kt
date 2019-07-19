@@ -43,7 +43,7 @@ class MediaActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
         if (intent.hasExtra("file")) {
             addFileList(intent.getStringExtra("file"))
         } else {
-            addFileList(Environment.getExternalStorageDirectory().toString() + "/$mainFolder")
+            addFileList(Environment.getExternalStorageDirectory().toString() + "/$mainFolder/")
         }
 
         media_recycleview.adapter = RecycleViewAdapter(5, fileList, this@MediaActivity,this@MediaActivity)
@@ -93,12 +93,12 @@ class MediaActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
         fileList.clear()
         if(File(value.substring(7)).isDirectory) {
             finish()
-            startActivity(intent.putExtra("file", value.substring(7)))
+            startActivity(intent.putExtra("file", value.substring(7) + "/"))
         }
     }
 
     private fun addFileList(path: String?) {
-        filepath = "$path/"
+        filepath = "$path"
         val files = File(filepath).listFiles()
         for (i in files.indices) {
             if (File(filepath + files[i].name).isDirectory) {
