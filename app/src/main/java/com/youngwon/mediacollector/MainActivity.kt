@@ -123,7 +123,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         mediaRvPath = "$mediaRvPath/$mainFolder/"
         mediaRV("")
         recycleview.adapter = RecycleViewAdapter(1, media,this@MainActivity,this@MainActivity)
-        recycleview.layoutManager = GridLayoutManager(this@MainActivity,3)
+        recycleview.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false);
         recycleview.setHasFixedSize(true)
     }
 
