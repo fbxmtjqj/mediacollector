@@ -41,7 +41,7 @@ class MediaActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
         /*filepath = "$filepath/$mainFolder"*/
 
         if (intent.hasExtra("file")) {
-            addFileList(intent.getStringExtra("file"))
+            addFileList(intent.getStringExtra("file")!!)
         } else {
             addFileList(Environment.getExternalStorageDirectory().toString() + "/$mainFolder/")
         }
@@ -97,9 +97,9 @@ class MediaActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
         }
     }
 
-    private fun addFileList(path: String?) {
-        filepath = "$path"
-        val files = File(filepath).listFiles()
+    private fun addFileList(path: String) {
+        filepath = path
+        val files = File(filepath!!).listFiles()!!
         for (i in files.indices) {
             if (File(filepath + files[i].name).isDirectory) {
                 fileList.add(0, CheckClass("file://" + filepath + files[i].name, true))

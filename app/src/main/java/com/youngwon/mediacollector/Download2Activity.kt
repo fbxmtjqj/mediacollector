@@ -100,13 +100,11 @@ class Download2Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
             val percent = (i[0]!!.plus(1)) * 100 / (downloadList.size+1)
             dialogView.downloadprogress.progress = percent
             dialogView.downloadprogresstext.text = ("$percent%").toString()
-            dialog.dismiss()
         }
 
         override fun onPostExecute(result: Boolean) {
             super.onPostExecute(result)
-            val mAdapter = RecycleViewAdapter(4, fileList,this@Download2Activity,this@Download2Activity)
-            download2_recycleview.adapter = mAdapter
+            download2_recycleview.adapter = RecycleViewAdapter(4, fileList,this@Download2Activity,this@Download2Activity)
             download2_recycleview.layoutManager = GridLayoutManager(this@Download2Activity,3)
             download2_recycleview.setHasFixedSize(true)
         }
@@ -133,14 +131,14 @@ class Download2Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
 
             for(i in downloadList.indices) {
                 if(downloadList[i].check) {
-                    val url = if(downloadList[i].str.contains("dcinside")) {
+                    val url = if(downloadList[i].str.contains("gall.dcinside.com")) {
                         downloadList[i].str
                     } else {
                         downloadList[i].str.split("/").last()
                     }
                     var filename:String
                     when {
-                        downloadList[i].str.contains("dcinside") -> filename = "img$i.jpg"
+                        downloadList[i].str.contains("gall.dcinside.com") -> filename = "img$i.jpg"
                         temp == url -> {
                             filename = url.split(".")[0]
                             try {
@@ -163,6 +161,9 @@ class Download2Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
                             } catch (e: ArrayIndexOutOfBoundsException) {
                             }
                         }
+                    }
+                    if(filename.split("?").size == 2) {
+                        filename = filename.substring(0, filename.length - filename.split("?").last().length - 1)
                     }
                     temp = downloadList[i].str.split("/").last()
                     try {
@@ -199,6 +200,7 @@ class Download2Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
                 publishProgress(i)
             }
             publishProgress(downloadList.size)
+            dialog.dismiss()
             return true
         }
     }
