@@ -58,9 +58,6 @@ class HistoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         createRv()
     }
 
-    override fun viewClick(value: String) {
-    }
-
     override fun onBackPressed() {
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -96,6 +93,12 @@ class HistoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    override fun viewClick(value: String) {
+    }
+
+    override fun deleteClick(value: String) {
     }
 
     private fun createRv() {

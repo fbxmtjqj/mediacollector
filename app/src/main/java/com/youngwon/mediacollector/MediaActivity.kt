@@ -3,6 +3,7 @@ package com.youngwon.mediacollector
 import android.content.Intent
 import android.os.Bundle
 import android.os.Environment
+import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -21,6 +22,7 @@ class MediaActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
     private var fileList = arrayListOf<CheckClass>()
     private var mainFolder: String? = null
     private var filepath: String? = null
+    private var mAdapter: RecycleViewAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +49,8 @@ class MediaActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
             supportActionBar?.title = mainFolder
         }
 
-        media_recycleview.adapter = RecycleViewAdapter(5, fileList, this@MediaActivity,this@MediaActivity)
+        mAdapter = RecycleViewAdapter(5, fileList, this@MediaActivity,this@MediaActivity)
+        media_recycleview.adapter = mAdapter
         media_recycleview.layoutManager = GridLayoutManager(this@MediaActivity,3)
         media_recycleview.setHasFixedSize(true)
     }
@@ -98,8 +101,20 @@ class MediaActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
         }
     }
 
+    override fun deleteClick(value: String) {
+        if(File(value.substring(7)).isDirectory) {
+            fileDelete(value.substring(7))
+        } else {
+            File(value.substring(7)).delete()
+        }
+        fileList.clear()
+        addFileList(value.substring(7, value.length - value.substring(0, value.length - 1).split("/").last().length - 1))
+        mAdapter!!.notifyDataSetChanged()
+    }
+
     private fun addFileList(path: String) {
         filepath = path
+        Log.e("테스트",filepath!!)
         val files = File(filepath!!).listFiles()!!
         for (i in files.indices) {
             if (File(filepath + files[i].name).isDirectory) {
@@ -110,12 +125,12 @@ class MediaActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
         }
     }
 
-/*    fun fileDelete(dir: String) {
-        val path = Environment.getExternalStorageDirectory().toString() + "/$mainFolder/$dir"
-        if(File(path).exists()) {
-            val filepath = File(path).listFiles()
+    private fun fileDelete(str: String) {
+        if(File(str).exists()) {
+            val filepath = File(str).listFiles()
             if(filepath != null) {
                 for (childFile in filepath) {
+                    Log.e("테스트",childFile.name)
                     if (childFile.isDirectory) {
                         fileDelete(childFile.name)
                     } else {
@@ -123,7 +138,7 @@ class MediaActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
                     }
                 }
             }
-            File(path).delete()
+            File(str).delete()
         }
-    }*/
+    }
 }
