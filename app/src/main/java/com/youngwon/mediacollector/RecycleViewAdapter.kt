@@ -10,7 +10,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.download_recycleview.view.*
-import kotlinx.android.synthetic.main.download_recycleview.view.img
 import kotlinx.android.synthetic.main.history_recycleview.view.*
 import kotlinx.android.synthetic.main.media_recycleview.view.*
 import java.io.File
@@ -24,8 +23,7 @@ class RecycleViewAdapter(private val index:Int, private val urlList: ArrayList<C
          view = when(index) {
              1,5 -> LayoutInflater.from(context).inflate(R.layout.media_recycleview,parent,false)
              2,6 -> LayoutInflater.from(context).inflate(R.layout.history_recycleview, parent, false)
-             3 -> LayoutInflater.from(context).inflate(R.layout.download_recycleview, parent, false)
-             4 -> LayoutInflater.from(context).inflate(R.layout.download2_recycleview, parent, false)
+             3,4 -> LayoutInflater.from(context).inflate(R.layout.download_recycleview, parent, false)
              else -> {
                  LayoutInflater.from(context).inflate(R.layout.download_recycleview, parent, false)
             }
@@ -45,15 +43,15 @@ class RecycleViewAdapter(private val index:Int, private val urlList: ArrayList<C
         fun bind(str: String, index: Int, position: Int) {
             when(index) {
                 1 -> {
-                    itemView.img.setImageURI(Uri.parse(str))
-                    itemView.media_text.text = null
+                    itemView.media_recycleView_img.setImageURI(Uri.parse(str))
+                    itemView.media_recycleView_text.text = null
                 }
                 2 -> {
                     itemView.history_recycleview_text.text = str
                 }
                 3 -> {
                     Glide.with(itemView.context).load(str)
-                        .into(itemView.img)
+                        .into(itemView.download_recycleView_img)
                     itemView.mediacheck.setOnCheckedChangeListener(null)
                     itemView.mediacheck.visibility = if(urlList[position].check) {
                         View.VISIBLE
@@ -73,15 +71,15 @@ class RecycleViewAdapter(private val index:Int, private val urlList: ArrayList<C
                     }
                 }
                 4 -> {
-                    itemView.img.setImageURI(Uri.parse(str))
+                    itemView.download_recycleView_img.setImageURI(Uri.parse(str))
                 }
                 5-> {
                     if(urlList[position].check) {
-                        itemView.img.setImageResource(R.drawable.ic_folder)
-                        itemView.media_text.text = urlList[position].str.split("/").last()
+                        itemView.media_recycleView_img.setImageResource(R.drawable.ic_folder)
+                        itemView.media_recycleView_text.text = urlList[position].str.split("/").last()
                     }else {
-                        itemView.img.setImageURI(Uri.parse(str))
-                        itemView.media_text.text = null
+                        itemView.media_recycleView_img.setImageURI(Uri.parse(str))
+                        itemView.media_recycleView_text.text = null
                     }
                     itemView.setOnClickListener {
                         if(File(urlList[position].str.substring(7)).isDirectory) {

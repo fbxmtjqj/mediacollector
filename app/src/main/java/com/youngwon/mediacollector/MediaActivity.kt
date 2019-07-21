@@ -38,12 +38,13 @@ class MediaActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
         navView.setNavigationItemSelectedListener(this)
 
         mainFolder = getDefaultSharedPreferences(this).getString("DownloadFolder", "MediaDownloader")
-        /*filepath = "$filepath/$mainFolder"*/
 
         if (intent.hasExtra("file")) {
             addFileList(intent.getStringExtra("file")!!)
+            supportActionBar?.title = intent.getStringExtra("file")!!.substring(0, intent.getStringExtra("file")!!.length - 1).split("/").last()
         } else {
             addFileList(Environment.getExternalStorageDirectory().toString() + "/$mainFolder/")
+            supportActionBar?.title = mainFolder
         }
 
         media_recycleview.adapter = RecycleViewAdapter(5, fileList, this@MediaActivity,this@MediaActivity)

@@ -34,11 +34,11 @@
             android:background="@android:color/transparent"
             android:id="@+id/url_clear"
             app:layout_constraintEnd_toEndOf="@+id/urlinputedit"
-            android:layout_marginEnd="8dp" android:layout_marginRight="8dp"
             app:layout_constraintTop_toTopOf="@+id/urlinputedit"
             app:layout_constraintBottom_toBottomOf="@+id/urlinputedit"
-            app:layout_constraintVertical_bias="0.562" android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp" android:contentDescription="@string/clear"/>
+            app:layout_constraintVertical_bias="0.562"
+            android:contentDescription="@string/clear" android:layout_marginEnd="8dp" android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"/>
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -61,18 +61,17 @@
             android:layout_height="wrap_content"
             android:tint="#ffffff"
             android:src="@drawable/ic_download" app:backgroundTint="#FF8EA0"
-            android:layout_marginBottom="16dp"
             app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="16dp" android:layout_marginRight="16dp" />
+            android:layout_marginBottom="@dimen/fab_margin" android:layout_marginEnd="@dimen/fab_margin"/>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/medeadownload"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility = "invisible"
+            android:visibility="invisible"
             android:tint="#ffffff"
             android:src="@drawable/ic_download" app:backgroundTint="#FF8EA0"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="@dimen/fab_margin"
             app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="16dp" android:layout_marginRight="16dp" />
+            android:layout_marginEnd="@dimen/fab_margin"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
