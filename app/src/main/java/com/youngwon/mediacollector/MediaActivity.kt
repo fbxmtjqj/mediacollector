@@ -3,7 +3,6 @@ package com.youngwon.mediacollector
 import android.content.Intent
 import android.os.Bundle
 import android.os.Environment
-import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -114,7 +113,6 @@ class MediaActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
 
     private fun addFileList(path: String) {
         filepath = path
-        Log.e("테스트",filepath!!)
         val files = File(filepath!!).listFiles()!!
         for (i in files.indices) {
             if (File(filepath + files[i].name).isDirectory) {
@@ -130,7 +128,6 @@ class MediaActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
             val filepath = File(str).listFiles()
             if(filepath != null) {
                 for (childFile in filepath) {
-                    Log.e("테스트",childFile.name)
                     if (childFile.isDirectory) {
                         fileDelete(childFile.name)
                     } else {
