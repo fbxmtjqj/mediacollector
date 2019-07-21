@@ -7,7 +7,7 @@
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
         android:background="@color/colorPrimary"
-        tools:context=".Download2Activity">
+        tools:context=".Download2Activity" android:id="@+id/download2">
 
     <com.google.android.material.appbar.AppBarLayout
             android:layout_height="wrap_content"

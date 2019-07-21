@@ -43,21 +43,21 @@ class DownloadService : ClipboardManager.OnPrimaryClipChangedListener,Service() 
 
     private val mMessenger = Messenger(Handler(Handler.Callback { msg ->
         when (msg.what) {
-            DownloadService().MSG_REGISTER_CLIENT -> {
+            DownloadService().msgRegisterClient -> {
                 mClient = msg.replyTo
             }
         }
         false
     }))
 
-    val SEND_TO_ACTIVITY = 4
-    val MSG_REGISTER_CLIENT = 1
+    val sendToActivity = 4
+    val msgRegisterClient = 1
     private var mClient: Messenger? = null
     private fun sendMsgToActivity(sendUrl: String) {
         try {
             val bundle = Bundle()
             bundle.putString("url", sendUrl)
-            val msg = Message.obtain(null, SEND_TO_ACTIVITY)
+            val msg = Message.obtain(null, sendToActivity)
             msg.data = bundle
             if (mClient != null) {
                 mClient!!.send(msg)

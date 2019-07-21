@@ -1,6 +1,5 @@
 package com.youngwon.mediacollector
 
-import android.annotation.SuppressLint
 import android.content.*
 import android.os.*
 import android.view.LayoutInflater
@@ -16,7 +15,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.navigation.NavigationView
-import kotlinx.android.synthetic.main.content_home.*
+import kotlinx.android.synthetic.main.content_main.*
 import java.io.*
 
 
@@ -118,11 +117,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         history_recycleview_text.layoutManager = LinearLayoutManager(this@MainActivity)
         history_recycleview_text.setHasFixedSize(true)
 
-
         mediaRvPath = "$mediaRvPath/$mainFolder/"
         mediaRV("")
         recycleview.adapter = RecycleViewAdapter(1, media,this@MainActivity,this@MainActivity)
-        recycleview.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false);
+        recycleview.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false)
         recycleview.setHasFixedSize(true)
     }
 
@@ -183,7 +181,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         //서비스가 실행될 때 호출
         override fun onServiceConnected(name: ComponentName, service: IBinder) {
             mServiceMessenger = Messenger(service)
-            val msg = Message.obtain(null, DownloadService().MSG_REGISTER_CLIENT)
+            val msg = Message.obtain(null, DownloadService().msgRegisterClient)
             msg.replyTo = mMessenger
             mServiceMessenger?.send(msg)
         }
@@ -208,7 +206,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
     private val mMessenger = Messenger(Handler(Handler.Callback { msg ->
         when (msg.what) {
-            DownloadService().SEND_TO_ACTIVITY -> {
+            DownloadService().sendToActivity -> {
                 val url = msg.data.getString("url")
                 Toast.makeText(this@MainActivity,"URL 복사됨", Toast.LENGTH_LONG).show()
                 startActivity(Intent(this@MainActivity,DownloadActivity::class.java).putExtra("url",url))
@@ -220,7 +218,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     inner class FileMoveAsyncTask : AsyncTask<String, String, Boolean>() {
 
-        private val dialogView: View = LayoutInflater.from(this@MainActivity).inflate(R.layout.progressbar, null)
+        private val dialogView: View = LayoutInflater.from(this@MainActivity).inflate(R.layout.progressbar, findViewById(R.id.main),false)
         private val alert: AlertDialog.Builder = AlertDialog.Builder(this@MainActivity).setView(dialogView).setCancelable(false)
         private val dialog: AlertDialog = alert.create()
 
@@ -234,14 +232,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             dialog.dismiss()
             return true
         }
-
-        @SuppressLint("RestrictedApi")
-        override fun onPostExecute(result: Boolean) {
-            super.onPostExecute(result)
-        }
     }
 
-    fun fileMove(name: String){
+    private fun fileMove(name: String){
         oldFilePath = "$oldFilePath/$name"
         newFilePath = "$newFilePath/$name"
         val files = File(oldFilePath).listFiles()

@@ -22,17 +22,11 @@ import androidx.recyclerview.widget.RecyclerView
  */
 class GridRecyclerView : RecyclerView {
 
-    /** @see View.View
-     */
-    constructor(context: Context) : super(context) {}
+    constructor(context: Context) : super(context)
 
-    /** @see View.View
-     */
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {}
+    constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
 
-    /** @see View.View
-     */
-    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {}
+    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle)
 
     override fun attachLayoutAnimationParameters(
         child: View, params: ViewGroup.LayoutParams,

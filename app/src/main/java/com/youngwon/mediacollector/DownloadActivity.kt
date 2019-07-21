@@ -172,7 +172,7 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
     inner class DownloadAsync : AsyncTask<String, String, ArrayList<CheckClass>?>() {
 
-        private val dialogView: View = LayoutInflater.from(this@DownloadActivity).inflate(R.layout.progressbar, findViewById(R.layout.download))
+        private val dialogView: View = LayoutInflater.from(this@DownloadActivity).inflate(R.layout.progressbar, findViewById(R.id.download), false)
         private val alert: AlertDialog.Builder = AlertDialog.Builder(this@DownloadActivity).setView(dialogView).setCancelable(false)
         private val dialog: AlertDialog = alert.create()
 
