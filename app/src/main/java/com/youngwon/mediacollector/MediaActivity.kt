@@ -110,7 +110,7 @@ class MediaActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
         }
     }
 
-    fun fileDelete(dir: String) {
+/*    fun fileDelete(dir: String) {
         val path = Environment.getExternalStorageDirectory().toString() + "/$mainFolder/$dir"
         if(File(path).exists()) {
             val filepath = File(path).listFiles()
@@ -125,5 +125,5 @@ class MediaActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
             }
             File(path).delete()
         }
-    }
+    }*/
 }

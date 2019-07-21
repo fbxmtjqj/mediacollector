@@ -10,9 +10,9 @@ class MediaUrlCrawling(context: Context) {
     private val settings = PreferenceManager.getDefaultSharedPreferences(context)
     fun crawling(url: String?): ArrayList<CheckClass>? {
         var htmlSource: Document? = null
-        var i = 0
-        while(i < 5) {
-            i += 1
+        var count = 0
+        while(count < 5) {
+            count += 1
             try {
                 htmlSource = Jsoup.connect(url).get()
             } catch (e: Exception) {

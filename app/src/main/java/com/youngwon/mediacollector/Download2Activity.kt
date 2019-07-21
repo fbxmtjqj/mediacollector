@@ -87,7 +87,7 @@ class Download2Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
 
     inner class ImageDownload : AsyncTask<ArrayList<CheckClass>, Int, Boolean>() {
 
-        private val dialogView: View = LayoutInflater.from(this@Download2Activity).inflate(R.layout.progressbar2, null)
+        private val dialogView: View = LayoutInflater.from(this@Download2Activity).inflate(R.layout.progressbar2, findViewById(R.layout.download2))
         private val alert: AlertDialog.Builder = AlertDialog.Builder(this@Download2Activity).setView(dialogView).setCancelable(false)
         private val dialog: AlertDialog = alert.create()
         private lateinit var downloadList:ArrayList<CheckClass>
