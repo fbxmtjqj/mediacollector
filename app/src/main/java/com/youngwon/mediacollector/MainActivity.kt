@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.content_main.*
 import java.io.*
 
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, RecycleViewClick {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private val externalStoragePath = Environment.getExternalStorageDirectory().toString()
     private var oldFilePath = externalStoragePath
@@ -113,13 +113,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         } catch (e: FileNotFoundException) {
         }
 
-        history_recycleview_text.adapter = RecycleViewAdapter(2, fileUrl,this@MainActivity,this@MainActivity)
+        history_recycleview_text.adapter = RecycleViewAdapter(2, fileUrl,this@MainActivity,null)
         history_recycleview_text.layoutManager = LinearLayoutManager(this@MainActivity)
         history_recycleview_text.setHasFixedSize(true)
 
         mediaRvPath = "$mediaRvPath/$mainFolder/"
         mediaRV("")
-        recycleview.adapter = RecycleViewAdapter(1, media,this@MainActivity,this@MainActivity)
+        recycleview.adapter = RecycleViewAdapter(1, media,this@MainActivity,null)
         recycleview.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false)
         recycleview.setHasFixedSize(true)
     }
@@ -169,12 +169,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
-    override fun viewClick(value: String) {
-    }
-
-    override fun deleteClick(value: String) {
-    }
-
     private var isBind: Boolean = false
     private var mServiceMessenger: Messenger? = null
     private val mConnection = object : ServiceConnection {
@@ -190,12 +184,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             isBind = false
         }
     }
+
     private fun setStartService() {
         NotificationHelper(this@MainActivity).createNotification("자동다운로드",null,5)
         startService(Intent(this@MainActivity, DownloadService::class.java)) // 서비스 시작
         bindService(Intent(this@MainActivity, DownloadService::class.java), mConnection, Context.BIND_AUTO_CREATE)
         isBind = true
     }
+
     private fun setStopService() {
         if(isBind) {
             unbindService(mConnection)
@@ -204,6 +200,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         NotificationHelper(this@MainActivity).deleteNotification()
         stopService(Intent(this@MainActivity, DownloadService::class.java)) // 서비스 종료
     }
+
     private val mMessenger = Messenger(Handler(Handler.Callback { msg ->
         when (msg.what) {
             DownloadService().sendToActivity -> {

@@ -11,7 +11,7 @@ import androidx.core.content.ContextCompat
 
 class StartActivity : AppCompatActivity() {
 
-    private val REQUEST_WRITE_EXTERNAL_STORAGE = 1000
+    private val requestWriteExternalStorage = 1000
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,7 +24,7 @@ class StartActivity : AppCompatActivity() {
                 builder.setMessage("사진을 저장할려면 저장소에 접근 권한이 있어야합니다.")
                 builder.setPositiveButton("권한 요청") { _, _ ->
                     ActivityCompat.requestPermissions(
-                        this@StartActivity, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), REQUEST_WRITE_EXTERNAL_STORAGE
+                        this@StartActivity, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), requestWriteExternalStorage
                     )
                 }
                 builder.setNegativeButton("취소") { _, _ ->
@@ -35,7 +35,7 @@ class StartActivity : AppCompatActivity() {
             }
             else {
                 ActivityCompat.requestPermissions(
-                    this@StartActivity, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), REQUEST_WRITE_EXTERNAL_STORAGE
+                    this@StartActivity, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), requestWriteExternalStorage
                 )
             }
         }
@@ -47,7 +47,7 @@ class StartActivity : AppCompatActivity() {
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when(requestCode) {
-            REQUEST_WRITE_EXTERNAL_STORAGE -> {
+            requestWriteExternalStorage -> {
                 if((grantResults.isNotEmpty()&& grantResults[0]==PackageManager.PERMISSION_GRANTED)) {
                     startActivity(Intent(this@StartActivity, MainActivity::class.java))
                 }

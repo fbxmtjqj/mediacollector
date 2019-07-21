@@ -22,7 +22,7 @@ import java.io.BufferedWriter
 import java.io.FileWriter
 
 
-class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, RecycleViewClick {
+class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private var imgUrlList: ArrayList<CheckClass>? = null
     private var checkAll = true
@@ -163,13 +163,6 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         return true
     }
 
-    override fun viewClick(value: String) {
-    }
-
-    override fun deleteClick(value: String) {
-    }
-
-
     inner class DownloadAsync : AsyncTask<String, String, ArrayList<CheckClass>?>() {
 
         private val dialogView: View = LayoutInflater.from(this@DownloadActivity).inflate(R.layout.progressbar, findViewById(R.id.download), false)
@@ -200,7 +193,7 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             else{
                 (urldownload as View).visibility = INVISIBLE
                 (medeadownload as View).visibility = VISIBLE
-                mAdapter = RecycleViewAdapter(3, result,this@DownloadActivity,this@DownloadActivity)
+                mAdapter = RecycleViewAdapter(3, result,this@DownloadActivity,null)
                 recycler.adapter = mAdapter
                 recycler.layoutManager = GridLayoutManager(this@DownloadActivity,3)
                 recycler.setHasFixedSize(true)

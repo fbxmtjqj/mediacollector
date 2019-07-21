@@ -19,7 +19,7 @@ import java.io.FileNotFoundException
 import java.io.FileReader
 
 
-class HistoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, RecycleViewClick {
+class HistoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,12 +95,6 @@ class HistoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         return true
     }
 
-    override fun viewClick(value: String) {
-    }
-
-    override fun deleteClick(value: String) {
-    }
-
     private fun createRv() {
         val history = arrayListOf<CheckClass>()
         try {
@@ -115,7 +109,7 @@ class HistoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         } catch (e: FileNotFoundException) {
             e.printStackTrace()
         }
-        history_recycleview.adapter = RecycleViewAdapter(6, history, this@HistoryActivity,this@HistoryActivity)
+        history_recycleview.adapter = RecycleViewAdapter(6, history, this@HistoryActivity,null)
         history_recycleview.layoutManager = LinearLayoutManager(this@HistoryActivity)
         history_recycleview.setHasFixedSize(true)
     }

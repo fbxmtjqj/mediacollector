@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.history_recycleview.view.*
 import kotlinx.android.synthetic.main.media_recycleview.view.*
 import java.io.File
 
-class RecycleViewAdapter(private val index:Int, private val urlList: ArrayList<CheckClass>, val context: Context, private val listener: RecycleViewClick):
+class RecycleViewAdapter(private val index:Int, private val urlList: ArrayList<CheckClass>, val context: Context, private val listener: RecycleViewClick?):
     RecyclerView.Adapter<RecycleViewAdapter.Holder>() {
 
     private lateinit var view:View
@@ -84,7 +84,7 @@ class RecycleViewAdapter(private val index:Int, private val urlList: ArrayList<C
                     }
                     itemView.setOnClickListener {
                         if(File(urlList[position].str.substring(7)).isDirectory) {
-                            listener.viewClick(urlList[position].str)
+                            listener!!.viewClick(urlList[position].str)
                         }
                     }
                     itemView.setOnLongClickListener {
@@ -93,7 +93,7 @@ class RecycleViewAdapter(private val index:Int, private val urlList: ArrayList<C
                         builder.setMessage("삭제 하시겠습니까?")
                         builder.setPositiveButton("삭제") { _, _ ->
                             Toast.makeText(context,urlList[position].str,Toast.LENGTH_LONG).show()
-                            listener.deleteClick(urlList[position].str)
+                            listener!!.deleteClick(urlList[position].str)
                         }
                         builder.setNegativeButton("취소") { _, _ ->
 

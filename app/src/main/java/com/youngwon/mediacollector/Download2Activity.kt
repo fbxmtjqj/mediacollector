@@ -26,7 +26,7 @@ import java.net.URL
 import kotlin.random.Random
 
 
-class Download2Activity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, RecycleViewClick {
+class Download2Activity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private val fileList =  arrayListOf<CheckClass>()
     private var mainFolder: String? = null
@@ -82,12 +82,6 @@ class Download2Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         return true
     }
 
-    override fun viewClick(value: String) {
-    }
-
-    override fun deleteClick(value: String) {
-    }
-
     inner class ImageDownload : AsyncTask<ArrayList<CheckClass>, Int, Boolean>() {
 
         private val dialogView: View = LayoutInflater.from(this@Download2Activity).inflate(R.layout.progressbar2, findViewById(R.id.download2), false)
@@ -107,7 +101,7 @@ class Download2Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
 
         override fun onPostExecute(result: Boolean) {
             super.onPostExecute(result)
-            download2_recycleview.adapter = RecycleViewAdapter(4, fileList,this@Download2Activity,this@Download2Activity)
+            download2_recycleview.adapter = RecycleViewAdapter(4, fileList,this@Download2Activity,null)
             download2_recycleview.layoutManager = GridLayoutManager(this@Download2Activity,3)
             download2_recycleview.setHasFixedSize(true)
         }
