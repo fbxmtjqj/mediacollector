@@ -48,6 +48,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val settings: SharedPreferences = getSharedPreferences("dico", MODE_PRIVATE)
         val editor: SharedPreferences.Editor = settings.edit()
         val fileUrl = arrayListOf<CheckClass>()
+        val temp = arrayListOf<CheckClass>()
 
         MediaView.setOnClickListener{
             startActivity(Intent(this@MainActivity,MediaActivity::class.java))
@@ -107,11 +108,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             val br = BufferedReader(FileReader(filesDir.toString() + "history.txt"))
             var str = br.readLine()
             while (str != null) {
-                fileUrl.add(0,CheckClass(str))
+                temp.add(0,CheckClass(str))
                 str = br.readLine()
             }
             br.close()
         } catch (e: FileNotFoundException) {
+        }
+
+        for(i in temp.indices) {
+            if(i >=5) {
+                break
+            }
+            fileUrl.add(CheckClass(temp[i].str))
         }
 
         history_recycleview_text.adapter = RecycleViewAdapter(2, fileUrl,this@MainActivity,null)
