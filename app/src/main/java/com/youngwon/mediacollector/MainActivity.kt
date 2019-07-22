@@ -317,8 +317,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     }
                     temp = imgUrlList[i].str.split("/").last()
                     try {
-                        val url = URL(imgUrlList[i].str)
-                        connection = url.openConnection() as HttpURLConnection
+                        val url2 = URL(imgUrlList[i].str)
+                        connection = url2.openConnection() as HttpURLConnection
                         connection.connect()
 
                         if (connection.responseCode != HttpURLConnection.HTTP_OK) {
