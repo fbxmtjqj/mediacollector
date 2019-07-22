@@ -55,6 +55,7 @@ class Download2Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START)
         } else {
+            finish()
             startActivity(Intent(this@Download2Activity,DownloadActivity::class.java))
         }
     }

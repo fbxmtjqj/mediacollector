@@ -55,13 +55,17 @@ class MediaActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
     }
 
     override fun onBackPressed() {
+        val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val nowFolderPath = filepath!!.substring(0, filepath!!.length - 1).split("/").last()
         val parentFolderPath = filepath!!.substring(0, filepath!!.length - nowFolderPath.length - 1)
-        finish()
-        if(filepath == (Environment.getExternalStorageDirectory().toString() + "/$mainFolder/")) {
-            startActivity(Intent(this@MediaActivity, MainActivity::class.java))
-        } else {
-            startActivity(intent.putExtra("file", parentFolderPath))
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START)
+        } else {finish()
+            if (filepath == (Environment.getExternalStorageDirectory().toString() + "/$mainFolder/")) {
+                startActivity(Intent(this@MediaActivity, MainActivity::class.java))
+            } else {
+                startActivity(intent.putExtra("file", parentFolderPath))
+            }
         }
     }
 

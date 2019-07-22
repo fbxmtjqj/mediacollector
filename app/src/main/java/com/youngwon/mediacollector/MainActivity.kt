@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.content_main.*
 import java.io.*
+import java.lang.ref.WeakReference
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -98,7 +99,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 oldFilePath = oldFilePath + "/" + settings.getString("FolderName", "MediaDownloader")
                 editor.putString("FolderName", mainFolder)
                 editor.apply()
-                FileMoveAsyncTask().execute("")
+                FileMoveAsyncTask(this).execute("")
             }
         }
 
@@ -125,21 +126,26 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onBackPressed() {
+        val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val settings: SharedPreferences = getSharedPreferences("dico", MODE_PRIVATE)
         val editor: SharedPreferences.Editor = settings.edit()
         val alert = AlertDialog.Builder(this@MainActivity)
-        alert.setMessage("정말로 종료하시겠습니까?")
-        alert.setPositiveButton("종료") { _, _ ->
-            NotificationHelper(this@MainActivity).deleteNotification()
-            setStopService()
-            editor.putBoolean("switch", false)
-            editor.apply()
-            super.onBackPressed()
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START)
+        } else {
+            alert.setMessage("정말로 종료하시겠습니까?")
+            alert.setPositiveButton("종료") { _, _ ->
+                NotificationHelper(this@MainActivity).deleteNotification()
+                setStopService()
+                editor.putBoolean("switch", false)
+                editor.apply()
+                super.onBackPressed()
+            }
+            alert.setNegativeButton("취소") { _, _ ->
+            }
+            val dialog:AlertDialog = alert.create()
+            dialog.show()
         }
-        alert.setNegativeButton("취소") { _, _ ->
-        }
-        val dialog:AlertDialog = alert.create()
-        dialog.show()
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -213,10 +219,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         false
     }))
 
-    inner class FileMoveAsyncTask : AsyncTask<String, String, Boolean>() {
+    private class FileMoveAsyncTask internal constructor(context: MainActivity): AsyncTask<String, String, Boolean>() {
 
-        private val dialogView: View = LayoutInflater.from(this@MainActivity).inflate(R.layout.progressbar, findViewById(R.id.main),false)
-        private val alert: AlertDialog.Builder = AlertDialog.Builder(this@MainActivity).setView(dialogView).setCancelable(false)
+        private val activity: WeakReference<MainActivity> = WeakReference(context)
+        private val dialogView: WeakReference<View> = WeakReference(LayoutInflater.from(context).inflate(R.layout.progressbar, context.findViewById(R.id.main),false))
+        private val alert: AlertDialog.Builder = AlertDialog.Builder(context).setView(dialogView.get()).setCancelable(false)
         private val dialog: AlertDialog = alert.create()
 
         override fun onPreExecute() {
@@ -225,7 +232,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
 
         override fun doInBackground(vararg url: String?): Boolean {
-            fileMove("")
+            activity.get()!!.fileMove("")
             dialog.dismiss()
             return true
         }

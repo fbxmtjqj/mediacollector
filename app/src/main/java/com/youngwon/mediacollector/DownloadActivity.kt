@@ -1,5 +1,6 @@
 package com.youngwon.mediacollector
 
+import android.content.Context
 import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
@@ -20,6 +21,7 @@ import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.content_download.*
 import java.io.BufferedWriter
 import java.io.FileWriter
+import java.lang.ref.WeakReference
 
 
 class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -45,7 +47,7 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
         if (intent.hasExtra("url")) {
             urlinputedit.setText(intent.getStringExtra("url"))
-            DownloadAsync().execute(intent.getStringExtra("url"))
+            DownloadAsync(this).execute(intent.getStringExtra("url"))
         }
 
         urlinputedit.addTextChangedListener(object : TextWatcher {
@@ -64,7 +66,7 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         urlinputedit.setOnKeyListener { _, keyCode, event ->
             if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
                 if(urlinputedit.text.toString() != "") {
-                    DownloadAsync().execute(urlinputedit.text.toString())
+                    DownloadAsync(this).execute(urlinputedit.text.toString())
                 }
             }
             false
@@ -78,7 +80,7 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
         urldownload.setOnClickListener {
             if(urlinputedit.text.toString() != "") {
-                DownloadAsync().execute(urlinputedit.text.toString())
+                DownloadAsync(this).execute(urlinputedit.text.toString())
             }
         }
 
@@ -103,8 +105,8 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START)
         } else {
-            startActivity(Intent(this@DownloadActivity,MainActivity::class.java))
             finish()
+            startActivity(Intent(this@DownloadActivity,MainActivity::class.java))
         }
     }
 
@@ -163,10 +165,12 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         return true
     }
 
-    inner class DownloadAsync : AsyncTask<String, String, ArrayList<CheckClass>?>() {
+    private class DownloadAsync internal constructor(context: DownloadActivity) : AsyncTask<String, String, ArrayList<CheckClass>?>() {
 
-        private val dialogView: View = LayoutInflater.from(this@DownloadActivity).inflate(R.layout.progressbar, findViewById(R.id.download), false)
-        private val alert: AlertDialog.Builder = AlertDialog.Builder(this@DownloadActivity).setView(dialogView).setCancelable(false)
+        private val activity: WeakReference<DownloadActivity> = WeakReference(context)
+        private val activityContext: WeakReference<Context> = WeakReference(context.applicationContext)
+        private val dialogView: WeakReference<View> = WeakReference(LayoutInflater.from(context).inflate(R.layout.progressbar, context.findViewById(R.id.download), false))
+        private val alert: AlertDialog.Builder = AlertDialog.Builder(context).setView(dialogView.get()).setCancelable(false)
         private val dialog: AlertDialog = alert.create()
 
         override fun onPreExecute() {
@@ -175,29 +179,31 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         }
 
         override fun doInBackground(vararg url: String?): ArrayList<CheckClass>? {
-            menuChange = 2
-            invalidateOptionsMenu()
-            imgUrlList = MediaUrlCrawling(this@DownloadActivity).crawling(url[0])
-            if(imgUrlList != null) {
-                url[0]?.let { saveToInnerStorage(it) }
+            val activity = activity.get()!!
+            activity.menuChange = 2
+            activity.invalidateOptionsMenu()
+            activity.imgUrlList = MediaUrlCrawling(activityContext.get()!!).crawling(url[0])
+            if(activity.imgUrlList != null) {
+                url[0]?.let { activity.saveToInnerStorage(it) }
             }
             dialog.dismiss()
-            return imgUrlList
+            return activity.imgUrlList
         }
 
         override fun onPostExecute(result: ArrayList<CheckClass>?) {
+            val activity = activity.get()!!
             super.onPostExecute(result)
             if(result == null) {
-                Toast.makeText(this@DownloadActivity,"URL을 다시 입력해 주세요", Toast.LENGTH_LONG).show()
+                Toast.makeText(activityContext.get(),"URL을 다시 입력해 주세요", Toast.LENGTH_LONG).show()
             }
             else{
-                (urldownload as View).visibility = INVISIBLE
-                (medeadownload as View).visibility = VISIBLE
-                mAdapter = RecycleViewAdapter(3, result,this@DownloadActivity,null)
-                recycler.adapter = mAdapter
-                recycler.layoutManager = GridLayoutManager(this@DownloadActivity,3)
-                recycler.setHasFixedSize(true)
-                Toast.makeText(this@DownloadActivity,"다운받을 이미지를 클릭 해주세요",Toast.LENGTH_LONG).show()
+                (activity.urldownload as View).visibility = INVISIBLE
+                (activity.medeadownload as View).visibility = VISIBLE
+                activity.mAdapter = RecycleViewAdapter(3, result, activityContext.get()!!,null)
+                activity.recycler.adapter = activity.mAdapter
+                activity.recycler.layoutManager = GridLayoutManager(activityContext.get(),3)
+                activity.recycler.setHasFixedSize(true)
+                Toast.makeText(activityContext.get(),"다운받을 이미지를 클릭 해주세요",Toast.LENGTH_LONG).show()
             }
         }
     }

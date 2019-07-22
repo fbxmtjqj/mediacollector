@@ -63,8 +63,8 @@ class HistoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START)
         } else {
-            startActivity(Intent(this@HistoryActivity,MainActivity::class.java))
             finish()
+            startActivity(Intent(this@HistoryActivity,MainActivity::class.java))
         }
     }
 
