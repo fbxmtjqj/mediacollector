@@ -6,7 +6,6 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -92,7 +91,6 @@ class RecycleViewAdapter(private val index:Int, private val urlList: ArrayList<C
                         builder.setTitle("파일 및 폴더 삭제")
                         builder.setMessage("삭제 하시겠습니까?")
                         builder.setPositiveButton("삭제") { _, _ ->
-                            Toast.makeText(context,urlList[position].str,Toast.LENGTH_LONG).show()
                             listener!!.deleteClick(urlList[position].str)
                         }
                         builder.setNegativeButton("취소") { _, _ ->
