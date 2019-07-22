@@ -7,7 +7,9 @@ import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 
 class MediaUrlCrawling(context: Context) {
+
     private val settings = PreferenceManager.getDefaultSharedPreferences(context)
+
     fun crawling(url: String?): ArrayList<CheckClass>? {
         var htmlSource: Document? = null
         var count = 0
@@ -44,5 +46,18 @@ class MediaUrlCrawling(context: Context) {
             }
         }
         return imgSrcUrl
+    }
+
+    fun getTitle(url: String?): String {
+        var count = 0
+        var title:String? = null
+        while(count < 5) {
+            count += 1
+            try {
+                title = Jsoup.connect(url).get().title().split(" ")[0]
+            } catch (e: Exception) {
+            }
+        }
+        return title.toString()
     }
 }

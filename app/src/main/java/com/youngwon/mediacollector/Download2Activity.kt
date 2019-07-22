@@ -19,7 +19,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.content_download2.*
 import kotlinx.android.synthetic.main.progressbar2.view.*
-import org.jsoup.Jsoup
 import java.io.*
 import java.net.HttpURLConnection
 import java.net.URL
@@ -112,7 +111,7 @@ class Download2Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
             var input: InputStream? = null
             var output: OutputStream? = null
             var connection: HttpURLConnection? = null
-            val folderName = Jsoup.connect(intent.getStringExtra("url")).get().title().split(" ")[0]
+            val folderName = intent.getStringExtra("title")
             var folderPath = getExternalStorageDirectory().toString() + "/$mainFolder/$folderName"
             downloadList = list[0]!!
 

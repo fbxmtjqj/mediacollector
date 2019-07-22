@@ -30,6 +30,7 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     private var checkAll = true
     private var menuChange = 1
     private var mAdapter: RecycleViewAdapter? = null
+    private var title:String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,7 +91,7 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             builder.setMessage("선택한 파일 다운로드 하시겠습니까?")
             builder.setPositiveButton("다운받기") { _, _ ->
                 startActivity(Intent(this, Download2Activity::class.java)
-                    .putExtra("url",urlinputedit.text.toString())
+                    .putExtra("title",title)
                     .putExtra("urlCheckList",imgUrlList))
             }
             builder.setNegativeButton("취소") { _, _ ->
@@ -183,6 +184,7 @@ class DownloadActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             activity.menuChange = 2
             activity.invalidateOptionsMenu()
             activity.imgUrlList = MediaUrlCrawling(activityContext.get()!!).crawling(url[0])
+            activity.title = MediaUrlCrawling(activityContext.get()!!).getTitle(url[0])
             if(activity.imgUrlList != null) {
                 url[0]?.let { activity.saveToInnerStorage(it) }
             }
