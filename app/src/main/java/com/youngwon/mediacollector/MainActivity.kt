@@ -2,6 +2,7 @@ package com.youngwon.mediacollector
 
 import android.content.*
 import android.os.*
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -18,6 +19,9 @@ import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.content_main.*
 import java.io.*
 import java.lang.ref.WeakReference
+import java.net.HttpURLConnection
+import java.net.URL
+import kotlin.random.Random
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -28,6 +32,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private var mediaRvPath = externalStoragePath
     private var media = ArrayList<CheckClass>()
     private var mediaRVTemp = 0
+    private lateinit var mainFolder: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,11 +49,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         toggle.syncState()
         navView.setNavigationItemSelectedListener(this)
 
-        val mainFolder = PreferenceManager.getDefaultSharedPreferences(this@MainActivity).getString("DownloadFolder", "MediaDownloader")
+
         val settings: SharedPreferences = getSharedPreferences("dico", MODE_PRIVATE)
         val editor: SharedPreferences.Editor = settings.edit()
         val fileUrl = arrayListOf<CheckClass>()
         val temp = arrayListOf<CheckClass>()
+        mainFolder = PreferenceManager.getDefaultSharedPreferences(this@MainActivity).getString("DownloadFolder", "MediaDownloader")!!
 
         MediaView.setOnClickListener{
             startActivity(Intent(this@MainActivity,MediaActivity::class.java))
@@ -220,8 +226,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             DownloadService().sendToActivity -> {
                 val url = msg.data.getString("url")
                 Toast.makeText(this@MainActivity,"URL 복사됨", Toast.LENGTH_LONG).show()
-                startActivity(Intent(this@MainActivity,DownloadActivity::class.java).putExtra("url",url))
-                setStopService()
+                DownloadImg(this).execute(url)
+                /*startActivity(Intent(this@MainActivity,DownloadActivity::class.java).putExtra("url",url))
+                setStopService()*/
             }
         }
         false
@@ -242,6 +249,104 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         override fun doInBackground(vararg url: String?): Boolean {
             activity.get()!!.fileMove("")
             dialog.dismiss()
+            return true
+        }
+    }
+
+    private class DownloadImg internal constructor(context: MainActivity): AsyncTask<String, String, Boolean>() {
+
+        private val activity: WeakReference<MainActivity> = WeakReference(context)
+        private val activityContext: WeakReference<Context> = WeakReference(context.applicationContext)
+
+        override fun doInBackground(vararg urls: String?): Boolean {
+            val imgUrlList = MediaUrlCrawling(activityContext.get()!!).crawling(urls[0])
+            val title = MediaUrlCrawling(activityContext.get()!!).getTitle(urls[0])
+            var temp = ""
+            var input: InputStream? = null
+            var output: OutputStream? = null
+            var connection: HttpURLConnection? = null
+            var folderPath = activity.get()!!.externalStoragePath + "/" + activity.get()!!.mainFolder + "/$title"
+
+            val folder = File("$folderPath/")
+            if (!folder.exists()) {
+                folder.mkdirs()
+            } else if (!folder.isDirectory) {
+                folder.delete()
+                folder.mkdir()
+            } else {
+                temp = Random.nextInt(1000).toString()
+                folderPath = "$folderPath$temp/"
+                File(folderPath).mkdir()
+            }
+
+            if(imgUrlList != null) {
+                for (i in imgUrlList.indices) {
+                    val url = if (imgUrlList[i].str.contains("gall.dcinside.com")) {
+                        imgUrlList[i].str
+                    } else {
+                        imgUrlList[i].str.split("/").last()
+                    }
+                    var filename: String
+                    when {
+                        imgUrlList[i].str.contains("gall.dcinside.com") -> filename = "img$i.jpg"
+                        temp == url -> {
+                            filename = url.split(".")[0]
+                            try {
+                                if (url.split(".").size == 1) {
+                                    filename += ".jpg"
+                                } else {
+                                    filename = filename + "$i." + url.split(".").last()
+                                }
+                            } catch (e: ArrayIndexOutOfBoundsException) {
+                            }
+                        }
+                        else -> {
+                            filename = url.split(".")[0]
+                            try {
+                                if (url.split(".").size == 1) {
+                                    filename += ".jpg"
+                                } else {
+                                    filename = filename + "." + url.split(".").last()
+                                }
+                            } catch (e: ArrayIndexOutOfBoundsException) {
+                            }
+                        }
+                    }
+                    if (filename.split("?").size == 2) {
+                        filename = filename.substring(0, filename.length - filename.split("?").last().length - 1)
+                    }
+                    temp = imgUrlList[i].str.split("/").last()
+                    try {
+                        val url = URL(imgUrlList[i].str)
+                        connection = url.openConnection() as HttpURLConnection
+                        connection.connect()
+
+                        if (connection.responseCode != HttpURLConnection.HTTP_OK) {
+                            Log.e(
+                                "http에러",
+                                "Server returned HTTP " + connection.responseCode + " " + connection.responseMessage
+                            )
+                        }
+                        input = connection.inputStream
+                        output = FileOutputStream("$folderPath/$filename")
+                        val data = ByteArray(4096)
+                        var count = 0
+                        while (count != -1) {
+                            count = input!!.read(data)
+                            output.write(data, 0, count)
+                        }
+                    } catch (e: Exception) {
+                        Log.e("에러", e.toString())
+                    } finally {
+                        try {
+                            output?.close()
+                            input?.close()
+                        } catch (ignored: IOException) {
+                        }
+                        connection?.disconnect()
+                    }
+                }
+            }
             return true
         }
     }
