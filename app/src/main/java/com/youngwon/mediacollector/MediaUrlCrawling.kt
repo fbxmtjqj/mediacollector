@@ -16,17 +16,19 @@ class MediaUrlCrawling(context: Context) {
         while(count < 5) {
             count += 1
             try {
-                htmlSource = Jsoup.connect(url).get()
+                htmlSource = Jsoup.connect(url)
+                    .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36")
+                    .get()
             } catch (e: Exception) {
             }
         }
-        if(url == null) {
+        if(url == null || htmlSource == null) {
             return null
         }
         val imgElements = if(settings.getString("DownloadMethod", "1")!!.toInt() == 2) {
-            htmlSource!!.select("img[src~=(?i)\\.(gif|png|jpe?g)]")
+            htmlSource.select("img[src~=(?i)\\.(gif|png|jpe?g)]")
         } else {
-            htmlSource!!.select("img")
+            htmlSource.select("img")
         }
         val imgSrcUrl = arrayListOf<CheckClass>()
         if (imgElements != null) {
