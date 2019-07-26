@@ -56,7 +56,9 @@ class MediaUrlCrawling(context: Context) {
         while(count < 5) {
             count += 1
             try {
-                title = Jsoup.connect(url).get().title().split(" ")[0]
+                title = Jsoup.connect(url).get().title().trim()
+                    .replace("?","").replace(":","").replace("<","").replace(">","")
+                    .replace("/","").replace("\\","").replace("|","")
             } catch (e: Exception) {
             }
         }
